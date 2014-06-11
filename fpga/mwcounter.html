@@ -35,27 +35,29 @@
   <hr noshade>
 
   <h2>Simple Reciprocal Counter</h2>
-  <p class="body">
-    My first plan for a reciprocal counter involved three stages: counting input tics, computing the ratio, and converting
-    from binary to decimal representations.
-  </p>
-  <ol>
-    <li>A pair of input counters are triggered to start counting by the rising edge of
-    an input signal. When the minimum measurement interval has been reached (i.e., a minimum number of reference clock tics),
-    the next input rising edge halts both counters. The width of the two counters determine the minimum and maximum input frequencies.</li>
-    <li>A divider block is used to compute the ratio of the two counts. Accuracy is the priority here - it needs to make sure to maintain
-    sufficient precision for the display later - whereas speed above a certain minimum is unimportant. With a measurement interval of 1 ms,
-    for instance, and an FPGA clock of 100 MHz, the division could potentially take 100,000 sequential operations and still be fast enough.
-    The algorithm used is therefore straightforward: shift the dividend right one bit, and subtract the divisor when the dividend is larger,
-    until the fixed-width quotient contains a '1' in its MSb. This quotient plus a count of the number of shifts is a floating point base-2
-    representation of the ratio of the counts.</li>
-    <li>For ease of display, the base-2 ratio is converted to a base-10 floating point representation using an additional multiplier and a
-    pair of lookup tables. The resulting digits and exponent can be output directly to a 7-segment display after conversion to BCD.</li>
-  </ol>
-  <p class="body">
-    As of 2014-06-10, the thing works with an input clock derived from the reference clock. Code will be uploaded soon, and the next step is
-    tests with an external input.
-  </p>
+  <div class="body">
+    <p>
+      My first plan for a reciprocal counter involved three stages: counting input tics, computing the ratio, and converting
+      from binary to decimal representations.
+    </p>
+    <ol>
+      <li>A pair of input counters are triggered to start counting by the rising edge of
+      an input signal. When the minimum measurement interval has been reached (i.e., a minimum number of reference clock tics),
+      the next input rising edge halts both counters. The width of the two counters determine the minimum and maximum input frequencies.</li>
+      <li>A divider block is used to compute the ratio of the two counts. Accuracy is the priority here - it needs to make sure to maintain
+      sufficient precision for the display later - whereas speed above a certain minimum is unimportant. With a measurement interval of 1 ms,
+      for instance, and an FPGA clock of 100 MHz, the division could potentially take 100,000 sequential operations and still be fast enough.
+      The algorithm used is therefore straightforward: shift the dividend right one bit, and subtract the divisor when the dividend is larger,
+      until the fixed-width quotient contains a '1' in its MSb. This quotient plus a count of the number of shifts is a floating point base-2
+      representation of the ratio of the counts.</li>
+      <li>For ease of display, the base-2 ratio is converted to a base-10 floating point representation using an additional multiplier and a
+      pair of lookup tables. The resulting digits and exponent can be output directly to a 7-segment display after conversion to BCD.</li>
+    </ol>
+    <p>
+      As of 2014-06-10, the thing works with an input clock derived from the reference clock. Code will be uploaded soon, and the next step is
+      tests with an external input.
+    </p>
+  </div>
 
   <hr noshade>
   

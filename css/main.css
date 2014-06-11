@@ -21,5 +21,8 @@ p.body {
   width: 120ex;
 }
 
+ol {
+  margin-left: 3em;
+}
 .sans { font-family:lucida sans unicode, lucida sans, lucida grande, sans-serif; }
 

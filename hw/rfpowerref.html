@@ -31,7 +31,7 @@
   <p>
   	The filter used to remove the oscillator's harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff
 	frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch
-	at the third harmonic. The values of this inductor and capacitor were tuned by hand to optimize the filter for passing only 120 MHz, and simulation
+	at the third harmonic. The values of this inductor and capacitor were tuned to pass 120 MHz but block 360 MHz, and simulation
 	results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below. ESR values were taken from datasheets of potential components
 	found on Mouser, and make a noticeable difference in the filter response.
   </p>
@@ -50,6 +50,20 @@
   <p style="text-align:center">
     <img src="images/rfpowerref_system_transient.png">
 	<br><strong>Simulated transient signal at the full circuit output</strong>
+  </p>
+  <p>
+  	The filter can be further improved through some tweaking of the values by hand. The simulated S12 shows two notches, but these can be made to coincide
+	by reducing the inductance values to 62 nH and 6.8 nH and increasing C2 and C5 to 27 pF. Simulations show a marked improvement in S12 at 120 MHz, as well
+	as a wider bandwidth, but also that the third harmonic notch has shifted slightly. The notch can't be shifted back using standard component values, and
+	although introducing an asymmetry in the central component values does widen this notch, this is undesirable with a CPW layout.
+  </p>
+  <p style="text-align:center">
+    <img src="images/rfpowerref_filter_sparam_improved.png">
+	<br><strong>Simulated filter s-parameters using 62 nH, 6.8 nH and 27 pF</strong>
+  </p>
+  <p style="text-align:center">
+    <img src="images/rfpowerref_filter_sparam_asymm.png">
+	<br><strong>Simulated filter s-parameters using asymmetric central component values</strong>
   </p>
   <hr noshade>
 

@@ -13,16 +13,43 @@
 
   <h2>Introduction</h2>
   <p>
-    Based on W1GHz's board, in QST April 2007 and <a href="http://www.w1ghz.org/small_proj/small_proj.htm">here</a>. I redesigned the board
-	for SMD components and using coplanar waveguide. A comparator was also added to buffer the oscillator output.
+    This design is based off of W1GHz's design, in QST April 2007 as well as <a href="http://www.w1ghz.org/small_proj/small_proj.htm">here</a>.
+	It feeds the output of a crystal or MEMS oscillator into a diode clipper to generate a square wave with a fixed voltage and then filters out the
+	harmonics to reduce this to a sine wave. The filter is matched to 50 &Omega; (W1GHz uses a Chebyshev filter), but an additional output attenuator
+	helps improve the matching.
   </p>
   <p>
-  	Schematic and board were done in <a href="http://www.cadsoftusa.com">EAGLE</a>.
-	Board is currently being prototyped by <a href="http://oshpark.com">OSH Park</a>.
-	Measurements will be done as soon as the boards are ready.
-	Sources will be made available once I'm happy with the board, or upon request.
+	I redesigned the board for SMD components and using 50 &Omega; coplanar waveguide. In addition, the output impedance of the oscillator I intended
+	to use was around 10 k&Omega;, so I added a comparator as a buffer. The schematic and board design were done in
+	<a href="http://www.cadsoftusa.com">EAGLE</a>, and the board is currently being prototyped by <a href="http://oshpark.com">OSH Park</a>.
+	Measurements will be done as soon as the boards are ready, and source files will be made available once I'm happy with the board, or upon request.
   </p>
-  <p><img src="images/rfpowerref.png"></p>
+  <p style="text-align:center"><img src="images/rfpowerref.png"></p>
+  <hr noshade>
+
+  <h2>Filter Design</h2>
+  <p>
+  	The filter used to remove the oscillator's harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff
+	frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch
+	at the third harmonic. The values of this inductor and capacitor were tuned by hand to optimize the filter for passing only 120 MHz, and simulation
+	results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below.
+  </p>
+  <p style="text-align:center">
+  	<img src="images/rfpowerref_filter_schematic.png">
+	<br><strong>Filter Schematic</strong>
+	</p>
+  <p style="text-align:center">
+    <img src="images/rfpowerref_filter_sparam.png">
+	<br><strong>Simulated filter s-parameters</strong>
+  </p>
+  <p style="text-align:center">
+    <img src="images/rfpowerref_system_sparam.png">
+	<br><strong>Simulated S22 at the full circuit output</strong>
+  </p>
+  <p style="text-align:center">
+    <img src="images/rfpowerref_system_transient.png">
+	<br><strong>Simulated transient signal at the full circuit output</strong>
+  </p>
   <hr noshade>
 
   <a href="../index.html">Up</a>

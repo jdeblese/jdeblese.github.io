@@ -12,20 +12,20 @@
   <hr noshade>
 
   <h2>Introduction</h2>
-  <p class="body">
+  <p>
     Frequency counters are a specialized but very useful tool in the arsenal of an engineer. The principle is very simple: use
     a digital counter to count the number of tics of an input signal, and compare this to a very stable reference clock to
     determine the input frequency. Its simplicity means that very high frequencies are not out of reach, and its accuracy is
     determined by the quality of the reference clock.
   </p>
-  <p class="body">
+  <p>
     The original design of a frequency counter is straightforward. The input signal drives the clock of an up-counter, after
     suitable amplification, filtering and such. The counter is allowed to count for a precise amount of time as measured by the reference clock. The frequency
     is then the count divided by the measurement interval: an interval of 1 second means the count is the frequency in Hz, of 1 ms
     it is the frequency in kHz. The downside is that the accuracy is &plusmn;1 input tic, so the relative error grows as the frequency
     decreases.
   </p>
-  <p class="body">
+  <p>
     An important improvement on this design is that of the reciprocal frequency counter. The principle is the same, in that it counts
     a number of input tics and divides this by the measurement interval to get the frequency, but the difference is that the measurement
     interval is defined using the input signal, not the reference clock. The measurement interval is taken to be a whole number of
@@ -35,9 +35,9 @@
   <hr noshade>
 
   <h2>Simple Reciprocal Counter</h2>
-  <div class="body">
+  	<a href="https://github.com/jdeblese/mwfc">GitHub Repository</a>
     <p>
-      My first plan for a reciprocal counter involved three stages: counting input tics, computing the ratio, and converting
+      My first plan for a reciprocal counter involved a three-stage setup: counting input tics, computing the ratio, and converting
       from binary to decimal representations.
     </p>
     <ol>
@@ -54,10 +54,9 @@
       pair of lookup tables. The resulting digits and exponent can be output directly to a 7-segment display after conversion to BCD.</li>
     </ol>
     <p>
-      As of 2014-06-10, the thing works with an input clock derived from the reference clock. Code will be uploaded soon, and the next step is
+      As of 2014-06-10, the thing works with an input clock derived from the reference clock. The next step is
       tests with an external input.
     </p>
-  </div>
 
   <hr noshade>
   
@@ -69,3 +68,4 @@
 </body>
 
 </html>
+

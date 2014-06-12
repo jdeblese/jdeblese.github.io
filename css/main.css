@@ -12,19 +12,11 @@ h2 {
   font-family:lucida sans unicode, lucida sans, lucida grande, sans-serif; 
 }
 
-div.body {
-  width: 120ex;
-}
-
 p { margin-left:1em; }
 
 p.list {
   margin-left:1em;
   margin-top:0.5em;
-}
-
-p.body {
-  text-indent: 1em;
 }
 
 ol {

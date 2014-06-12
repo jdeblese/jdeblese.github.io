@@ -32,7 +32,8 @@
   	The filter used to remove the oscillator's harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff
 	frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch
 	at the third harmonic. The values of this inductor and capacitor were tuned by hand to optimize the filter for passing only 120 MHz, and simulation
-	results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below.
+	results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below. ESR values were taken from datasheets of potential components
+	found on Mouser, and make a noticeable difference in the filter response.
   </p>
   <p style="text-align:center">
   	<img src="images/rfpowerref_filter_schematic.png">

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>OLED Module Interface</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
+
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Markdown content starts here -->
+
+<hr>
+
+<h1 id="oled-module-interface">OLED Module Interface</h1>
+
+<hr>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="http://digilentinc.com/">Digilent</a> offers a handy, 128x32 pixel monochrome OLED module, which is handy for displaying small amounts of information (details <a href="http://digilentinc.com/Products/Detail.cfm?NavPath=2,401,963&amp;Prod=PMOD-OLED">here</a>). The controller chip is an SSD1306, but configured for 32 rows rather than 64. The chip is set up for 4-wire [<a href="#fn:4spi" id="fnref:4spi" title="See footnote" class="footnote">1</a>] SPI communication, and to prolongue the life of the display it requires a particular startup sequence with regards to timing and the two power supply lines. It then offers a 128x8 memory space of 8-bit words, only four bits of which correspond to displayed pixels.</p>
+
+<p>To me, the display is primarily useful as an informative or debugging output mechanism. In my clone of Nintendo’s a 1st-generation Game Boy® I use it to display the internal state of the processor, and I am currently exploring using it as the primary output display of my frequency counter. My goal is therefore to build an interface to the module that handles all low-level communication and presents a tile interface, with a bitmap font loaded into the tile map.</p>
+
+<hr>
+
+<h2 id="progress">Progress</h2>
+
+<p>A basic version of this interface exists, as part of the Game Boy® project, but the interface is slow (with regards to timing closure) and terrible. I’ve started a rewrite.</p>
+
+<p>Things I’d like to see in the new version:</p>
+
+<ul>
+<li>Separation of input (receiving text to display) and output (driving the display)</li>
+<li>Wishbone interface to other devices, if useful</li>
+<li>Both the tile memory and the tile map available in one address space</li>
+<li>Tile flags, indicating reverse video, tile on/off, and tile mirroring</li>
+<li>Switchable between tiles 6 columns wide and 8 columns wide</li>
+</ul>
+
+<p>One possibility is that the tile memory will not actually exist, and will be write-only. Instead, the driver will have a pixel buffer, and when a new tile value is written to memory, this will be passed through the tile map and the corresponding pixels written to the buffer. The disadvantage of this is that it makes flags less useful, as then both value and flags have to be written together, or remembered elsewhere.</p>
+
+<hr>
+
+<p><div class="toc">
+<ul>
+<li><a href="#oled-module-interface">OLED Module Interface</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#progress">Progress</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+<div class="footnotes"><hr><ol><li id="fn:4spi">4-wire SPI uses 8-bit words and the standard 3 lines (clock, data and chip select), plus a fourth <em>data/!command</em> line to indicate if the word is meant as a command or as a byte to be written to pixel memory. <a href="#fnref:4spi" title="Return to article" class="reversefootnote">↩</a></li></ol></div>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
+</html>

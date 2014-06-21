@@ -1,78 +1,78 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>RF Power Reference</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
 
-<head>
-<title>RF Power Reference</title>
-<link rel="stylesheet" type="text/css" href="/css/main.css">
-</head>
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Markdown content starts here -->
 
-<body>
-  
-  <hr noshade>
-  <h1>RF Power Reference</h1>
-  <hr noshade>
+<hr>
 
-  <h2>Introduction</h2>
-  <p>
-    This design is based off of W1GHz's design, in QST April 2007 as well as <a href="http://www.w1ghz.org/small_proj/small_proj.htm">here</a>.
-	It feeds the output of a crystal or MEMS oscillator into a diode clipper to generate a square wave with a fixed voltage and then filters out the
-	harmonics to reduce this to a sine wave. The filter is matched to 50 &Omega; (W1GHz uses a Chebyshev filter), but an additional output attenuator
-	helps improve the matching.
-  </p>
-  <p>
-	I redesigned the board for SMD components and using 50 &Omega; coplanar waveguide. In addition, the output impedance of the oscillator I intended
-	to use was around 10 k&Omega;, so I added a comparator as a buffer. The schematic and board design were done in
-	<a href="http://www.cadsoftusa.com">EAGLE</a>, and the board is currently being prototyped by <a href="http://oshpark.com">OSH Park</a>.
-	Measurements will be done as soon as the boards are ready, and source files will be made available once I'm happy with the board, or upon request.
-  </p>
-  <p style="text-align:center"><img src="images/rfpowerref.png"></p>
-  <hr noshade>
+<h1 id="rf-power-reference">RF Power Reference</h1>
 
-  <h2>Filter Design</h2>
-  <p>
-  	The filter used to remove the oscillator's harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff
-	frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch
-	at the third harmonic. The values of this inductor and capacitor were tuned to pass 120 MHz but block 360 MHz, and simulation
-	results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below. ESR values were taken from datasheets of potential components
-	found on Mouser, and make a noticeable difference in the filter response.
-  </p>
-  <p style="text-align:center">
-  	<img src="images/rfpowerref_filter_schematic.png">
-	<br><strong>Filter Schematic</strong>
-	</p>
-  <p style="text-align:center">
-    <img src="images/rfpowerref_filter_sparam.png">
-	<br><strong>Simulated filter s-parameters</strong>
-  </p>
-  <p style="text-align:center">
-    <img src="images/rfpowerref_system_sparam.png">
-	<br><strong>Simulated S22 at the full circuit output</strong>
-  </p>
-  <p style="text-align:center">
-    <img src="images/rfpowerref_system_transient.png">
-	<br><strong>Simulated transient signal at the full circuit output</strong>
-  </p>
-  <p>
-  	The filter can be further improved through some tweaking of the values by hand. The simulated S12 shows two notches, but these can be made to coincide
-	by reducing the inductance values to 62 nH and 6.8 nH and increasing C2 and C5 to 27 pF. Simulations show a marked improvement in S12 at 120 MHz, as well
-	as a wider bandwidth, but also that the third harmonic notch has shifted slightly. The notch can't be shifted back using standard component values, and
-	although introducing an asymmetry in the central component values does widen this notch, this is undesirable with a CPW layout.
-  </p>
-  <p style="text-align:center">
-    <img src="images/rfpowerref_filter_sparam_improved.png">
-	<br><strong>Simulated filter s-parameters using 62 nH, 6.8 nH and 27 pF</strong>
-  </p>
-  <p style="text-align:center">
-    <img src="images/rfpowerref_filter_sparam_asymm.png">
-	<br><strong>Simulated filter s-parameters using asymmetric central component values</strong>
-  </p>
-  <hr noshade>
+<hr>
 
-  <a href="../index.html">Up</a>
-  <center>
-    Last modified: 2014-06-11
-  </center>
-  
-</body>
+<h2 id="introduction">Introduction</h2>
 
+<p>This design is based off of W1GHz’s <a href="http://www.w1ghz.org/small_proj/small_proj.htm">small project design</a>, also published in QST April 2007. It feeds the output of a crystal or MEMS oscillator into a diode clipper to generate a square wave with a fixed voltage and then filters out the harmonics to reduce this to a sine wave. The filter is matched to 50 Ω (W1GHz uses a Chebyshev filter), but an additional output attenuator helps improve the matching.</p>
+
+<p>I redesigned the board for SMD components and using 50 Ω coplanar waveguide. In addition, the output impedance of the oscillator I intended to use was around 10 kΩ, so I added a comparator as a buffer. The schematic and board design were done in Cadsoft EAGLE, and the board and stencil is currently being prototyped by OSH Park and OSH Stencils. Measurements will be done as soon as the boards are ready, and source files will be made available once I’m happy with the board, or upon request.</p>
+
+<p><a href="http://www.thescrapyard.org/hw/images/rfpowerref.png"><img src="http://www.thescrapyard.org/hw/images/rfpowerref.png" alt="Board Top" style="width:98%"></a></p>
+
+<hr>
+
+<h2 id="filter-design">Filter Design</h2>
+
+<p>The filter used to remove the oscillator’s harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch at the third harmonic. The values of this inductor and capacitor were tuned to pass 120 MHz but block 360 MHz, and simulation results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below. ESR values were taken from datasheets of potential components found on Mouser, and make a noticeable difference in the filter response.</p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_schematic.png" style="width:98%" alt="Filter layout"><figcaption>Filter schematic, including some parasitics</figcaption></figure><p></p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_sparam.png" alt="Filter Simulated S-Parameters" title=""><figcaption>Simulated S11 and S21 of the filter alone</figcaption></figure><p></p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_system_sparam.png" alt="Full Circuit Simulated S21" title=""><figcaption>Simulated S21 of the complete circuit</figcaption></figure><p></p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_system_transient.png" alt="Full Circuit Simulated Transient" title=""><figcaption>Transient simulation of the complete circuit</figcaption></figure><p></p>
+
+<p>The filter can be further improved through some tweaking of the values by hand. The simulated S12 shows two notches, but these can be made to coincide by reducing the inductance values to 62 nH and 6.8 nH and increasing C2 and C5 to 27 pF. Simulations show a marked improvement in S12 at 120 MHz, as well as a wider bandwidth, but also that the third harmonic notch has shifted slightly. The notch can’t be shifted back using standard component values, and although introducing an asymmetry in the central component values does widen this notch, this is undesirable with a CPW layout.</p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_sparam_improved.png" alt="Simulated filter s-parameters using 62 nH, 6.8 nH and 27 pF" title=""><figcaption>Simulated filter s-parameters using 62 nH, 6.8 nH and 27 pF</figcaption></figure><p></p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_sparam_asymm.png" alt="Simulated filter s-parameters using asymmetric central component values" title=""><figcaption>Simulated filter s-parameters using asymmetric central component values</figcaption></figure><p></p>
+
+<hr>
+
+<p><div class="toc">
+<ul>
+<li><a href="#rf-power-reference">RF Power Reference</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#filter-design">Filter Design</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p></p>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
 </html>
-

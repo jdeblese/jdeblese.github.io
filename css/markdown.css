@@ -63,7 +63,7 @@ dd {
     margin-left: 60px;
     text-indent: -20px;
 }
-p, ul, ol, dl {
+p, ul, ol, dl, figure {
     font-size: 16px;
     line-height: 24px;
     max-width: 700px;
@@ -73,6 +73,14 @@ ul, ol {
     margin: 0;
     padding-left: 32px;
     max-width: 668px;
+}
+figure {
+    text-align: center;
+    margin: 0;
+}
+figcaption {
+    font-style: italic;
+    margin: 8px;
 }
 pre {
     padding: 0px 24px;

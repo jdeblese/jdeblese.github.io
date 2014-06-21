@@ -52,7 +52,15 @@ li {
 li ul, li ul {
     margin-left: 24px;
 }
-p, ul, ol {
+dt, dd {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+dd {
+    margin-left: 40px
+    text-indent: -10px;
+}
+p, ul, ol, dl {
     font-size: 16px;
     line-height: 24px;
     max-width: 700px;

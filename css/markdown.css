@@ -60,8 +60,8 @@ dt {
     font-weight: bold;
 }
 dd {
-    margin-left: 40px;
-    text-indent: -10px;
+    margin-left: 60px;
+    text-indent: -20px;
 }
 p, ul, ol, dl {
     font-size: 16px;

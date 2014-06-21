@@ -53,8 +53,11 @@ li ul, li ul {
     margin-left: 24px;
 }
 dt, dd {
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+dt {
+    font-weight: bold;
 }
 dd {
     margin-left: 40px

@@ -1,71 +1,74 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Microwave Frequency Counter</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
 
-<head>
-  <title>Microwave Frequency Counter</title>
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
-</head>
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Markdown content starts here -->
 
-<body>
-  
-  <hr noshade>
-  <h1>Microwave Frequency Counter</h1>
-  <hr noshade>
+<hr>
 
-  <h2>Introduction</h2>
-  <p>
-    Frequency counters are a specialized but very useful tool in the arsenal of an engineer. The principle is very simple: use
-    a digital counter to count the number of tics of an input signal, and compare this to a very stable reference clock to
-    determine the input frequency. Its simplicity means that very high frequencies are not out of reach, and its accuracy is
-    determined by the quality of the reference clock.
-  </p>
-  <p>
-    The original design of a frequency counter is straightforward. The input signal drives the clock of an up-counter, after
-    suitable amplification, filtering and such. The counter is allowed to count for a precise amount of time as measured by the reference clock. The frequency
-    is then the count divided by the measurement interval: an interval of 1 second means the count is the frequency in Hz, of 1 ms
-    it is the frequency in kHz. The downside is that the accuracy is &plusmn;1 input tic, so the relative error grows as the frequency
-    decreases.
-  </p>
-  <p>
-    An important improvement on this design is that of the reciprocal frequency counter. The principle is the same, in that it counts
-    a number of input tics and divides this by the measurement interval to get the frequency, but the difference is that the measurement
-    interval is defined using the input signal, not the reference clock. The measurement interval is taken to be a whole number of
-    input tics as close as possible to the desired interval, so the accuracy is now &plusmn;1 reference clock tic, independent of
-    the input frequency.
-  </p>
-  <hr noshade>
+<h1 id="microwave-frequency-counter">Microwave Frequency Counter</h1>
 
-  <h2>Simple Reciprocal Counter</h2>
-  	<p><a href="https://github.com/jdeblese/mwfc">GitHub Repository</a></p>
-    <p>
-      My first plan for a reciprocal counter involved a three-stage setup: counting input tics, computing the ratio, and converting
-      from binary to decimal representations.
-    </p>
-    <ol>
-      <li>A pair of input counters are triggered to start counting by the rising edge of
-      an input signal. When the minimum measurement interval has been reached (i.e., a minimum number of reference clock tics),
-      the next input rising edge halts both counters. The width of the two counters determine the minimum and maximum input frequencies.</li>
-      <li>A divider block is used to compute the ratio of the two counts. Accuracy is the priority here - it needs to make sure to maintain
-      sufficient precision for the display later - whereas speed above a certain minimum is unimportant. With a measurement interval of 1 ms,
-      for instance, and an FPGA clock of 100 MHz, the division could potentially take 100,000 sequential operations and still be fast enough.
-      The algorithm used is therefore straightforward: shift the dividend right one bit, and subtract the divisor when the dividend is larger,
-      until the fixed-width quotient contains a '1' in its MSb. This quotient plus a count of the number of shifts is a floating point base-2
-      representation of the ratio of the counts.</li>
-      <li>For ease of display, the base-2 ratio is converted to a base-10 floating point representation using an additional multiplier and a
-      pair of lookup tables. The resulting digits and exponent can be output directly to a 7-segment display after conversion to BCD.</li>
-    </ol>
-    <p>
-      As of 2014-06-10, the thing works with an input clock derived from the reference clock. The next step is
-      tests with an external input.
-    </p>
+<hr>
 
-  <hr noshade>
-  
-  <a href="../index.html">Up</a>
-  <center>
-    Last modified: 2014-06-11
-  </center>
-  
-</body>
+<h2 id="introduction">Introduction</h2>
 
+<p>Frequency counters are a specialized but very useful tool in the arsenal of an engineer. The principle is very simple: use a digital counter to count the number of tics of an input signal, and compare this to a very stable reference clock to determine the input frequency. Its simplicity means that very high frequencies are not out of reach, and its accuracy is determined by the quality of the reference clock.</p>
+
+<p>The original design of a frequency counter is straightforward. The input signal drives the clock of an up-counter, after suitable amplification, filtering and such. The counter is allowed to count for a precise amount of time as measured by the reference clock. The frequency is then the count divided by the measurement interval: an interval of 1 second means the count is the frequency in Hz, of 1 ms it is the frequency in kHz. The downside is that the accuracy is ±1 input tic, so the relative error grows as the frequency decreases.</p>
+
+<p>An important improvement on this design is that of the reciprocal frequency counter. The principle is the same, in that it counts a number of input tics and divides this by the measurement interval to get the frequency, but the difference is that the measurement interval is defined using the input signal, not the reference clock. The measurement interval is taken to be a whole number of input tics as close as possible to the desired interval, so the accuracy is now ±1 reference clock tic, independent of the input frequency.</p>
+
+<hr>
+
+<h2 id="simple-reciprocal-counter">Simple Reciprocal Counter</h2>
+
+<p><a href="https://github.com/jdeblese/mwfc">Source Code</a></p>
+
+<p>My first plan for a reciprocal counter involved a three-stage setup: counting input tics, computing the ratio, and converting from binary to decimal representations.</p>
+
+<ol>
+<li><p>A pair of input counters are triggered to start counting by the rising edge of an input signal. When the minimum measurement interval has been reached (i.e., a minimum number of reference clock tics), the next input rising edge halts both counters. The width of the two counters determine the minimum and maximum input frequencies.</p></li>
+<li><p>A divider block is used to compute the ratio of the two counts. Accuracy is the priority here - it needs to make sure to maintain sufficient precision for the display later - whereas speed above a certain minimum is unimportant. With a measurement interval of 1 ms, for instance, and an FPGA clock of 100 MHz, the division could potentially take 100,000 sequential operations and still be fast enough. The algorithm used is therefore straightforward: shift the dividend right one bit, and subtract the divisor when the dividend is larger, until the fixed-width quotient contains a ‘1’ in its MSb. This quotient plus a count of the number of shifts is a floating point base-2 representation of the ratio of the counts.</p></li>
+<li><p>For ease of display, the base-2 ratio is converted to a base-10 floating point representation using an additional multiplier and a pair of lookup tables. The resulting digits and exponent can be output directly to a 7-segment display after conversion to BCD.</p></li>
+</ol>
+
+<p>As of 2014-06-10, the thing works with an input clock derived from the reference clock. The next step is tests with an external input.</p>
+
+<hr>
+
+<p><div class="toc">
+<ul>
+<li><a href="#microwave-frequency-counter">Microwave Frequency Counter</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#simple-reciprocal-counter">Simple Reciprocal Counter</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p></p>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
 </html>
-

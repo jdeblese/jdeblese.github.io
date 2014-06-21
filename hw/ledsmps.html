@@ -49,7 +49,7 @@
 
 <h2 id="board-design">Board Design</h2>
 
-<p>Very straightforward, based on the example application in the LT3474 datasheet. Multiple revisions have been created, to try out various layouts, connectors and such.</p>
+<p>Very straightforward, based on the example application in the LT3474 datasheet. Multiple revisions have been created, to try out various layouts, connectors and such. Revision 2 of the board was made to fit behind an Ohmite <a href="http://www.ohmite.com/cat/sink_s.pdf">SA-LED-113E</a> heatsink</p>
 
 <p><img src="http://www.thescrapyard.org/hw/images/leddriver_r2-1_top.png" alt="Board Top" style="width:45%">&nbsp;<img src="http://www.thescrapyard.org/hw/images/leddriver_r2-1_bot.png" alt="Board Bottom" style="width:45%"></p>
 
@@ -59,6 +59,7 @@
 <li>Board warms up noticeably. A good ground plane as heatsink and a good connection between the exposed pad and the board is essential.</li>
 <li>The <em>PWM</em> pin is <strong>logic level input only</strong>. Forcing the LT3474 on by connecting it to <em>Vcc</em> for input voltages &gt; 5 V will lead to arcing between <em>PWM</em> and <em>GND</em> pins, and the eventual destruction of the device.</li>
 <li>Molex <a href="http://www.molex.com/molex/products/family?key=picoezmate&amp;channel=products&amp;chanName=family&amp;pageTitle=Introduction">Pico-EZMate™</a> connectors are compact and flush, but too fiddly to hand-assemble. <a href="http://www.molex.com/molex/products/family?key=microfit_30&amp;channel=products&amp;chanName=family&amp;pageTitle=Introduction">Micro-Fit 3.0™</a> connectors work excellently.</li>
+<li>PWM control works as expected. It may be necessary to reduce the output current below 1 A, however, because at this level the maximum brightness is too bright to look at, and the minimum may be too bright for the desired application. This will vary with LED color, as for instance the Far Red 740 nm LEDs are noticeable dimmer than their Red 623 nm counterparts.</li>
 </ul>
 
 <p></p>
@@ -76,6 +77,12 @@
 </ul>
 </div>
 </p>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p></p>
 
      <!-- Markdown content ends here -->
     </div>

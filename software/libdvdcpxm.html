@@ -1,44 +1,57 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>DVDCPXM</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
 
-<head>
-  <title>Libdvdcpxm</title>
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
-</head>
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Markdown content starts here -->
 
-<body>
-  
-  <hr noshade>
-  <h1>Libdvdcpxm</h1>
-  <hr noshade>
+<hr>
 
-  <h2>Introduction</h2>
-  <p>
-    Most people are familiar with DVD-Video discs, but not many realize that there's a second, audio-only standard out there, called DVD-Audio. These discs use mostly the same technology as DVD-Video, but omit video in exchange for much more space for audio data. Sample rates of up to 192 kHz, bit rates up to 24-bit, and full surround sound are all possible, either in <a href="http://en.wikipedia.org/wiki/LPCM">Linear PCM</a> or in <a href="http://en.wikipedia.org/wiki/Meridian_Lossless_Packing">Meridian Lossless Packing</a> format. Discs, as well as capable players, bore the logo pictured below.
-  </p>
-  
-  <center><img src="images/DVD-Audio_Logo.png"></center>
-  
-  <p>
-    An important difference between DVD-V and DVD-A is the encryption. DVD-V used CSS, famously cracked in the late 90's. DVD-A, released a bit later, used a different encryption scheme by the name of CPPM, very similar to the CPRM scheme used on encrypted SD cards. Of course, this scheme was also cracked.
-  </p>
+<h1 id="dvdcpxm">DVDCPXM</h1>
 
-  <p>
-    DeCPPM tools have existed for a while, but due to DVD-A being far less widespread than DVD-V, implementations are very meager. My goal, therefore, was to take the existing CPXM library and integrate it into FFMPEG, to enable direct playback in various media players. This was not difficult, as the published code is structured similarly to the well-developed libdvdcss, using a common architecture and similar routines. I've currently got an integrated library that supports both kind of disks, and a simple decryption tool linked to it.
-  </p>
-  
-  <p>
-    There are licensing issues preventing me from releasing this code, however. The CPXM library was posted without attribution on a forum. It contains no copyright headers, and I haven't been able to track down exactly who wrote it. Moreover, it seems part of the code was taken verbatim from the reference specifications for DVD-A, and would therefore infringe on 4C Entity's IP. Much as I would like to, I cannot release the code under any open source license without first knowing that it is both in the public domain as well as free of other companies' IP. Unless someone can help me with this aspect, this project will never go further than my own PC.
-  </p>
-  
-  <p>It's a damn shame.</p>
+<hr>
 
-  <hr noshade>
-  
-  <a href="../index.html">Up</a>
-  <center>
-    Last modified: 2014-06-11
-  </center>
-  
-</body>
+<h2 id="introduction">Introduction</h2>
 
+<p>Most people are familiar with DVD-Video discs, but not many realize that there’s a second, audio-only standard out there, called DVD-Audio. These discs use mostly the same technology as DVD-Video, but omit video in exchange for much more space for audio data. Sample rates of up to 192 kHz, bit rates up to 24-bit, and full surround sound are all possible, either in Linear PCM or in <a href="http://en.wikipedia.org/wiki/Meridian_Lossless_Packing">Meridian Lossless Packing</a> format. Discs, as well as capable players, bore the logo pictured below.</p>
+
+<p><img src="http://www.thescrapyard.org/software/images/DVD-Audio_Logo.png" alt="Logo" title=""></p>
+
+<p>An important difference between DVD-V and DVD-A is the encryption. DVD-V used CSS, famously cracked in the late 90’s. DVD-A, released a bit later, used a different encryption scheme by the name of CPPM, very similar to the CPRM scheme used on encrypted SD cards. Of course, this scheme was also cracked.</p>
+
+<p>DeCPPM tools have existed for a while, but due to DVD-A being far less widespread than DVD-V, implementations are very meager. My goal, therefore, was to take the existing CPXM library and integrate it into FFMPEG, to enable direct playback in various media players. This was not difficult, as the published code is structured similarly to the well-developed libdvdcss, using a common architecture and similar routines. I’ve currently got an integrated library that supports both kind of disks, and a simple decryption tool linked to it.</p>
+
+<p>There are licensing issues preventing me from releasing this code, however. The CPXM library was posted without attribution on a forum. It contains no copyright headers, and I haven’t been able to track down exactly who wrote it. Moreover, it seems part of the code was taken verbatim from the reference specifications for DVD-A, and would therefore infringe on 4C Entity’s IP. Much as I would like to, I cannot release the code under any open source license without first knowing that it is both in the public domain as well as free of other companies’ IP. Unless someone can help me with this aspect, this project will never go further than my own PC.</p>
+
+<p>It’s a damn shame.</p>
+
+<hr>
+
+<!--[TOC]-->
+
+<p></p>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p></p>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
 </html>

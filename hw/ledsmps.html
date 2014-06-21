@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Variable SMPS LED Supply</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
+
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Markdown content starts here -->
+
+<hr>
+
+<h1 id="variable-smps-led-supply">Variable SMPS LED Supply</h1>
+
+<hr>
+
+<h2 id="concept">Concept</h2>
+
+<p>A switched mode current supply, adjustable via a logic-level PWM signal to realize a dimmable LED. This can be integrated into various projects, including an adjustable reading light or a sunrise alarm clock.</p>
+
+<hr>
+
+<h2 id="components">Components</h2>
+
+<dl>
+<dt><a href="http://www.linear.com/product/LT3474">LT3474</a></dt>
+<dd>Step-down LED driver, up to 14 V @ 1 A output. The LT3474-1 variant without open circuit protection can go to higher voltages, but</dd>
+
+<dd>Switching frequency and maximum output current are adjustable.</dd>
+
+<dd>Dimmable using PWM, 400:1 range with a minimum pulse width of 40 μs.</dd>
+
+<dd>Requires an external inductor and diode, and optionally an additional transistor for optimal PWM behavior. May require more than 14 V, however, depending on color and drive current.</dd>
+
+<dt><a href="http://www.ledengin.com/products/emitters#LZ1">LedEngin LZ1 Series</a></dt>
+<dd>Single-die emitter structure, 1 A absolute maximum current, with very bright output.</dd>
+
+<dd>LZ4 series 4-die emitters are the next step up, but dissipate more heat and will require current derating.</dd>
+</dl>
+
+<hr>
+
+<h2 id="board-design">Board Design</h2>
+
+<p>Very straightforward, based on the example application in the LT3474 datasheet. Multiple revisions have been created, to try out various layouts, connectors and such.</p>
+
+<p><img src="http://www.thescrapyard.org/hw/images/leddriver_r2-1_top.png" alt="Board Top" style="width:45%">&nbsp;<img src="http://www.thescrapyard.org/hw/images/leddriver_r2-1_bot.png" alt="Board Bottom" style="width:45%"></p>
+
+<p>Observations:</p>
+
+<ul>
+<li>Board warms up noticeably. A good ground plane as heatsink and a good connection between the exposed pad and the board is essential.</li>
+<li>The <em>PWM</em> pin is <strong>logic level input only</strong>. Forcing the LT3474 on by connecting it to <em>Vcc</em> for input voltages &gt; 5 V will lead to arcing between <em>PWM</em> and <em>GND</em> pins, and the eventual destruction of the device.</li>
+<li>Molex <a href="http://www.molex.com/molex/products/family?key=picoezmate&amp;channel=products&amp;chanName=family&amp;pageTitle=Introduction">Pico-EZMate™</a> connectors are compact and flush, but too fiddly to hand-assemble. <a href="http://www.molex.com/molex/products/family?key=microfit_30&amp;channel=products&amp;chanName=family&amp;pageTitle=Introduction">Micro-Fit 3.0™</a> connectors work excellently.</li>
+</ul>
+
+<p></p>
+
+<hr>
+
+<p><div class="toc">
+<ul>
+<li><a href="#variable-smps-led-supply">Variable SMPS LED Supply</a><ul>
+<li><a href="#concept">Concept</a></li>
+<li><a href="#components">Components</a></li>
+<li><a href="#board-design">Board Design</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
+</html>

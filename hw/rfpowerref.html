@@ -34,6 +34,30 @@
 
 <hr>
 
+<h2 id="key-components">Key Components</h2>
+
+<dl>
+<dt>Abracon <strong><a href="http://www.abracon.com/Oscillators/ASFLMB.pdf">ASFLMB</a></strong></dt>
+<dd>MEMS Oscillator, 5.0 x 3.2 mm package, 3.3 V supply</dd>
+
+<dt>Linear Technology <strong><a href="http://www.linear.com/product/LT1711">LT1711</a></strong></dt>
+<dd>4.5 ns Rail-to-Rail Comparator</dd>
+
+<dd>Single or dual supply, up to ±5 V</dd>
+
+<dt>NXP <strong><a href="http://www.nxp.com/products/diodes/switching_diodes/BAV99.html">BAV99,215</a></strong></dt>
+<dd>High-speed switching diodes, SOT-23 package</dd>
+
+<dd>4 ns recovery time</dd>
+
+<dt>Infineon <strong><a href="http://www.infineon.com/cms/en/product/transistor-and-diode/diode/schottky-diode/high-speed-switching-clipping-and-clamping/BAS40/productType.html?productType=ff80808112ab681d0112ab6e178816e4">BAS40-04 E6327</a></strong></dt>
+<dd>High-speed schottky diode, SOT-23 package</dd>
+</dl>
+
+<p>It is my intention to compare a standard diode vs a schottky in the same layout.</p>
+
+<hr><div class="se-section-delimiter"></div>
+
 <h2 id="filter-design">Filter Design</h2>
 
 <p>The filter used to remove the oscillator’s harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch at the third harmonic. The values of this inductor and capacitor were tuned to pass 120 MHz but block 360 MHz, and simulation results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below. ESR values were taken from datasheets of potential components found on Mouser, and make a noticeable difference in the filter response.</p>
@@ -75,10 +99,11 @@
 
 <hr>
 
-<p><div class="toc">
+<p><div class="toc"><div class="toc">
 <ul>
 <li><a href="#rf-power-reference">RF Power Reference</a><ul>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#key-components">Key Components</a></li>
 <li><a href="#filter-design">Filter Design</a></li>
 <li><a href="#activity-log">Activity Log</a><ul>
 <li><a href="#2014-06-22">2014-06-22</a></li>
@@ -87,6 +112,7 @@
 </ul>
 </li>
 </ul>
+</div>
 </div>
 </p>
 

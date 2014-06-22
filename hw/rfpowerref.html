@@ -62,14 +62,15 @@
 
 <ul>
 <li>Reflowed one board with an LT1711 in place, but the feet overlap other traces. Measured a 50 mV 120 MHz sine wave on the output pin of the oscillator, however, so it’s working. Not sure if the low voltage is due to incorrectly driving the enable pin, or due to it exceeding the oscilloscope’s bandwidth (not indicated).</li>
-<li>Reflowed a second board without the comparator, and a wire jumpering the oscillator to the filter. Measured 550 mV on the output SMA connector.</li>
+<li>Reflowed a second board with a jumper in the place of the comparator, and no output attenuator. Measured 550 mV on the output SMA connector.</li>
 </ul>
 
 <p><strong>Issues</strong></p>
 
 <ul>
-<li>Need a faster scope, or a prescaler. Should probably prototype the board with a lower frequency crystal if none is available, but that would require a different filter.</li>
+<li>Need a faster scope, or at least a prescaler. Should probably prototype the board with a lower frequency crystal if none is available, but that would require a different filter.</li>
 <li>The data sheet for the 120 MHz crystal does not indicate how to drive the enable pin. Similar crystals say to leave it open to enable the device, so the rev. 1 board does so.</li>
+<li>Need a better 3.3 V power supply, as the current one hacked together from another prototype appears to be unstable.</li>
 </ul>
 
 <hr>

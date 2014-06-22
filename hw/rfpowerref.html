@@ -9,9 +9,12 @@
 
     <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div class="container">
       <!-- Markdown content starts here -->
 
@@ -27,7 +30,7 @@
 
 <p>I redesigned the board for SMD components and using 50 Ω coplanar waveguide. In addition, the output impedance of the oscillator I intended to use was around 10 kΩ, so I added a comparator as a buffer. The schematic and board design were done in Cadsoft EAGLE, and the board and stencil is currently being prototyped by OSH Park and OSH Stencils. Measurements will be done as soon as the boards are ready, and source files will be made available once I’m happy with the board, or upon request.</p>
 
-<p><a href="http://www.thescrapyard.org/hw/images/rfpowerref.png"><img src="http://www.thescrapyard.org/hw/images/rfpowerref.png" alt="Board Top" style="width:98%"></a></p>
+<p><a href="http://www.thescrapyard.org/hw/images/rfpowerref.png"><img src="http://www.thescrapyard.org/hw/images/rfpowerref.png" alt="Board Top" style="width:100%"></a></p>
 
 <hr>
 
@@ -35,7 +38,7 @@
 
 <p>The filter used to remove the oscillator’s harmonics is a modified Chebyshev type 1. Initial values for the filter were computed using a cutoff frequency of 130 MHz and a ripple of 0.01 dB. W1GHz then suggests adding an inductor in series with the central capacitor to create a notch at the third harmonic. The values of this inductor and capacitor were tuned to pass 120 MHz but block 360 MHz, and simulation results (using <a href="http://qucs.sourceforge.net/">Qucs</a>) are pictured below. ESR values were taken from datasheets of potential components found on Mouser, and make a noticeable difference in the filter response.</p>
 
-<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_schematic.png" style="width:98%" alt="Filter layout"><figcaption>Filter schematic, including some parasitics</figcaption></figure><p></p>
+<p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_schematic.png" style="width:90%" alt="Filter layout"><figcaption>Filter schematic, including some parasitics</figcaption></figure><p></p>
 
 <p></p><figure><img src="http://www.thescrapyard.org/hw/images/rfpowerref_filter_sparam.png" alt="Filter Simulated S-Parameters" title=""><figcaption>Simulated S11 and S21 of the filter alone</figcaption></figure><p></p>
 
@@ -51,11 +54,35 @@
 
 <hr>
 
+<h2 id="activity-log">Activity Log</h2>
+
+<h3 id="2014-06-22">2014-06-22</h3>
+
+<p>First batch of boards have arrived, as well as parts. I ordered the wrong size of resistor for the attenuator, but that’s no big deal. Unfortunately, it seems the footprint I created for the LT1711 places the feet too close together, too much to compensate for.</p>
+
+<ul>
+<li>Reflowed one board with an LT1711 in place, but the feet overlap other traces. Measured a 50 mV 120 MHz sine wave on the output pin of the oscillator, however, so it’s working. Not sure if the low voltage is due to incorrectly driving the enable pin, or due to it exceeding the oscilloscope’s bandwidth (not indicated).</li>
+<li>Reflowed a second board without the comparator, and a wire jumpering the oscillator to the filter. Measured 550 mV on the output SMA connector.</li>
+</ul>
+
+<p><strong>Issues</strong></p>
+
+<ul>
+<li>Need a faster scope, or a prescaler. Should probably prototype the board with a lower frequency crystal if none is available, but that would require a different filter.</li>
+<li>The data sheet for the 120 MHz crystal does not indicate how to drive the enable pin. Similar crystals say to leave it open to enable the device, so the rev. 1 board does so.</li>
+</ul>
+
+<hr>
+
 <p><div class="toc">
 <ul>
 <li><a href="#rf-power-reference">RF Power Reference</a><ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#filter-design">Filter Design</a></li>
+<li><a href="#activity-log">Activity Log</a><ul>
+<li><a href="#2014-06-22">2014-06-22</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

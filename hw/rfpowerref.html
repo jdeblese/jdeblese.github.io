@@ -41,7 +41,7 @@
 <dd>MEMS Oscillator, 5.0 x 3.2 mm package, 3.3 V supply</dd>
 
 <dt>Linear Technology <strong><a href="http://www.linear.com/product/LT1711">LT1711</a></strong></dt>
-<dd>4.5 ns Rail-to-Rail Comparator</dd>
+<dd>Rail-to-Rail Comparator, 2 ns rise/fall time, 4.5 ns propagation delay</dd>
 
 <dd>Single or dual supply, up to ±5 V</dd>
 
@@ -80,7 +80,7 @@
 
 <h2 id="activity-log">Activity Log</h2>
 
-<h3 id="2014-06-22">2014-06-22</h3>
+<h3 id="2014-06-22-revision-10">2014-06-22: Revision 1.0</h3>
 
 <p>First batch of boards have arrived, as well as parts. I ordered the wrong size of resistor for the attenuator, but that’s no big deal. Unfortunately, it seems the footprint I created for the LT1711 places the feet too close together, too much to compensate for.</p>
 
@@ -97,22 +97,29 @@
 <li>Need a better 3.3 V power supply, as the current one hacked together from another prototype appears to be unstable.</li>
 </ul>
 
+<p><strong>Further Changes</strong></p>
+
+<ul>
+<li>The second output capacitor at the SMA connector, C5, is redundant and, if paired with a board with an input capacitor directly at the connector, will allow the connecting coax to float.</li>
+<li>The bridges under the CPW will change the impedance, so remove except where really necessary.</li>
+<li>A test pad should be connected to the oscillator’s enable pin just in case, as the pin cannot be reached directly once soldered.</li>
+</ul>
+
 <hr>
 
-<p><div class="toc"><div class="toc">
+<p><div class="toc">
 <ul>
 <li><a href="#rf-power-reference">RF Power Reference</a><ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#key-components">Key Components</a></li>
 <li><a href="#filter-design">Filter Design</a></li>
 <li><a href="#activity-log">Activity Log</a><ul>
-<li><a href="#2014-06-22">2014-06-22</a></li>
+<li><a href="#2014-06-22-revision-10">2014-06-22: Revision 1.0</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</div>
 </div>
 </p>
 

@@ -9,9 +9,12 @@
 
     <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div class="container">
       <!-- Markdown content starts here -->
 
@@ -36,7 +39,7 @@
 A small, 120 MHz, +2dBm ±1dB power reference board.</p></li>
 <li><p><a href="hw/ledsmps.html">LED SMPS Driver</a> <br>
 PWM-controllable current supply for high-power LEDs up to 14 W.</p></li>
-</ol><div class="se-section-delimiter"></div>
+</ol>
 
 <h3 id="fpgas">FPGAs</h3>
 
@@ -50,8 +53,10 @@ Low-level interface for a Digilent OLED peripheral module.</p></li>
 <h3 id="software">Software</h3>
 
 <ol>
-<li><a href="software/libdvdcpxm.html">Linux DVD-A Decryption</a> <br>
-A library to decrypt DVD-Audio discs.</li>
+<li><p><a href="software/libdvdcpxm.html">Linux DVD-A Decryption</a> <br>
+A library to decrypt DVD-Audio discs.</p></li>
+<li><p><a href="software/ergovolve.html">Evolutionary optimization of a keycap group buy</a> <br>
+Using genetic algorithms to determine, given a maximum number of key labels, the optimal set of labels that covers as many known Ergodox keyboard layouts as possible.</p></li>
 </ol>
 
 <p></p>

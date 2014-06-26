@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Ergovolve</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
+
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
+  </head>
+  <body onload="prettyPrint()">
+    <div class="container">
+      <!-- Markdown content starts here -->
+
+<hr>
+
+<h1 id="ergovolve">Ergovolve</h1>
+
+<hr>
+
+<p>The <a href="http://ergodox.org/">Ergodox</a> is a split ergonomic keyboard designed by the mechanical keyboard enthusiast community. It supports arbitrary key layouts, and the community has obligingly spawned layouts based on standard layouts like querty or colemak, modified to a greater or lesser degree, or based on completely new key maps. As a result, labeled keys are almost never available for the Ergodox, as each key would have to be made in three different versions to allow its placement anywhere.</p>
+
+<p>For the recent <em>Granite</em> keycap groupbuy run on <a href="http://deskthority.net/">Deskthority</a> and <a href="http://geekhack.org/">Geekhack</a>, the organizer <em>Matt3o</em> was willing to provide a labeled Ergodox set if we could come up with a good scheme. Only the modifier keys would be labeled, as the standard 1u keys could be gathered from other sets. To keep the cost reasonable, the set was limited to about 18 to 20 keys. The goal of <em>squarefrog</em> and I was therefore to find a set of key labels that would cover around 70% of the modifier keys of as many different layouts as possible, 70% coverage a number we deemed reasonable.</p>
+
+<p><em>Squarefrog</em> started a campaign to gather Ergodox layouts, enter them into a database and generate statistics. I then wrote a short python program - <a href="https://github.com/jdeblese/ergovolve">ergovolve</a> - that took this database together with a list of keys available in other sets (we wanted no redundancies) and used a genetic algorithm to find the optimal set of labels.</p>
+
+<p>Many thanks to <a href="https://code.google.com/p/deap/">DEAP</a>, the toolkit used in this project.</p>
+
+<p>We ended up collecting about 40 layouts, ignoring the layer switch keys, and deciding on a <a href="http://www.pimpmykeyboard.com/deals/granite-ergodoxian/">19 key set</a>. The project has been stalled since the buy went live, but based on the fact that 66 sets were purchased (vs. 367 main sets) I’d say the layout was fairly successful.</p>
+
+<p></p><figure><img src="http://www.thescrapyard.org/software/images/13-ergodoxian.png" style="width:98%" alt="Ergodoxian Layout"><figcaption>Image by <em>Matt3o</em></figcaption></figure><p></p>
+
+<hr>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p></p>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
+</html>

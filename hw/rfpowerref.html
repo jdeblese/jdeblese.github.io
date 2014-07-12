@@ -24,6 +24,26 @@
 
 <hr>
 
+<p><div class="toc"><div class="toc">
+<ul>
+<li><a href="#rf-power-reference">RF Power Reference</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#key-components">Key Components</a></li>
+<li><a href="#filter-design">Filter Design</a></li>
+<li><a href="#activity-log">Activity Log</a><ul>
+<li><a href="#2014-06-22-revision-10">2014-06-22: Revision 1.0</a></li>
+<li><a href="#2014-07-12-revision-11">2014-07-12: Revision 1.1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</p>
+
+<hr>
+
 <h2 id="introduction">Introduction</h2>
 
 <p>This design is based off of W1GHz’s <a href="http://www.w1ghz.org/small_proj/small_proj.htm">small project design</a>, also published in QST April 2007. It feeds the output of a crystal or MEMS oscillator into a diode clipper to generate a square wave with a fixed voltage and then filters out the harmonics to reduce this to a sine wave. The filter is matched to 50 Ω (W1GHz uses a Chebyshev filter), but an additional output attenuator helps improve the matching.</p>
@@ -56,7 +76,7 @@
 
 <p>It is my intention to compare a standard diode vs a schottky in the same layout.</p>
 
-<hr><div class="se-section-delimiter"></div>
+<hr>
 
 <h2 id="filter-design">Filter Design</h2>
 
@@ -105,6 +125,12 @@
 <li>A test pad should be connected to the oscillator’s enable pin just in case, as the pin cannot be reached directly once soldered.</li>
 </ul>
 
+<h3 id="2014-07-12-revision-11">2014-07-12: Revision 1.1</h3>
+
+<p>New batch of boards, this time with the correct footprints. I’ve also now built a small 3.3 v supply, so don’t have any more problems with that instability. The board works, producing a 120 MHz signal, but because the scope I have here is limited to 0.02 μs / div and has a 100 MHz probe, I can’t really get a reliable measurement from it.</p>
+
+<p>I’ll post a schematic shortly.</p>
+
 <hr>
 
 <p><div class="toc">
@@ -115,6 +141,7 @@
 <li><a href="#filter-design">Filter Design</a></li>
 <li><a href="#activity-log">Activity Log</a><ul>
 <li><a href="#2014-06-22-revision-10">2014-06-22: Revision 1.0</a></li>
+<li><a href="#2014-07-12-revision-11">2014-07-12: Revision 1.1</a></li>
 </ul>
 </li>
 </ul>

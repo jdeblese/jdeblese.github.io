@@ -24,11 +24,19 @@
 
 <hr>
 
-<p>Details to come. For now, here’s an image of my laptop using a Spartan-6 to program an ATMega328P to control a 7-segment display.</p>
+<p>I’ve been looking for an AVR programmer to clone onto an FPGA, so as to be able to program blank microcontrollers. One with published specifications is Atmel’s <a href="http://www.atmel.com/Images/doc2591.pdf">STK500</a>, and the advantage it has is that it is widely supported, so any clone would be as well. It seems to be a very flexible programmer, but I haven’t attempted to replicate all of its functionality: for the time being only the ICSP mode interests me, and of that only the bare minimum needed for AVRDude to function. Adding a few of the bulk transfer commands would greatly improve the speed, but that’s for a later date.</p>
 
-<p></p><figure><img src="images/fpgavr_test1.jpg" alt="Test Setup 1" title=""></figure><p></p>
+<p>AVRDude Settings:</p>
 
-<p>The little add-on board on the FPGA is a Linear <a href="http://www.linear.com/product/LTC1477">LTC1477</a> connected to JA10 for switching the power on and off.</p>
+<ul>
+<li>Programmer: <em>stk500v2</em></li>
+<li>Baud Rate: <em>230400</em></li>
+</ul>
+
+<p></p><figure><img src="images/fpgavr_test1.jpg" alt="Test Setup 1" title=""> <br>
+<figcaption>Spartan-6 programming an ATMega328P</figcaption></figure><p></p>
+
+<p>The ICSP protocol requires the programmer be able to turn the power on and off. The Linear Technologies <a href="http://www.linear.com/product/LTC1477">LTC1477</a> high-side switch is a clean way of doing so, and fits neatly on Digilent’s Pmod™ form factor. A two-row board (connecting to both rows of Pmod pins rather than just one) would have been a better choice, however, as in addition to power and ground there are four other signals needed to program an AVR.</p>
 
 <p></p><figure><a href="powerswitch_gerbers.zip"><img src="images/powerswitch_board.png"></a> <br>
 <figcaption>LTC1477 switch board, click for GERBER files</figcaption></figure><p></p>

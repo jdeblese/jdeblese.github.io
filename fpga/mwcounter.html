@@ -9,9 +9,23 @@
 
     <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52980401-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div class="container">
       <!-- Markdown content starts here -->
 
@@ -27,23 +41,23 @@
 
 <p>In the original design of a frequency counter, the input signal is used to drive the clock of an up-counter, after suitable amplification, filtering and such. The counter is allowed to count for a precise amount of time as measured by the reference clock. The frequency is then the count divided by the measurement interval: an interval of 1 second is often used, meaning the count is precisely the frequency in Hz. The downside is that the accuracy is ±1 input edge, so the relative error grows as the frequency decreases.</p>
 
-<p>For example, given a 10 Hz clock and a 3.63 Hz input signal, counting the rising input edges for 10 clock cycles would give you either 3 or 4 rising edges, depending on the phase difference between the input and clock The error is ±1 rising input edge.</p><div class="se-section-delimiter"></div>
+<p>For example, given a 10 Hz clock and a 3.63 Hz input signal, counting the rising input edges for 10 clock cycles would give you either 3 or 4 rising edges, depending on the phase difference between the input and clock The error is ±1 rising input edge.</p>
 
 <pre class="prettyprint prettyprinted"><code><span class="typ">Input</span><span class="pun">:</span><span class="pln"> </span><span class="pun">‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____
             </span><span class="pun">|</span><span class="pln">    </span><span class="pun">&lt;------</span><span class="pln"> enable counting </span><span class="pun">------&gt;</span><span class="pln">    </span><span class="pun">|</span><span class="pln">
 </span><span class="typ">Clock</span><span class="pun">:</span><span class="pln"> _</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_
             </span><span class="pun">|</span><span class="pln">    </span><span class="pun">&lt;------</span><span class="pln"> enable counting </span><span class="pun">------&gt;</span><span class="pln">    </span><span class="pun">|</span><span class="pln">
-</span><span class="typ">Input</span><span class="pun">:</span><span class="pln"> ____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾</span></code></pre>
+</span><span class="typ">Input</span><span class="pun">:</span><span class="pln"> __</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\</span></code></pre>
 
-<p>A simple way to fix this is to trigger counting on an input edge rather than a clock edge, referred to as a reciprocal frequency counter. The measurement interval is taken to be a whole number of input tics as close as possible to the desired interval, so the accuracy is now ±1 reference clock tic, independent of the input frequency.</p><div class="se-section-delimiter"></div>
+<p>A simple way to fix this is to trigger counting on an input edge rather than a clock edge, referred to as a reciprocal frequency counter. The measurement interval is taken to be a whole number of input tics as close as possible to the desired interval, so the accuracy is now ±1 reference clock tic, independent of the input frequency.</p>
 
 <pre class="prettyprint prettyprinted"><code><span class="typ">Input</span><span class="pun">:</span><span class="pln"> </span><span class="pun">‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">\____</span><span class="pun">/‾‾‾‾‾</span><span class="pln">
                 </span><span class="pun">|</span><span class="pln">    </span><span class="pun">&lt;------</span><span class="pln"> enable counting </span><span class="pun">-----------!--&gt;|</span><span class="pln">
 </span><span class="typ">Clock</span><span class="pun">:</span><span class="pln"> _</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span><span class="pln">\_</span><span class="pun">/‾</span></code></pre>
 
-<p>For the previous scenario, this would give 11 clock tics for 4 input tics, indicating an input frequency of  <span class="MathJax_Preview"></span><span class="MathJax" id="MathJax-Element-101-Frame" role="textbox" aria-readonly="true"><nobr><span class="math" id="MathJax-Span-1438" style="width: 4.43em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.663em; height: 0px; font-size: 121%;"><span style="position: absolute; clip: rect(1.833em 1000.003em 3.191em -0.528em); top: -2.772em; left: 0.003em;"><span class="mrow" id="MathJax-Span-1439"><span class="mn" id="MathJax-Span-1440" style="font-family: MathJax_Main;">4</span><span class="msubsup" id="MathJax-Span-1441"><span style="display: inline-block; position: relative; width: 1.479em; height: 0px;"><span style="position: absolute; clip: rect(1.656em 1000.003em 2.896em -0.469em); top: -2.535em; left: 0.003em;"><span class="mi" id="MathJax-Span-1442" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.062em;"></span></span><span style="display: inline-block; width: 0px; height: 2.541em;"></span></span><span style="position: absolute; top: -2.004em; left: 0.534em;"><span class="texatom" id="MathJax-Span-1443"><span class="mrow" id="MathJax-Span-1444"><span class="mi" id="MathJax-Span-1445" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">c</span><span class="mi" id="MathJax-Span-1446" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">l</span><span class="mi" id="MathJax-Span-1447" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">k</span></span></span><span style="display: inline-block; width: 0px; height: 2.246em;"></span></span></span></span><span class="texatom" id="MathJax-Span-1448"><span class="mrow" id="MathJax-Span-1449"><span class="mo" id="MathJax-Span-1450" style="font-family: MathJax_Main;">/</span></span></span><span class="mn" id="MathJax-Span-1451" style="font-family: MathJax_Main;">11</span></span><span style="display: inline-block; width: 0px; height: 2.777em;"></span></span></span><span style="border-left-width: 0.004em; border-left-style: solid; display: inline-block; overflow: hidden; width: 0px; height: 1.361em; vertical-align: -0.354em;"></span></span></nobr></span><script type="math/tex" id="MathJax-Element-101">4 f_{clk} / 11</script>, with an accuracy of ±1 clock tic. The exclamation mark shows the minimum measurement time of 1 second, as counted by the system clock.</p>
+<p>For the previous scenario, this would give 11 clock tics for 4 input tics, indicating an input frequency of  <span class="MathJax_Preview"></span><span class="MathJax" id="MathJax-Element-1-Frame" role="textbox" aria-readonly="true"><nobr><span class="math" id="MathJax-Span-1" style="width: 4.43em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.663em; height: 0px; font-size: 121%;"><span style="position: absolute; clip: rect(1.833em 1000.003em 3.191em -0.528em); top: -2.772em; left: 0.003em;"><span class="mrow" id="MathJax-Span-2"><span class="mn" id="MathJax-Span-3" style="font-family: MathJax_Main;">4</span><span class="msubsup" id="MathJax-Span-4"><span style="display: inline-block; position: relative; width: 1.479em; height: 0px;"><span style="position: absolute; clip: rect(1.656em 1000.003em 2.896em -0.469em); top: -2.535em; left: 0.003em;"><span class="mi" id="MathJax-Span-5" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.062em;"></span></span><span style="display: inline-block; width: 0px; height: 2.541em;"></span></span><span style="position: absolute; top: -2.004em; left: 0.534em;"><span class="texatom" id="MathJax-Span-6"><span class="mrow" id="MathJax-Span-7"><span class="mi" id="MathJax-Span-8" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">c</span><span class="mi" id="MathJax-Span-9" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">l</span><span class="mi" id="MathJax-Span-10" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">k</span></span></span><span style="display: inline-block; width: 0px; height: 2.246em;"></span></span></span></span><span class="texatom" id="MathJax-Span-11"><span class="mrow" id="MathJax-Span-12"><span class="mo" id="MathJax-Span-13" style="font-family: MathJax_Main;">/</span></span></span><span class="mn" id="MathJax-Span-14" style="font-family: MathJax_Main;">11</span></span><span style="display: inline-block; width: 0px; height: 2.777em;"></span></span></span><span style="border-left-width: 0.004em; border-left-style: solid; display: inline-block; overflow: hidden; width: 0px; height: 1.361em; vertical-align: -0.354em;"></span></span></nobr></span><script type="math/tex" id="MathJax-Element-1">4 f_{clk} / 11</script>, with an accuracy of ±1 clock tic. The exclamation mark shows the minimum measurement time of 1 second, as counted by the system clock.</p>
 
-<hr><div class="se-section-delimiter"></div>
+<hr>
 
 <h2 id="simple-reciprocal-counter">Simple Reciprocal Counter</h2>
 
@@ -61,7 +75,7 @@
 
 <hr>
 
-<p><div class="toc"><div class="toc">
+<p><div class="toc">
 <ul>
 <li><a href="#microwave-frequency-counter">Microwave Frequency Counter</a><ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -69,7 +83,6 @@
 </ul>
 </li>
 </ul>
-</div>
 </div>
 </p>
 

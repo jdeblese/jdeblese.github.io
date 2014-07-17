@@ -9,9 +9,23 @@
 
     <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=desert"></script>
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52980401-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div class="container">
       <!-- Markdown content starts here -->
 
@@ -43,7 +57,7 @@
 <li>Switchable between tiles 6 columns wide and 8 columns wide</li>
 </ul>
 
-<p>One possibility is that the tile memory will not actually exist, and will be write-only. Instead, the driver will have a pixel buffer, and when a new tile value is written to memory, this will be passed through the tile map and the corresponding pixels written to the buffer. The disadvantage of this is that it makes flags less useful, as then both value and flags have to be written together, or remembered elsewhere.</p>
+<p>One possibility is that the tile memory will not actually exist, and will be write-only. Instead, the driver will have a pixel buffer, and when a new tile value is written to memory, this will be passed through the tile map and the corresponding pixels written to the buffer. The disadvantage of this is that it makes flags less useful, as then both value and flags have to be written together, or remembered elsewhere. It also makes it impossible to update the display when the tile map changes without demanding that the whole tile memory be rewritten.</p>
 
 <hr>
 
@@ -57,6 +71,12 @@
 </ul>
 </div>
 </p>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p></p>
 
 <div class="footnotes"><hr><ol><li id="fn:4spi">4-wire SPI uses 8-bit words and the standard 3 lines (clock, data and chip select), plus a fourth <em>data/!command</em> line to indicate if the word is meant as a command or as a byte to be written to pixel memory. <a href="#fnref:4spi" title="Return to article" class="reversefootnote">↩</a></li></ol></div>
 

@@ -41,7 +41,7 @@
 
 <p>This is where I collect my parts: information I’ve gathered, projects I’ve worked on, and whatever else I find that might be useful or interesting. You can also check out my GitHub repositories <a href="http://github.com/jdeblese">here</a>.</p>
 
-<hr>
+<hr><div class="se-section-delimiter"></div>
 
 <h3 id="hardware">Hardware</h3>
 
@@ -89,7 +89,7 @@ Using genetic algorithms to determine, given a maximum number of key labels, the
 <pre><code>openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -extensions v3_req -extfile ext.cnf -out server.crt
 </code></pre>
 
-<p>Note the <strong>-extensions</strong> and the <strong>-extfile</strong> arguments. The first tells x509 to go looking in the <em>v3_req</em> section of <em>ext.cnf</em>, which is a standard OpenSSL configuration file. Based on various online comments (<a href="https://forums.openvpn.net/topic7484.html#p9220">here</a>, for instance), make sure your <em>ext.cnf</em> file contains at least the following:</p>
+<p>Note the <strong>-extensions</strong> and the <strong>-extfile</strong> arguments (thanks to <a href="http://www.mytidbitz.com/?p=109">emeka</a>). The first tells x509 to go looking in the <em>v3_req</em> section of <em>ext.cnf</em>, which is a standard OpenSSL configuration file. Based on various online comments (<a href="https://forums.openvpn.net/topic7484.html#p9220">here</a>, for instance), make sure your <em>ext.cnf</em> file contains at least the following:</p>
 
 <pre><code>[ v3_req ]
 
@@ -97,7 +97,7 @@ keyUsage = critical, digitalSignature, keyAgreement
 extendedKeyUsage = critical, serverAuth
 </code></pre>
 
-<p>The two <em>critical</em> arguments may not be necessary, but I haven’t tested that.</p>
+<p>The specification for these two lines can be found <a href="https://www.openssl.org/docs/apps/x509v3_config.html#Key_Usage_">here</a>. The two <em>critical</em> arguments may not be necessary, but I haven’t tested that.</p>
 
 <p>The second issue is that ChromeOS by default uses UDP for OpenVPN connections, while RouterOS only supports TCP. This can be circumvented by creating an ONC file to add the VPN connection rather than using the GUI under settings. I’ve had some luck with the following (anonymized) file, the source of which I’ve forgotten:</p>
 

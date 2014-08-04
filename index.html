@@ -41,7 +41,7 @@
 
 <p>This is where I collect my parts: information I’ve gathered, projects I’ve worked on, and whatever else I find that might be useful or interesting. You can also check out my GitHub repositories <a href="http://github.com/jdeblese">here</a>.</p>
 
-<hr><div class="se-section-delimiter"></div>
+<hr>
 
 <h3 id="hardware">Hardware</h3>
 
@@ -78,9 +78,17 @@ Using genetic algorithms to determine, given a maximum number of key labels, the
 
 <hr>
 
-<h3 id="miscelaneous-ramblings">Miscelaneous Ramblings</h3>
+<h3 id="miscelaneous-ramblings">Miscelaneous Ramblings</h3><div class="se-section-delimiter"></div>
 
-<h4 id="20140724-chromeos-openvpn-to-routeros">2014/07/24 - ChromeOS OpenVPN to RouterOS</h4>
+<h4 id="20140804-chromeos-openvpn-to-routeros-part-2">2014/08/04 - ChromeOS OpenVPN to RouterOS, Part 2</h4>
+
+<p>Summary: to connect to RouterOS from a Chromebook, use the ONC file below but leaving out the “CompLZO” parameter completely.</p>
+
+<p>Problem solved, thanks to some <a href="https://code.google.com/p/chromium/issues/detail?id=397774">help</a> from the Chromium guys. It seems that if the OpenVPN <em>comp-lzo</em> option is set, an extra byte is added to the packet even if this option is set to <em>no</em>. RouterOS documentation states that LZO is not supported, but this means that the option must be left out completely because otherwise the IP header will be received shifted by one byte. I haven’t been able to find a breakdown of what exactly the <em>comp-lzo</em> option changes in the OpenVPN packet, however.</p>
+
+<p>A quick search showed that others have also run into this behavior, for instance <a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?t=152214">this</a> DD-WRT thread. Another <a href="https://forums.openvpn.net/topic10067.html">thread</a> on the OpenVPN forums suggests they are aware of the issue, but that it’s related to the configuration and pushing of options and won’t be solved before version 3.</p><div class="se-section-delimiter"></div>
+
+<h4 id="20140724-chromeos-openvpn-to-routeros-1">2014/07/24 - ChromeOS OpenVPN to RouterOS</h4>
 
 <p>I’ve been trying to connect my Chromebook to a Mikrotik box via VPN, and thougth I’d share some of my debugging results. This is not meant to be an OpenVPN tutorial - there are plenty of those around - but will merely give what is needed to make this particular setup work.</p>
 
@@ -136,7 +144,7 @@ extendedKeyUsage = critical, serverAuth
 
 <p>See the <a href="https://docs.google.com/a/thescrapyard.org/viewer?a=v&amp;pid=sites&amp;srcid=Y2hyb21pdW0ub3JnfGRldnxneDo1ZDY0OGFhNGI2YzE0ZTgy">Open Network Configuration Format</a> document for a reference. The X509 certificate should be the PEM certificate all on one line. Import this file via <em>chrome://net-internals/#chromeos</em>, and you should have a new VPN connection configured.</p>
 
-<p>Don’t forget to add and your CA certificate under Settings/Certificates, and configure RouterOS as described <a href="http://wiki.mikrotik.com/wiki/OpenVPN">here</a>. This gets me as far as creating a successful connection, with both sides assigned an IP, but neither side able to ping the other. I have yet to figure out where the traffic is disappearing to.</p><div class="se-section-delimiter"></div>
+<p>Don’t forget to add and your CA certificate under Settings/Certificates, and configure RouterOS as described <a href="http://wiki.mikrotik.com/wiki/OpenVPN">here</a>. This gets me as far as creating a successful connection, with both sides assigned an IP, but neither side able to ping the other. I have yet to figure out where the traffic is disappearing to.</p>
 
 <h4 id="20140718-new-soldering-station">2014/07/18 - New Soldering Station</h4>
 

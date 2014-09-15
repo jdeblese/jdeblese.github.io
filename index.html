@@ -33,7 +33,7 @@
 
 <h1 id="the-scrapyard">The Scrapyard</h1>
 
-<p style="margin-left:2em;margin-bottom:2em;width:35em;text-indent:-0.5em;font-family:lucida sans unicode, lucida sans, lucida grande, sans-serif;">
+<p>
 <strong>scrapyard</strong> /skɹæpjɑː(ɹ)d/ <i>n.</i> (<i>pl.</i> <strong>-s</strong>) 
 <strong>1</strong> A junkyard, a place where scrap is stored, discarded or resold. 
 <strong>2</strong> A place for tinkerers and kludgers to store important parts for later.
@@ -43,6 +43,8 @@
 
 <hr>
 
+
+
 <h3 id="hardware">Hardware</h3>
 
 <ol>
@@ -51,6 +53,8 @@ A small, 120 MHz, +2dBm ±1dB power reference board.</p></li>
 <li><p><a href="hw/ledsmps.html">LED SMPS Driver</a> <br>
 PWM-controllable current supply for high-power LEDs up to 14 W.</p></li>
 </ol>
+
+
 
 <h3 id="fpgas">FPGAs</h3>
 
@@ -65,6 +69,8 @@ Creating a PLL using only digital logic, to synchronize a high-frequency clock d
 An implementation of the STK500 protocol.</p></li>
 </ol>
 
+
+
 <h3 id="software">Software</h3>
 
 <ol>
@@ -72,13 +78,33 @@ An implementation of the STK500 protocol.</p></li>
 A library to decrypt DVD-Audio discs.</p></li>
 <li><p><a href="software/ergovolve.html">Evolutionary optimization of a keycap group buy</a> <br>
 Using genetic algorithms to determine, given a maximum number of key labels, the optimal set of labels that covers as many known Ergodox keyboard layouts as possible.</p></li>
+<li><p><a href="software/gpxsmooth.html">GPX Path Smoothing</a> <br>
+Given a GPS track in GPX format, remove points to smooth the path without significantly degrading the accuracy.</p></li>
 </ol>
 
 <p></p>
 
 <hr>
 
+
+
 <h3 id="miscelaneous-ramblings">Miscelaneous Ramblings</h3>
+
+
+
+<h4 id="20140912-esp8266-wifi-module">2014/09/12 - ESP8266 WiFi Module</h4>
+
+<p>I’ve managed to program an ATMega328p using my FPGA STK500 to communicate with the ESP8266. The AT command set has some problematic limitations - not being able to switch it off, for instance, so that command echoes are not interleaved with incoming data - but it’s good enough to broadcast sensor data over my network. I’m looking forward to being able to hack the firmware, however.</p>
+
+<p>Interestingly enough, I’ve got an ATMega328p that runs at 18.432 MHz on only 3.3 V, using an external 3.3 V crystal oscillator. That’s out of spec according to the data sheet, but works nonetheless.</p>
+
+<h4 id="20140909-esp8266-wifi-module">2014/09/09 - ESP8266 WiFi Module</h4>
+
+<p>A company in China has produced a compact WiFi module for $5, available on various sites and featured on Hack-A-Day. Documentation is in Chinese, but there’s an active group trying to figure out how to flash the firmware to customize the microcontroller software. As shipped, the module is flashed with an AT command set that provides an IP stack, including DHCP and ICMP, that offers up to four TCP or UDP connections. I’ve gotten mine working and communicating, attached to my FPGA development board acting as a serial pass-through.</p>
+
+<p>Note that some of the translate documentation available online is already obsolete. The baudrate was recently upped to 115200, for instance, and the older docs don’t mention the reset pin that must be held high. I’ve also found that if the board is in AP mode, a reset is required before it will switch to station mode.</p>
+
+<p>Anyway, interesting little device.</p>
 
 <h4 id="20140815-sot23-6-dac">2014/08/15 - SOT23-6 DAC</h4>
 
@@ -87,12 +113,18 @@ Using genetic algorithms to determine, given a maximum number of key labels, the
 <p>The variation of the input measurement is understandable and not a huge issue, as I expect that can be reduced with careful layout of the final board. The sudden drops to zero are more worrying, however.</p>
 
 <p></p><figure><img src="images/20140815-adc_histogram.png" alt="ADC Histogram" title=""> <br>
-<figcaption>Noramlized histogram, 1,000,000 measurements, discarding all bins smaller than 0.001</figcaption> <br>
+<figcaption>Normalized histogram, 1,000,000 measurements, discarding all bins smaller than 0.001</figcaption> <br>
 </figure><p></p>
 
 <p></p><figure><img src="images/20140815-adc_histogram2.png" alt="ADC Histogram 2" title=""> <br>
-<figcaption>Noramlized histogram, 1,000,000 measurements, using an LTC2365 in exactly the same configuration. The communications protocol is slightly different, however.</figcaption> <br>
-</figure><p></p><div class="se-section-delimiter"></div>
+<figcaption>Normalized histogram, 1,000,000 measurements, using an LTC2365 in exactly the same configuration. The communications protocol is slightly different, however.</figcaption> <br>
+</figure><p></p>
+
+<p></p><figure><img src="images/20140815-adc_histogram_improved.png" alt="ADC Improved Histogram" title=""> <img src="images/20140815-setup_improved.jpg" alt="ADC Improved Setup" title=""> <br>
+<figcaption>Shortening the leads to the LTC2365, moving the FPGA ground connection and braiding the FPGA wires drastically improved performance. Clearly this chip is too sensitive to interference to use on a breadboard.</figcaption> <br>
+</figure><p></p>
+
+
 
 <h4 id="20140804-chromeos-openvpn-to-routeros-part-2">2014/08/04 - ChromeOS OpenVPN to RouterOS, Part 2</h4>
 
@@ -101,6 +133,8 @@ Using genetic algorithms to determine, given a maximum number of key labels, the
 <p>Problem solved, thanks to some <a href="https://code.google.com/p/chromium/issues/detail?id=397774">help</a> from the Chromium guys. It seems that if the OpenVPN <em>comp-lzo</em> option is set, an extra byte is added to the packet even if this option is set to <em>no</em>. RouterOS documentation states that LZO is not supported, but this means that the option must be left out completely because otherwise the IP header will be received shifted by one byte. I haven’t been able to find a breakdown of what exactly the <em>comp-lzo</em> option changes in the OpenVPN packet, however.</p>
 
 <p>A quick search showed that others have also run into this behavior, for instance <a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?t=152214">this</a> DD-WRT thread. Another <a href="https://forums.openvpn.net/topic10067.html">thread</a> on the OpenVPN forums suggests they are aware of the issue, but that it’s related to the configuration and pushing of options and won’t be solved before version 3.</p>
+
+
 
 <h4 id="20140724-chromeos-openvpn-to-routeros">2014/07/24 - ChromeOS OpenVPN to RouterOS</h4>
 
@@ -159,6 +193,8 @@ extendedKeyUsage = critical, serverAuth
 <p>See the <a href="https://docs.google.com/a/thescrapyard.org/viewer?a=v&amp;pid=sites&amp;srcid=Y2hyb21pdW0ub3JnfGRldnxneDo1ZDY0OGFhNGI2YzE0ZTgy">Open Network Configuration Format</a> document for a reference. The X509 certificate should be the PEM certificate all on one line. Import this file via <em>chrome://net-internals/#chromeos</em>, and you should have a new VPN connection configured.</p>
 
 <p>Don’t forget to add and your CA certificate under Settings/Certificates, and configure RouterOS as described <a href="http://wiki.mikrotik.com/wiki/OpenVPN">here</a>. This gets me as far as creating a successful connection, with both sides assigned an IP, but neither side able to ping the other. I have yet to figure out where the traffic is disappearing to.</p>
+
+
 
 <h4 id="20140718-new-soldering-station">2014/07/18 - New Soldering Station</h4>
 

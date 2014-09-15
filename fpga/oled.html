@@ -37,7 +37,7 @@
 
 <h2 id="introduction">Introduction</h2>
 
-<p><a href="http://digilentinc.com/">Digilent</a> offers a handy, 128x32 pixel monochrome OLED module, which is handy for displaying small amounts of information (details <a href="http://digilentinc.com/Products/Detail.cfm?NavPath=2,401,963&amp;Prod=PMOD-OLED">here</a>). The controller chip is an SSD1306, but configured for 32 rows rather than 64. The chip is set up for 4-wire [<a href="#fn:4spi" id="fnref:4spi" title="See footnote" class="footnote">1</a>] SPI communication, and to prolongue the life of the display it requires a particular startup sequence with regards to timing and the two power supply lines. It then offers a 128x8 memory space of 8-bit words, only four bits of which correspond to displayed pixels.</p>
+<p><a href="http://digilentinc.com/">Digilent</a> offers a handy, 128x32 pixel monochrome OLED module, which is handy for displaying small amounts of information (details <a href="http://digilentinc.com/Products/Detail.cfm?NavPath=2,401,963&amp;Prod=PMOD-OLED">here</a>). The controller chip is an SSD1306, but configured for 32 rows rather than 64. The chip is set up for 4-wire [<a href="#fn:4spi" id="fnref:4spi" title="See footnote" class="footnote">1</a>] SPI communication, and to prolong the life of the display it requires a particular startup sequence with regards to timing and the two power supply lines. It then offers a 128x8 memory space of 8-bit words, only four bits of which correspond to displayed pixels.</p>
 
 <p>To me, the display is primarily useful as an informative or debugging output mechanism. In my clone of Nintendo’s a 1st-generation Game Boy® I use it to display the internal state of the processor, and I am currently exploring using it as the primary output display of my frequency counter. My goal is therefore to build an interface to the module that handles all low-level communication and presents a tile interface, with a bitmap font loaded into the tile map.</p>
 
@@ -45,19 +45,21 @@
 
 <h2 id="progress">Progress</h2>
 
-<p>A basic version of this interface exists, as part of the Game Boy® project, but the interface is slow (with regards to timing closure) and terrible. I’ve started a rewrite.</p>
+<p>The GitHub repository is <a href="https://github.com/jdeblese/oledgpu">here</a>, containing a complete rewrite of my original driver. It is structured as follows: an FSM drives an SPI transmitter using data coming from a blockram or various constant values to configure and operate the display. The first few states start up the display, using timers to turn on the power lines after the correct delay. A series of preprogrammed commands are then sent to enable the charge pump, turn on the display and enable horizontal addressing mode. The code then uses a blockram, <em>tilemap</em>, to translate the tile values stored in another blockram to pixel values to be transmitted. </p>
 
-<p>Things I’d like to see in the new version:</p>
+<p><strong>Status as of 2014/08/17</strong></p>
+
+<p>A very basic version of the driver has been written, including the tilemap but not including the tile memory. I have yet to decide on the exact structure of the external interface to this driver module, so it is thus far nonexistent: the contents of the tilemap are dumped to the display without any control possible.</p>
+
+<p>The font used comes from the Noritake Itron <a href="http://www.noritake-itron.com/Softview/fontspic.htm">PIC Font</a> page, converted to bitmaps and with a 1 px border added on two sides. The first 16 ASCII control codes have been replace by <em>0-9</em> and <em>a-f</em>, to allow the display of hex nibbles without conversion. The other 16 blanks can be used for special characters as needed.</p>
+
+<p>Things to do:</p>
 
 <ul>
-<li>Separation of input (receiving text to display) and output (driving the display)</li>
-<li>Wishbone interface to other devices, if useful</li>
 <li>Both the tile memory and the tile map available in one address space</li>
 <li>Tile flags, indicating reverse video, tile on/off, and tile mirroring</li>
 <li>Switchable between tiles 6 columns wide and 8 columns wide</li>
 </ul>
-
-<p>One possibility is that the tile memory will not actually exist, and will be write-only. Instead, the driver will have a pixel buffer, and when a new tile value is written to memory, this will be passed through the tile map and the corresponding pixels written to the buffer. The disadvantage of this is that it makes flags less useful, as then both value and flags have to be written together, or remembered elsewhere. It also makes it impossible to update the display when the tile map changes without demanding that the whole tile memory be rewritten.</p>
 
 <hr>
 
@@ -76,9 +78,7 @@
 <li><a href="../">Back to Main Page</a></li>
 </ul>
 
-<p></p>
-
-<div class="footnotes"><hr><ol><li id="fn:4spi">4-wire SPI uses 8-bit words and the standard 3 lines (clock, data and chip select), plus a fourth <em>data/!command</em> line to indicate if the word is meant as a command or as a byte to be written to pixel memory. <a href="#fnref:4spi" title="Return to article" class="reversefootnote">↩</a></li></ol></div>
+<p></p><div class="footnotes"><hr><ol><li id="fn:4spi">4-wire SPI uses 8-bit words and the standard 3 lines (clock, data and chip select), plus a fourth <em>data/!command</em> line to indicate if the word is meant as a command or as a byte to be written to pixel memory. <a href="#fnref:4spi" title="Return to article" class="reversefootnote">↩</a></li></ol></div>
 
      <!-- Markdown content ends here -->
     </div>

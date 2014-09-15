@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>GPX Path Smoothing</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
+
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52980401-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </head>
+  <body onload="prettyPrint()">
+    <div class="container">
+      <!-- Markdown content starts here -->
+
+<hr>
+
+
+
+<h1 id="gpx-path-smoothing">GPX Path Smoothing</h1>
+
+<p>A short program that filters a GPX file, removing points according to distance-based criteria in order to smooth the path.</p>
+
+<p>Source: <a href="https://gist.github.com/jdeblese/69bedad57407709dbbb8">GitHub Gist</a></p>
+
+<hr>
+
+
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Like any measurement system, GPS is subject to noise. Survey-grade hardware can achieve accuracies on the order of centimeters, but consumer GPS is typically accurate to within a few meters. This is more than sufficient for navigation, but when logging travel along a particular route for later use, the resulting GPX files can be jagged. The recorded points are offset from the actual position at the time of record, leading to two errors:</p>
+
+<ul>
+<li>A point may be on the path, but further down or back along it, giving a mistaken impression as to the timing of travel along the path.</li>
+<li>A point may be to the left or right of the path, giving a mistaken impression as to the position of the path.</li>
+</ul>
+
+<p>I seek to reduce the influence of the second of these two errors by smoothing the recorded path. This should reduce the number of points needed to describe the path taken without significantly reducing the information content.</p>
+
+<hr>
+
+
+
+<h2 id="algorithm">Algorithm</h2>
+
+<p>Various approaches are possible, with varying levels of complexity. A straightforward but inaccurate approach would be to assume the measurement noise is Gaussian and just average together clusters of points, with the difficulty there being deciding what is a “cluster”. A more involved approach would be to fit a spline or other parametric curve of a given complexity to the data using least squares, giving one significant control over the level of smoothing.</p>
+
+<p>The approach used here - which I can’t claim to have invented, but I’ve forgotten who did - is based on minimizing the distance between a simplified path and the original points. A subset of points are taken from the GPX such that the distance from this simplified path to all the discarded points is within a certain limit. This creates a path that very closely fits the original data, automatically using more points at sharp curves, with good control over the drop in accuracy.</p>
+
+<p>The algorithm is recursive, and proceeds as follows:</p>
+
+<ol>
+<li>Given a segment of the path, keep the beginning and end points.</li>
+<li>Compute the shortest great circle distance from each other point to the great circle arc connecting these two points.</li>
+<li>If the distance of the furthest-away point is greater than a set limit, keep this point and apply these steps to the two new subsegments thus defined.</li>
+</ol>
+
+<p>This will give a smooth, well-fitting path. It may also be desirable to enforce a minimum density of points, however. This can be done with a final pass, stepping through the discarded points and keeping a selection of these.</p>
+
+<hr>
+
+
+
+<h2 id="implementation">Implementation</h2>
+
+<p>The above algorithm has been implemented as a python script, available as a <a href="https://gist.github.com/jdeblese/69bedad57407709dbbb8">Gist</a>. It has basic GPX handling, but needs to be extended to GPX files with multiple tracks and track-segments. A slightly smarter algorithm for enforcing minimum point density would also be interesting.</p>
+
+<p>Usage: gpxsmooth.py &lt;gpx file&gt; &lt;max dist&gt; &lt;max int&gt;</p>
+
+<dl>
+<dt>gpx file</dt>
+<dd>File to be smoothed. Given “path.gpx”, the smoothed path will be written to “path_mod.gpx”.</dd>
+
+<dt>max dist</dt>
+<dd>integer; maximum allowable distance between a discarded point and the smoothed great circle arc segment.</dd>
+
+<dt>max int</dt>
+<dd>integer; maximum allowable distance between any two kept track points. Not a hard limit, as currently implemented, but a best-effort attempt.</dd>
+</dl>
+
+<hr>
+
+<p><div class="toc">
+<ul>
+<li><a href="#gpx-path-smoothing">GPX Path Smoothing</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#algorithm">Algorithm</a></li>
+<li><a href="#implementation">Implementation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+<ul>
+<li><a href="../">Back to Main Page</a></li>
+</ul>
+
+<p>Last updated on 2014-09-11</p>
+
+<p></p>
+
+     <!-- Markdown content ends here -->
+    </div>
+
+    <hr>
+    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+  </body>
+</html>

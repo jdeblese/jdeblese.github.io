@@ -92,11 +92,23 @@ Given a GPS track in GPX format, remove points to smooth the path without signif
 
 
 
+<h4 id="20140914-vlf-sdr">2014/09/14 - VLF SDR</h4>
+
+<p>As an experiment in VLF reception and SDR techniques, I hooked up a PmodAD1 to my FPGA and started capturing. The short wire antenna goes into a JFET amplifier, which is AC-coupled into the ADC. The AD1 can sample at 1 MSPS, but as I’m reading data over a serial link limited to 1 MBaud, I use a CIC filter to downsample the ADC’s output. On the PC, a python script performs an FFT and draws a running spectrogram using SDL2.</p>
+
+<p></p><figure><a href="http://www.thescrapyard.org/images/20140914-vlfcapture1.png"><img src="http://www.thescrapyard.org/images/20140914-vlfcapture1_thumb.png" alt="Spectrogram" title=""></a> <br>
+<figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom</figcaption> <br>
+</figure><p></p>
+
+<p>So, the question now is: are these signals artefacts of my filter, the emissions of my FPGA, or (hopefully) something external to my measurement setup?</p>
+
 <h4 id="20140912-esp8266-wifi-module">2014/09/12 - ESP8266 WiFi Module</h4>
 
 <p>I’ve managed to program an ATMega328p using my FPGA STK500 to communicate with the ESP8266. The AT command set has some problematic limitations - not being able to switch it off, for instance, so that command echoes are not interleaved with incoming data - but it’s good enough to broadcast sensor data over my network. I’m looking forward to being able to hack the firmware, however.</p>
 
 <p>Interestingly enough, I’ve got an ATMega328p that runs at 18.432 MHz on only 3.3 V, using an external 3.3 V crystal oscillator. That’s out of spec according to the data sheet, but works nonetheless.</p>
+
+
 
 <h4 id="20140909-esp8266-wifi-module">2014/09/09 - ESP8266 WiFi Module</h4>
 
@@ -105,6 +117,8 @@ Given a GPS track in GPX format, remove points to smooth the path without signif
 <p>Note that some of the translate documentation available online is already obsolete. The baudrate was recently upped to 115200, for instance, and the older docs don’t mention the reset pin that must be held high. I’ve also found that if the board is in AP mode, a reset is required before it will switch to station mode.</p>
 
 <p>Anyway, interesting little device.</p>
+
+
 
 <h4 id="20140815-sot23-6-dac">2014/08/15 - SOT23-6 DAC</h4>
 

@@ -67,6 +67,8 @@ Low-level interface for a Digilent OLED peripheral module.</p></li>
 Creating a PLL using only digital logic, to synchronize a high-frequency clock derived from the master FPGA clock to an external low frequency reference signal.</p></li>
 <li><p><a href="fpga/fpgavr.html">AVR Programmer</a> <br>
 An implementation of the STK500 protocol.</p></li>
+<li><p><a href="fpga/digifilt.html">Digital Filters</a> <br>
+Efficient implementation of a narrowband matched filter</p></li>
 </ol>
 
 
@@ -105,6 +107,8 @@ Given a GPS track in GPX format, remove points to smooth the path without signif
 <p>On the left, darker, is the measurement with CIC enabled, and on the right with CIC bypassed. As you can see, signals 2, 4 and 5 are far stronger coming through the bypass, suggesting they are higher frequencies aliased down into this range. The scale of the spectrogram is 20 dB, so with CIC lobes as high as 16 dB this is perfectly possible. On the other hand, signal 1 seems unaffected, however, so likely originates there. Signal 3 is hard to judge: it looks like a faint VLF signal with a stronger higher-frequency signal - the one that suddenly strengthens - aliased to just next to it.</p>
 
 <p>Next step is to implement a multi-stage CIC filter with equalizer to further reduce the aliasing. It might also be worth trying to pull out some of these signals individually, aliased or not, as it looks like 4 might be modulated with something.</p>
+
+
 
 <h4 id="20140914-vlf-sdr">2014/09/14 - VLF SDR</h4>
 

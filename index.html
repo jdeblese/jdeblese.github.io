@@ -67,6 +67,8 @@ Low-level interface for a Digilent OLED peripheral module.</p></li>
 Creating a PLL using only digital logic, to synchronize a high-frequency clock derived from the master FPGA clock to an external low frequency reference signal.</p></li>
 <li><p><a href="fpga/fpgavr.html">AVR Programmer</a> <br>
 An implementation of the STK500 protocol.</p></li>
+<li><p><a href="fpga/digifilt.html">Digital Filters</a> <br>
+Efficient implementation of a narrowband matched filter</p></li>
 </ol>
 
 
@@ -92,15 +94,33 @@ Given a GPS track in GPX format, remove points to smooth the path without signif
 
 
 
+<h4 id="20140915-aliasing">2014/09/15 - Aliasing</h4>
+
+<p>Just wanted to share an example of why antialiasing matters.</p>
+
+<p></p><figure><a href="/images/20140915-vlfcapture2.png"><img src="/images/20140915-vlfcapture2_thumb.png" alt="Spectrogram" title=""></a> <br>
+<figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom, left with a CIC filter and right without</figcaption> <br>
+</figure><p></p>
+
+<p>The above image was captured with the same setup as below: 1 MSPS ADC w/ 500 kHz antialiasing filter, downsampled to 100 kSPS. A switchable bypass was added around the CIC filter, however, allowing me to view a simple downsample without filtering.</p>
+
+<p>On the left, darker, is the measurement with CIC enabled, and on the right with CIC bypassed. As you can see, signals 2, 4 and 5 are far stronger coming through the bypass, suggesting they are higher frequencies aliased down into this range. The scale of the spectrogram is 20 dB, so with CIC lobes as high as 16 dB this is perfectly possible. On the other hand, signal 1 seems unaffected, however, so likely originates there. Signal 3 is hard to judge: it looks like a faint VLF signal with a stronger higher-frequency signal - the one that suddenly strengthens - aliased to just next to it.</p>
+
+<p>Next step is to implement a multi-stage CIC filter with equalizer to further reduce the aliasing. It might also be worth trying to pull out some of these signals individually, aliased or not, as it looks like 4 might be modulated with something.</p>
+
+
+
 <h4 id="20140914-vlf-sdr">2014/09/14 - VLF SDR</h4>
 
 <p>As an experiment in VLF reception and SDR techniques, I hooked up a PmodAD1 to my FPGA and started capturing. The short wire antenna goes into a JFET amplifier, which is AC-coupled into the ADC. The AD1 can sample at 1 MSPS, but as I’m reading data over a serial link limited to 1 MBaud, I use a CIC filter to downsample the ADC’s output. On the PC, a python script performs an FFT and draws a running spectrogram using SDL2.</p>
 
-<p></p><figure><a href="http://www.thescrapyard.org/images/20140914-vlfcapture1.png"><img src="http://www.thescrapyard.org/images/20140914-vlfcapture1_thumb.png" alt="Spectrogram" title=""></a> <br>
+<p></p><figure><a href="/images/20140914-vlfcapture1.png"><img src="/images/20140914-vlfcapture1_thumb.png" alt="Spectrogram" title=""></a> <br>
 <figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom</figcaption> <br>
 </figure><p></p>
 
 <p>So, the question now is: are these signals artefacts of my filter, the emissions of my FPGA, or (hopefully) something external to my measurement setup?</p>
+
+
 
 <h4 id="20140912-esp8266-wifi-module">2014/09/12 - ESP8266 WiFi Module</h4>
 

@@ -39,9 +39,15 @@
 
 <hr>
 
+
+
 <h2 id="introduction">Introduction</h2>
 
 <p>Check out Jenslabs’s page <a href="http://jenslabs.com/2014/08/02/hypno-jellyfish/">here</a>. The short version is that he built a really cool plastic jellyfish out of thermoplastic and an Adafruit NeoPixel ring that glows and changes color when shaken. He built it for his daughter, and I decided to build one for my nephew. This page details the modifications I made.</p>
+
+<hr>
+
+
 
 <h2 id="illuminated-tentacles">Illuminated Tentacles</h2>
 
@@ -51,6 +57,27 @@
 <img src="http://www.thescrapyard.org/hw/hypno/leg_2_glow.jpg" alt="Whole Tentacle Glow" title=""> <br>
 <img src="http://www.thescrapyard.org/hw/hypno/leg_3_glow.jpg" alt="Tentacle End Glow" title=""></p>
 
+
+
+<h2 id="lower-body-assembly">Lower Body Assembly</h2>
+
+<p>Assembling the legs into something akin to a jellyfish is not easy. The fiber optic cables should end directly on the location of the LED ring, so as to get as much light as possible into them. The connecting piece also needs to be rigid enough to hold the legs together under abuse but still let some light through. I ended up poking holes with the same spacing as the LED ring through a cardboard box, inserting the protruding leg fibers, and then building a scaffolding to hold the legs in position while a connecting piece of plastic cooled.</p>
+
+<p><img src="http://www.thescrapyard.org/hw/hypno/legsloose.jpg" alt="Loose Legs" title=""> <br>
+<img src="http://www.thescrapyard.org/hw/hypno/legsassembly.jpg" alt="Assembled Legs" title=""></p>
+
+<p>The LED ring is then connected to this base using a mushroom of plastic. The overlap between optics and LEDs isn’t perfect, but it’s close enough to somewhat illuminate them. A better way of doing it would involve some kind of pre-made mounting piece to make sure that the fiber optic cables actually ended on the LED emitters.</p>
+
+<p>Note that the fibers are so sensitive to orientation that they actually pick up the separate red, green and blue emitters in the WS2812 LEDs.</p>
+
+<p><img src="http://www.thescrapyard.org/hw/hypno/legs_3.jpg" alt="Illuminated Legs" title=""> <br>
+<img src="http://www.thescrapyard.org/hw/hypno/legs_2.jpg" alt="Illuminated Legs" title=""></p>
+
+<p>The brain of the jelly, an ATTiny85 with an MMA7760FC accelerometer, is attached to the ring by stiff wires. The software is in progress, but currently slowly shifts the hue when left undisturbed and quickly changes it when tapped.</p>
+
+<p><img src="http://www.thescrapyard.org/hw/hypno/legs_1.jpg" alt="Illuminated Legs" title=""> <br>
+<img src="http://www.thescrapyard.org/hw/hypno/brain_1.jpg" alt="Light Assembly" title=""></p>
+
 <hr>
 
 <p><div class="toc">
@@ -58,6 +85,7 @@
 <li><a href="#hypnojelly">Hypnojelly</a><ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#illuminated-tentacles">Illuminated Tentacles</a></li>
+<li><a href="#lower-body-assembly">Lower Body Assembly</a></li>
 </ul>
 </li>
 </ul>
@@ -68,7 +96,7 @@
 <li><a href="../">Back to Main Page</a></li>
 </ul>
 
-<p>Last updated on 2015-01-01</p>
+<p>Last updated on 2015-02-22</p>
 
 <p></p>
 

@@ -57,6 +57,8 @@
 <img src="http://www.thescrapyard.org/hw/hypno/leg_2_glow.jpg" alt="Whole Tentacle Glow" title=""> <br>
 <img src="http://www.thescrapyard.org/hw/hypno/leg_3_glow.jpg" alt="Tentacle End Glow" title=""></p>
 
+<hr>
+
 
 
 <h2 id="lower-body-assembly">Lower Body Assembly</h2>
@@ -73,10 +75,31 @@
 <p><img src="http://www.thescrapyard.org/hw/hypno/legs_3.jpg" alt="Illuminated Legs" title=""> <br>
 <img src="http://www.thescrapyard.org/hw/hypno/legs_2.jpg" alt="Illuminated Legs" title=""></p>
 
-<p>The brain of the jelly, an ATTiny85 with an MMA7760FC accelerometer, is attached to the ring by stiff wires. The software is in progress, but currently slowly shifts the hue when left undisturbed and quickly changes it when tapped.</p>
+<hr>
+
+
+
+<h2 id="brain-assembly">Brain Assembly</h2>
+
+<p>The brain of the jelly is an ATTiny85 with an MMA7760FC accelerometer, mounted just above the Neopixel ring. The Tiny sets up the accelerometer on power-on, and regularly reads it in to compute the magnitude of the acceleration. It runs the color wheel pattern from the Adafruit Neopixel example, jumping to a different hue when the acceleration exceeds a given threshold (i.e., the jelly is tapped).</p>
+
+<p>Gist is available <a href="https://gist.github.com/jdeblese/041a695d92397144904e">here</a>.</p>
 
 <p><img src="http://www.thescrapyard.org/hw/hypno/legs_1.jpg" alt="Illuminated Legs" title=""> <br>
 <img src="http://www.thescrapyard.org/hw/hypno/brain_1.jpg" alt="Light Assembly" title=""></p>
+
+<p>All wires were permanently soldered in place, and the LiPoly battery was mounted above the ATTiny on a plastic tripod. Parachute cord was attached at the base of the legs rather than to the hood, in case the hood ever separates from the legs. The USB charge port and power switch were then stuck through the side of the hood.</p>
+
+<p><img src="http://www.thescrapyard.org/hw/hypno/brain_2.jpg" alt="Brain Assembly" title=""></p>
+
+<hr>
+
+<h2 id="hood-covering">Hood Covering</h2>
+
+<p><img src="http://www.thescrapyard.org/hw/hypno/complete_1.jpg" alt="Completed 1" title=""> <br>
+<img src="http://www.thescrapyard.org/hw/hypno/complete_2.jpg" alt="Completed 2" title=""> <br>
+<img src="http://www.thescrapyard.org/hw/hypno/complete_3.jpg" alt="Completed 3" title=""> <br>
+<img src="http://www.thescrapyard.org/hw/hypno/complete_4.jpg" alt="Completed 4" title=""></p>
 
 <hr>
 
@@ -86,6 +109,8 @@
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#illuminated-tentacles">Illuminated Tentacles</a></li>
 <li><a href="#lower-body-assembly">Lower Body Assembly</a></li>
+<li><a href="#brain-assembly">Brain Assembly</a></li>
+<li><a href="#hood-covering">Hood Covering</a></li>
 </ul>
 </li>
 </ul>

@@ -1,0 +1,84 @@
+[1]: https://gist.github.com/jdeblese/69bedad57407709dbbb8
+
+[2]: http://en.wikipedia.org/wiki/WWVB
+[3]: http://en.wikipedia.org/wiki/Goertzel_algorithm
+[4]: http://en.wikipedia.org/wiki/Matched_filter
+
+----------
+# Digital Filters
+
+A collection of various digital filters I've designed as they were needed for other projects.
+
+----------
+
+[TOC]
+
+----------
+
+## Narrowband matched-sine FIR filter
+
+As part of my LF/VLF experiments, I wanted a narrowband 60 kHz filter for receiving the time broadcast by NIST on station [WWVB][2]. The bandwidth needed is minimal, as basic time information is only transmitted at 1 bps, so the narrower the filter, the better. I first considered a filter based on the [Goertzel algorithm][3], but set it aside due to its instability and instead decided to use a [matched filter][4].
+
+### Efficient filter implementation
+
+What I want to share here is not the matched filter itself, as there's nothing special about that, but rather how it will be implemented. Given my system parameters - 60 kHz filter with a 3 MHz sampling frequency - a straightforward FIR matched filter of only one period in length would require 50 complex-coefficient taps. Using real-valued coefficients, either the sine or cosine rather than $e^{-j2\pi}$, slightly distorts the filter response, but it remains acceptable. More importantly, because of symmetries in the coefficients, it is possible to reduce this filter to a 12-tap FIR filter with some additional delays and summations.
+
+<center>
+\begin{eqnarray}
+f = \sum_{n=0}^{49}a_nz^{-n}\\
+a_n = e^{-j2\pi \frac{n}{50}}
+\end{eqnarray}
+</center>
+
+These two equations give the formula for the FIR filter using the z-transform. This could be directly and inefficiently implemented as a 50-tap delay line and 50 multipliers. Examining $a_n$, however, one can see that there are only 13 unique coefficients, corresponding to values of $n$ for which the argument of the exponent is between $0$ and $\pi/2$. All other coefficients are either mirrored or negated versions thereof. For instance, when $a_n$ is defined as a function of a sine: 
+
+<center>
+\begin{eqnarray}
+&a_0 = 0\\
+&a_n = -a_{n-25} \forall\ n \in [25, 49]\\
+&a_n = a_{25-n} \forall\ n \in [13, 24]
+\end{eqnarray}
+</center>
+
+We can therefore rewrite the filter more efficiently, as follows.
+
+<!--
+<center>
+\begin{equation}
+f = \left(1 - z^{-25}\right)\sum_{n=0}^{24}a_nz^{-n}
+\end{equation}
+</center>
+-->
+
+<center>
+\begin{eqnarray}
+&f = \left(1 - z^{-25}\right)\sum_{n=1}^{24}a_nz^{-n}\\
+&= \left(1 - z^{-25}\right)\left(\sum_{n=1}^{12}a_nz^{-n} + z^{-12}\sum_{n=1}^{12}a_{13-n}z^{-n}\right)
+\end{eqnarray}
+</center>
+
+<!-- &= \left(1 - z^{-25}\right)\left(\sum_{n=1}^{12}z^{-n}\left(a_n + z^{-12}a_{13-n}\right)\right) -->
+
+The first $(1-z^{-25})$ term is easy to implement as a delay line and a sum at the output of the filter, and could potentially be moved to after later decimation steps. The sums of $a_n$ and $a_{13-n}$ can be computed from the same set of multipliers by using the *transposed form* of a FIR filter, summing both to the left and to the right after the multipliers. The output from these two can then be summed, the appropriate one first being multiplied by $z^{-12}$.
+
+12 multipliers, 24 two-term adders, and 61 delay elements to implement a full-speed 50-tap filter, as opposed to 50 multipliers, 49 delay elements and 1 fifty-term adder for the naïve implementation. The naïve implementation has less fan-out into the multipliers, but a significantly longer critical path through the final adder.
+
+### Narrowing the filter
+
+A single-period matched sine filter will not be narrow enough for WWVB reception. As you can see in the figure below, the single period filter, green, has a 60 kHz bandwidth. Increasing the number of periods will narrow the filter and is best done with a second filter, either a FIR filter such as $\sum_{n=0}^{N-1} z^{-50n}$, not shown, or an IIR filter such as $1/(1 + (1-1/N)z^{-25} )$, blue.
+
+
+<figure>![Filter characteristic](images/60kHz_matched_comb_filter.png)
+<figcaption>Comparison of FIR and IIR filters for 60 kHz</figcaption>
+</figure>
+
+The IIR filter results in a sharper filter for a given $N$ and it requires fewer delay elements. The (1-1/N) term can be implemented as a sum of bit shifts if N is a power of 2. Either filter should be placed after a decimator, 25x in this case, to reduce the number of delay elements needed.
+
+----------
+
+<p></p>
+
+- [Back to Main Page](../)
+
+Last updated on 2014-09-21, *fixed typos in equations*
+<p></p>

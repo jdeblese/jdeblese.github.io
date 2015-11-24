@@ -1,0 +1,37 @@
+[1]: http://opensource.zylin.com/zpu.htm
+[2]: http://www.alvie.com/zpuino/
+[3]: https://github.com/robinsonb5/ZPUFlex
+[4]: http://embdev.net/articles/ZPU:_Softcore_implementation_on_a_Spartan-3_FPGA
+[5]: http://homepages.wmich.edu/~bazuinb/ECE5570/zpu_notes.pdf
+
+----------
+# ZPUbone
+
+An implementation of a SoC based on the ZPU softcore, focused on minimalism and a high degree of reconfigurability of the *system* as a whole.
+
+----------
+
+[TOC]
+
+----------
+
+## Introduction
+
+The [ZPU][1] softcore is a fascinating tool: a small, 32-bit stack-based processor with a gcc-based toolchain. It is designed to be as light-weight as possible, leaving the heavy work for FPGA logic, which makes it an interesting alternative to more powerful softcores for simple applications and resource-limited boards. Various versions of the core exist, for instance the [ZPUino][2] that tries to replicate the functionality available in 8-bit AVRs. [ZPUFlex][3] is another, a version that aims for greater configurability of the core.
+
+The light-weight aspect of the ZPU being its key feature, however, I feel that a configurable system-on-chip version of the core would be desirable when *using* the core. I'm not interested in customizing the instruction set, as that's more of interest to people working on the theory of processors. The ZPUino is nice, but essentially has a fixed structure and only allows configuration of the I/Os. Neither of these would make a good minimalist SoC.
+
+A more flexible structure, hinted at but not fully realized [here][4], would be to take only a ZPU core, without any kind of memory or peripheral, and put it on a Wishbone bus. RAM, ROM and I/O can be added to or removed from the bus as needed. Memory controllers, DMA controllers, core debug controllers, and other system blocks can be built directly onto this bus. A simple UART master on the bus would allow direct injection of code and data into the system without intervention of the processor. The core and peripherals of such a system can be fairly fixed, taken from OpenCores or other locations, but they way they fit together depends entirely on the Wishbone *intercon* block, and can be customized as desired.
+
+The initial version of this project will be based on the [*zealot*][5] version of the ZPU. It is well-documented (for a ZPU), but more importantly it uses the same single bus for all reads and writes. It should be fairly easy to build a wrapper around just this core and attach it to an intercon with a RAM peripheral. Once this is shown to work, other peripherals can be added as desired and higher-throughput intercons can be designed. A dual-master ZPU, using separate ports for instructions and data, would also be interesting in combination with a crossbar intercon.
+
+----------
+
+<p></p>
+
+- [Back to Main Page](../)
+
+Last updated on 2014-09-21, *fixed typos in equations*
+<p></p>
+
+

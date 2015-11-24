@@ -1,0 +1,61 @@
+[1]:https://gist.github.com/jdeblese/69bedad57407709dbbb8
+
+----------
+# GPX Path Smoothing
+
+A short program that filters a GPX file, removing points according to distance-based criteria in order to smooth the path.
+
+Source: [GitHub Gist][1]
+
+----------
+
+## Introduction
+
+Like any measurement system, GPS is subject to noise. Survey-grade hardware can achieve accuracies on the order of centimeters, but consumer GPS is typically accurate to within a few meters. This is more than sufficient for navigation, but when logging travel along a particular route for later use, the resulting GPX files can be jagged. The recorded points are offset from the actual position at the time of record, leading to two errors:
+
+- A point may be on the path, but further down or back along it, giving a mistaken impression as to the timing of travel along the path.
+- A point may be to the left or right of the path, giving a mistaken impression as to the position of the path.
+
+I seek to reduce the influence of the second of these two errors by smoothing the recorded path. This should reduce the number of points needed to describe the path taken without significantly reducing the information content.
+
+----------
+
+## Algorithm
+
+Various approaches are possible, with varying levels of complexity. A straightforward but inaccurate approach would be to assume the measurement noise is Gaussian and just average together clusters of points, with the difficulty there being deciding what is a "cluster". A more involved approach would be to fit a spline or other parametric curve of a given complexity to the data using least squares, giving one significant control over the level of smoothing.
+
+The approach used here - which I can't claim to have invented, but I've forgotten who did - is based on minimizing the distance between a simplified path and the original points. A subset of points are taken from the GPX such that the distance from this simplified path to all the discarded points is within a certain limit. This creates a path that very closely fits the original data, automatically using more points at sharp curves, with good control over the drop in accuracy.
+
+The algorithm is recursive, and proceeds as follows:
+
+1. Given a segment of the path, keep the beginning and end points.
+2. Compute the shortest great circle distance from each other point to the great circle arc connecting these two points.
+3. If the distance of the furthest-away point is greater than a set limit, keep this point and apply these steps to the two new subsegments thus defined.
+
+This will give a smooth, well-fitting path. It may also be desirable to enforce a minimum density of points, however. This can be done with a final pass, stepping through the discarded points and keeping a selection of these.
+
+----------
+
+## Implementation
+
+The above algorithm has been implemented as a python script, available as a [Gist][1]. It has basic GPX handling, but needs to be extended to GPX files with multiple tracks and track-segments. A slightly smarter algorithm for enforcing minimum point density would also be interesting.
+
+Usage: gpxsmooth.py &lt;gpx file&gt; &lt;max dist&gt; &lt;max int&gt;
+
+gpx file
+:  File to be smoothed. Given "path.gpx", the smoothed path will be written to "path_mod.gpx".
+
+max dist
+:  integer; maximum allowable distance between a discarded point and the smoothed great circle arc segment.
+
+max int
+:  integer; maximum allowable distance between any two kept track points. Not a hard limit, as currently implemented, but a best-effort attempt.
+
+----------
+
+[TOC]
+
+- [Back to Main Page](../)
+
+Last updated on 2014-09-11
+<p></p>

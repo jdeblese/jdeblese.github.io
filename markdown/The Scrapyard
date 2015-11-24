@@ -1,0 +1,206 @@
+----------
+
+<h1>The Scrapyard</h1>
+
+
+<p style="margin-left:2em;margin-bottom:2em;width:35em;text-indent:-0.5em;font-family:lucida sans unicode, lucida sans, lucida grande, sans-serif;">
+<strong>scrapyard</strong> /skɹæpjɑː(ɹ)d/ <i>n.</i> (<i>pl.</i> <strong>-s</strong>) 
+<strong>1</strong> A junkyard, a place where scrap is stored, discarded or resold. 
+<strong>2</strong> A place for tinkerers and kludgers to store important parts for later.
+</p>
+
+
+This is where I collect my parts: information I've gathered, projects I've worked on, and whatever else I find that might be useful or interesting. You can also check out my GitHub repositories [here](http://github.com/jdeblese).
+
+----------
+
+### Hardware
+
+1. [RF Power Reference](hw/rfpowerref.html)
+  A small, 120 MHz, +2dBm ±1dB power reference board.
+
+2. [LED SMPS Driver](hw/ledsmps.html)
+  PWM-controllable current supply for high-power LEDs up to 14 W.
+
+3. [Hypnojelly](hw/hypno.html)
+  A glowing plastic jellyfish, as a toy for infants.
+
+### FPGAs
+
+1. [Microwave Frequency Counter](fpga/mwcounter.html)
+  A reciprocal frequency counter implemented on a Xilinx Spartan-6 FPGA, currently with a range of about 400 Hz to 400 MHz and a precision of four digits.
+
+2. [OLED Module Interface](fpga/oled.html)
+  Low-level interface for a Digilent OLED peripheral module.
+
+3. [Clock Synchronization](fpga/clocksync.html)
+  Creating a PLL using only digital logic, to synchronize a high-frequency clock derived from the master FPGA clock to an external low frequency reference signal.
+
+4. [AVR Programmer](fpga/fpgavr.html)
+  An implementation of the STK500 protocol.
+
+5. [Digital Filters](fpga/digifilt.html)
+  Efficient implementation of a narrowband matched filter
+
+### Software
+
+1. [Linux DVD-A Decryption](software/libdvdcpxm.html)
+  A library to decrypt DVD-Audio discs.
+
+2. [Evolutionary optimization of a keycap group buy](software/ergovolve.html)
+  Using genetic algorithms to determine, given a maximum number of key labels, the optimal set of labels that covers as many known Ergodox keyboard layouts as possible.
+
+3. [GPX Path Smoothing](software/gpxsmooth.html)
+  Given a GPS track in GPX format, remove points to smooth the path without significantly degrading the accuracy.
+
+### Gardening
+
+1. [Succulents](plants/succulents.html)
+  Various interesting succulents I've found or grown.
+
+
+<p></p>
+
+
+----------
+
+### Miscelaneous Ramblings
+
+#### 2014/09/22 - Lightning
+
+A lightning storm hit today, so I recorded a few strikes. The spectrogram is a 256-point FFT at 100 kSPS, but with every second FFT discarded due to a lack of processing power - otherwise the computer would not have been able to keep up with the radio. The CIC filter in the downsampler has a null at 50 kHz.
+
+<figure>![Strike 1](http://www.thescrapyard.org/images/20140922-lightning1.png) ![Strike 2](http://www.thescrapyard.org/images/20140922-lightning2.png) ![Strike 3](http://www.thescrapyard.org/images/20140922-lightning3.png) 
+![Strike 4](http://www.thescrapyard.org/images/20140922-lightning4.png)  ![Strike 5](http://www.thescrapyard.org/images/20140922-lightning5.png) <figcaption>Various lightning strikes, each image roughly 1 second wide and from DC to 50 kHz</figcaption>
+</figure>
+
+#### 2014/09/15 - Aliasing
+
+Just wanted to share an example of why antialiasing matters.
+
+<figure>[![Spectrogram](/images/20140915-vlfcapture2_thumb.png)](/images/20140915-vlfcapture2.png)
+<figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom, left with a CIC filter and right without</figcaption>
+</figure>
+
+The above image was captured with the same setup as below: 1 MSPS ADC w/ 500 kHz antialiasing filter, downsampled to 100 kSPS. A switchable bypass was added around the CIC filter, however, allowing me to view a simple downsample without filtering.
+
+On the left, darker, is the measurement with CIC enabled, and on the right with CIC bypassed. As you can see, signals 2, 4 and 5 are far stronger coming through the bypass, suggesting they are higher frequencies aliased down into this range. The scale of the spectrogram is 20 dB, so with CIC lobes as high as 16 dB this is perfectly possible. On the other hand, signal 1 seems unaffected, however, so likely originates there. Signal 3 is hard to judge: it looks like a faint VLF signal with a stronger higher-frequency signal - the one that suddenly strengthens - aliased to just next to it.
+
+Next step is to implement a multi-stage CIC filter with equalizer to further reduce the aliasing. It might also be worth trying to pull out some of these signals individually, aliased or not, as it looks like 4 might be modulated with something.
+
+#### 2014/09/14 - VLF SDR
+
+As an experiment in VLF reception and SDR techniques, I hooked up a PmodAD1 to my FPGA and started capturing. The short wire antenna goes into a JFET amplifier, which is AC-coupled into the ADC. The AD1 can sample at 1 MSPS, but as I'm reading data over a serial link limited to 1 MBaud, I use a CIC filter to downsample the ADC's output. On the PC, a python script performs an FFT and draws a running spectrogram using SDL2.
+
+<figure>[![Spectrogram](/images/20140914-vlfcapture1_thumb.png)](/images/20140914-vlfcapture1.png)
+<figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom</figcaption>
+</figure>
+
+So, the question now is: are these signals artefacts of my filter, the emissions of my FPGA, or (hopefully) something external to my measurement setup?
+
+#### 2014/09/12 - ESP8266 WiFi Module
+
+I've managed to program an ATMega328p using my FPGA STK500 to communicate with the ESP8266. The AT command set has some problematic limitations - not being able to switch it off, for instance, so that command echoes are not interleaved with incoming data - but it's good enough to broadcast sensor data over my network. I'm looking forward to being able to hack the firmware, however.
+
+Interestingly enough, I've got an ATMega328p that runs at 18.432 MHz on only 3.3 V, using an external 3.3 V crystal oscillator. That's out of spec according to the data sheet, but works nonetheless.
+
+#### 2014/09/09 - ESP8266 WiFi Module
+
+A company in China has produced a compact WiFi module for $5, available on various sites and featured on Hack-A-Day. Documentation is in Chinese, but there's an active group trying to figure out how to flash the firmware to customize the microcontroller software. As shipped, the module is flashed with an AT command set that provides an IP stack, including DHCP and ICMP, that offers up to four TCP or UDP connections. I've gotten mine working and communicating, attached to my FPGA development board acting as a serial pass-through.
+
+Note that some of the translate documentation available online is already obsolete. The baudrate was recently upped to 115200, for instance, and the older docs don't mention the reset pin that must be held high. I've also found that if the board is in AP mode, a reset is required before it will switch to station mode.
+
+Anyway, interesting little device.
+
+#### 2014/08/15 - SOT23-6 DAC
+
+I've mounted a Linear Devices [LTC2360](http://www.linear.com/product/LTC2360) on a SOT23-6 breakout board (basic, no other on-board components) and implemented its communication protocol on my Nexys 3 to run some tests. It appears that this chip is very sensitive to noise, either through the power supply or coupled to the analog in line, as I'm getting very glitchy measurements: with *analog_in* connected to Vcc/2, the output is 0x800 ± 0x20, with every 20th measurement or so suddenly dropping to zero. This is when powered off of an external 3.3 v linear regulator, as the results are far worse when the Nexys's 3.3 v supply is used.
+
+The variation of the input measurement is understandable and not a huge issue, as I expect that can be reduced with careful layout of the final board. The sudden drops to zero are more worrying, however.
+
+<figure>![ADC Histogram](images/20140815-adc_histogram.png)
+<figcaption>Normalized histogram, 1,000,000 measurements, discarding all bins smaller than 0.001</figcaption>
+</figure>
+
+<figure>![ADC Histogram 2](images/20140815-adc_histogram2.png)
+<figcaption>Normalized histogram, 1,000,000 measurements, using an LTC2365 in exactly the same configuration. The communications protocol is slightly different, however.</figcaption>
+</figure>
+
+<figure>![ADC Improved Histogram](images/20140815-adc_histogram_improved.png) ![ADC Improved Setup](images/20140815-setup_improved.jpg)
+<figcaption>Shortening the leads to the LTC2365, moving the FPGA ground connection and braiding the FPGA wires drastically improved performance. Clearly this chip is too sensitive to interference to use on a breadboard.</figcaption>
+</figure>
+
+#### 2014/08/04 - ChromeOS OpenVPN to RouterOS, Part 2
+
+Summary: to connect to RouterOS from a Chromebook, use the ONC file below but leaving out the "CompLZO" parameter completely.
+
+Problem solved, thanks to some [help](https://code.google.com/p/chromium/issues/detail?id=397774) from the Chromium guys. It seems that if the OpenVPN *comp-lzo* option is set, an extra byte is added to the packet even if this option is set to *no*. RouterOS documentation states that LZO is not supported, but this means that the option must be left out completely because otherwise the IP header will be received shifted by one byte. I haven't been able to find a breakdown of what exactly the *comp-lzo* option changes in the OpenVPN packet, however.
+
+A quick search showed that others have also run into this behavior, for instance [this](http://www.dd-wrt.com/phpBB2/viewtopic.php?t=152214) DD-WRT thread. Another [thread](https://forums.openvpn.net/topic10067.html) on the OpenVPN forums suggests they are aware of the issue, but that it's related to the configuration and pushing of options and won't be solved before version 3.
+
+#### 2014/07/24 - ChromeOS OpenVPN to RouterOS
+
+I've been trying to connect my Chromebook to a Mikrotik box via VPN, and thougth I'd share some of my debugging results. This is not meant to be an OpenVPN tutorial - there are plenty of those around - but will merely give what is needed to make this particular setup work.
+
+The main issue is that it seems that **remote-cert-tls** has been enabeled on ChromeOS, which means that the server key must have the proper *Key Usage* and *Extended Key Usage* extensions. Using the RouterOS **sign-certificate-request** command will not set these, so a separate setup is required. A certificate request can be created anywhere, including on RouterOS, but to sign the key using OpenSSL you need to issue a command along the lines of:
+
+    openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -extensions v3_req -extfile ext.cnf -out server.crt
+
+Note the **-extensions** and the **-extfile** arguments (thanks to [emeka](http://www.mytidbitz.com/?p=109)). The first tells x509 to go looking in the *v3_req* section of *ext.cnf*, which is a standard OpenSSL configuration file. Based on various online comments ([here](https://forums.openvpn.net/topic7484.html#p9220), for instance), make sure your *ext.cnf* file contains at least the following:
+
+    [ v3_req ]
+    
+    keyUsage = critical, digitalSignature, keyAgreement
+    extendedKeyUsage = critical, serverAuth
+
+The specification for these two lines can be found [here](https://www.openssl.org/docs/apps/x509v3_config.html#Key_Usage_). The two *critical* arguments may not be necessary, but I haven't tested that.
+
+The second issue is that ChromeOS by default uses UDP for OpenVPN connections, while RouterOS only supports TCP. This can be circumvented by creating an ONC file to add the VPN connection rather than using the GUI under settings. I've had some luck with the following (anonymized) file, the source of which I've forgotten:
+
+    {
+        "Type": "UnencryptedConfiguration",
+        "NetworkConfigurations": [
+            {
+                "GUID": "{vpn4us201304041651}",
+                "Name": "HermesTest",
+                "Type": "VPN",
+                "VPN": {
+                        "Type": "OpenVPN",
+                        "Host": "",
+                        "OpenVPN":
+                                {
+                                "ClientCertType": "None",
+                                "CompLZO": "false",
+                                "Port": 1194,
+                                "Proto": "tcp",
+                                "SaveCredentials": true,
+                                "ServerPollTimeout": 360,
+                                "ServerCARef": "{CA}"
+                                }
+                        }
+            }
+        ],
+        "Certificates": [
+            {
+                "GUID": "{CA}",
+                "Type": "Authority",
+                "X509": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----"
+            }
+        ]
+    }
+
+    
+See the [Open Network Configuration Format](https://docs.google.com/a/thescrapyard.org/viewer?a=v&pid=sites&srcid=Y2hyb21pdW0ub3JnfGRldnxneDo1ZDY0OGFhNGI2YzE0ZTgy) document for a reference. The X509 certificate should be the PEM certificate all on one line. Import this file via *chrome://net-internals/#chromeos*, and you should have a new VPN connection configured.
+
+Don't forget to add and your CA certificate under Settings/Certificates, and configure RouterOS as described [here](http://wiki.mikrotik.com/wiki/OpenVPN). This gets me as far as creating a successful connection, with both sides assigned an IP, but neither side able to ping the other. I have yet to figure out where the traffic is disappearing to.
+
+
+#### 2014/07/18 - New Soldering Station
+
+Just acquired a Metcal soldering station, and the thing's a real luxury compared to what I'm used to. It soldered a connector to a Star MCPCB and then some 1206 SMD capacitors to another PCB without a hitch.
+
+For people unfamiliar with these (as I was until recently) they're soldering irons that use RF @ 13.56 MHz to directly heat the tip of the iron. It's a fixed-temperature system, with a heater welded to the tip so power transfer is excellent. Apparently it can't go out of calibration, and thanks to the good power transfer you'd only really need temperature control if you were soldering thermally sensitive components. The major downside is that the tips, or "cartridges", are noticeably more expensive than other tips.
+
+A new MX station is very expensive, but you can get a second-hand setup for a fairly reasonable price. The old RFG-30 supplies used in the STSS stations are on eBay for $50–100, and they're compatible with the modern MX hand-pieces and cartridges. I got a supply from an STSS-002 and a new MX-H1-AV kit (hand-piece and holder) and can confirm that they work together. The supply hums a bit, but apparently that's normal, and in fact you can tell how much power the tip's drawing by the intensity of the hum. 
+
+All in all, a nice piece of hardware.

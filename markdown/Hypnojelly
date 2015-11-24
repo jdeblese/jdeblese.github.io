@@ -1,0 +1,72 @@
+[1]: http://jenslabs.com/2014/08/02/hypno-jellyfish/
+
+----------
+# Hypnojelly
+
+My build of the [Hypno-Jellyfish][1] by Jenslabs. Modified with fiberoptic in the legs and an internal, USB-rechargeable lithium battery.
+
+----------
+
+## Introduction
+
+Check out Jenslabs's page [here][1]. The short version is that he built a really cool plastic jellyfish out of thermoplastic and an Adafruit NeoPixel ring that glows and changes color when shaken. He built it for his daughter, and I decided to build one for my nephew. This page details the modifications I made.
+
+---
+
+## Illuminated Tentacles
+
+In an attempt to make the tentacles glow more, I formed them around some fine strands of fiberoptic cable. I picked up a 42-strand cable online, stripped out 14 strands, cut them to different lengths and wrapped them in thermoplastic. I tried to get side-glow fiberoptic, but apparently only the bundle as a whole glows significantly, so the tentacle is illuminated predominantly at the tips of the strands. You also have to get the light shining just right on the ends of the strands, of course.
+
+![Fiberoptic Tentacle](http://www.thescrapyard.org/hw/hypno/leg_1_fiberoptic.jpg)
+![Whole Tentacle Glow](http://www.thescrapyard.org/hw/hypno/leg_2_glow.jpg)
+![Tentacle End Glow](http://www.thescrapyard.org/hw/hypno/leg_3_glow.jpg)
+
+------
+
+## Lower Body Assembly
+
+Assembling the legs into something akin to a jellyfish is not easy. The fiber optic cables should end directly on the location of the LED ring, so as to get as much light as possible into them. The connecting piece also needs to be rigid enough to hold the legs together under abuse but still let some light through. I ended up poking holes with the same spacing as the LED ring through a cardboard box, inserting the protruding leg fibers, and then building a scaffolding to hold the legs in position while a connecting piece of plastic cooled.
+
+![Loose Legs](http://www.thescrapyard.org/hw/hypno/legsloose.jpg)
+![Assembled Legs](http://www.thescrapyard.org/hw/hypno/legsassembly.jpg)
+
+The LED ring is then connected to this base using a mushroom of plastic. The overlap between optics and LEDs isn't perfect, but it's close enough to somewhat illuminate them. A better way of doing it would involve some kind of pre-made mounting piece to make sure that the fiber optic cables actually ended on the LED emitters.
+
+Note that the fibers are so sensitive to orientation that they actually pick up the separate red, green and blue emitters in the WS2812 LEDs.
+
+![Illuminated Legs](http://www.thescrapyard.org/hw/hypno/legs_3.jpg)
+![Illuminated Legs](http://www.thescrapyard.org/hw/hypno/legs_2.jpg)
+
+------
+
+## Brain Assembly
+
+The brain of the jelly is an ATTiny85 with an MMA7760FC accelerometer, mounted just above the Neopixel ring. The Tiny sets up the accelerometer on power-on, and regularly reads it in to compute the magnitude of the acceleration. It runs the color wheel pattern from the Adafruit Neopixel example, jumping to a different hue when the acceleration exceeds a given threshold (i.e., the jelly is tapped).
+
+Gist is available [here](https://gist.github.com/jdeblese/041a695d92397144904e).
+
+![Illuminated Legs](http://www.thescrapyard.org/hw/hypno/legs_1.jpg)
+![Light Assembly](http://www.thescrapyard.org/hw/hypno/brain_1.jpg)
+
+All wires except for the battery connector were permanently soldered in place, and the LiPoly battery was mounted above the ATTiny on a plastic tripod. Parachute cord was attached at the base of the legs rather than to the hood, in case the hood ever separates from the legs. The USB charge port and power switch were then stuck through the side of the hood.
+
+![Brain Assembly](http://www.thescrapyard.org/hw/hypno/brain_2.jpg)
+
+------
+
+## Hood Covering
+
+![Completed 1](http://www.thescrapyard.org/hw/hypno/complete_1.jpg)
+![Completed 2](http://www.thescrapyard.org/hw/hypno/complete_2.jpg)
+![Completed 3](http://www.thescrapyard.org/hw/hypno/complete_3.jpg)
+![Completed 4](http://www.thescrapyard.org/hw/hypno/complete_4.jpg)
+
+----------
+
+[TOC]
+
+- [Back to Main Page](../)
+
+Last updated on 2015-05-25
+<p></p>
+

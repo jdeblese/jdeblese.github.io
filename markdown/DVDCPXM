@@ -1,0 +1,45 @@
+[1]: http://en.wikipedia.org/wiki/Meridian_Lossless_Packing
+[2]: http://www.thescrapyard.org/software/images/DVD-Audio_Logo.png
+[3]: https://github.com/jdeblese/dvda-decode
+
+----------
+
+# DVD Audio
+
+----------
+
+[TOC]
+
+----------
+
+## Decrypting
+
+Most people are familiar with DVD-Video discs, but not many realize that there's a second, audio-only standard out there, called DVD-Audio. These discs use mostly the same technology as DVD-Video, but omit video in exchange for much more space for audio data. Sample rates of up to 192 kHz, bit rates up to 24-bit, and full surround sound are all possible, either in Linear PCM or in [Meridian Lossless Packing][1] format. Discs, as well as capable players, bore the logo pictured below.
+
+![Logo][2]
+
+An important difference between DVD-V and DVD-A is the encryption. DVD-V used CSS, famously cracked in the late 90's. DVD-A, released a bit later, used a different encryption scheme by the name of CPPM, very similar to the CPRM scheme used on encrypted SD cards. Of course, this scheme was also cracked.
+
+DeCPPM tools have existed for a while, but due to DVD-A being far less widespread than DVD-V, implementations are very meager. My goal, therefore, was to take the existing CPXM library and integrate it into FFMPEG, to enable direct playback in various media players. This was not difficult, as the published code is structured similarly to the well-developed libdvdcss, using a common architecture and similar routines. I've currently got an integrated library that supports both kind of disks, and a simple decryption tool linked to it.
+
+There are licensing issues preventing me from releasing this code, however. The CPXM library was posted without attribution on a forum. It contains no copyright headers, and I haven't been able to track down exactly who wrote it. Moreover, it seems part of the code was taken verbatim from the reference specifications for DVD-A, and would therefore infringe on 4C Entity's IP. Much as I would like to, I cannot release the code under any open source license without first knowing that it is both in the public domain as well as free of other companies' IP. Unless someone can help me with this aspect, this project will never go further than my own PC.
+
+It's a damn shame.
+
+----------
+
+## Demultiplexing
+
+For DVD-A discs that come unencrypted, I've written a small set of tools that
+can parse and extract each title's tracks, available [here][3]. Given an IFO and
+the sector offsets of the IFO and AOB files, it will parse the IFO and dump each
+track to an *.mpeg* file, which should contain either a single MLP or LPCM
+stream. A second tool can read the necessary offsets from a given disc.
+
+----------
+
+<p></p>
+
+- [Back to Main Page](../)
+
+<p></p>

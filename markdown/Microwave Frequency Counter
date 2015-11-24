@@ -1,0 +1,55 @@
+----------
+# Microwave Frequency Counter
+
+
+----------
+
+## Introduction
+
+Frequency counters are a specialized but very useful tool in the arsenal of an engineer. The principle is very simple: use a digital counter to count the number of tics of an input signal, and compare this to a very stable reference clock to determine the input frequency. Its simplicity means that very high frequencies are not out of reach, and its accuracy is determined by the quality of the reference clock.
+
+In the original design of a frequency counter, the input signal is used to drive the clock of an up-counter, after suitable amplification, filtering and such. The counter is allowed to count for a precise amount of time as measured by the reference clock. The frequency is then the count divided by the measurement interval: an interval of 1 second is often used, meaning the count is precisely the frequency in Hz. The downside is that the accuracy is ±1 input edge, so the relative error grows as the frequency decreases.
+
+For example, given a 10 Hz clock and a 3.63 Hz input signal, counting the rising input edges for 10 clock cycles would give you either 3 or 4 rising edges, depending on the phase difference between the input and clock The error is ±1 rising input edge.
+
+```
+Input: ‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____
+            |    <------ enable counting ------>    |
+Clock: _/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_
+            |    <------ enable counting ------>    |
+Input: __/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\
+```
+
+A simple way to fix this is to trigger counting on an input edge rather than a clock edge, referred to as a reciprocal frequency counter. The measurement interval is taken to be a whole number of input tics as close as possible to the desired interval, so the accuracy is now ±1 reference clock tic, independent of the input frequency.
+
+```
+Input: ‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾\____/‾‾‾‾‾
+                |    <------ enable counting -----------!-->|
+Clock: _/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾
+```
+
+For the previous scenario, this would give 11 clock tics for 4 input tics, indicating an input frequency of  $4 f_{clk} / 11$, with an accuracy of ±1 clock tic. The exclamation mark shows the minimum measurement time of 1 second, as counted by the system clock.
+
+----------
+
+## Simple Reciprocal Counter
+
+[Source Code](https://github.com/jdeblese/mwfc)
+
+My first plan for a reciprocal counter involved a three-stage setup: counting input tics, computing the ratio, and converting from binary to decimal representations.
+
+1. A pair of input counters are triggered to start counting by the rising edge of an input signal. When the minimum measurement interval has been reached (i.e., a minimum number of reference clock tics), the next input rising edge halts both counters. The width of the two counters determine the minimum and maximum input frequencies.
+
+2. A divider block is used to compute the ratio of the two counts. Accuracy is the priority here - it needs to make sure to maintain sufficient precision for the display later - whereas speed above a certain minimum is unimportant. With a measurement interval of 1 ms, for instance, and an FPGA clock of 100 MHz, the division could potentially take 100,000 sequential operations and still be fast enough. The algorithm used is therefore straightforward: shift the dividend right one bit, and subtract the divisor when the dividend is larger, until the fixed-width quotient contains a '1' in its MSb. This quotient plus a count of the number of shifts is a floating point base-2 representation of the ratio of the counts.
+
+3. For ease of display, the base-2 ratio is converted to a base-10 floating point representation using an additional multiplier and a pair of lookup tables. The resulting digits and exponent can be output directly to a 7-segment display after conversion to BCD.
+
+As of 2014-06-10, the thing works with an input clock derived from the reference clock. The next step is tests with an external input.
+
+----------
+
+[TOC]
+
+- [Back to Main Page](../)
+<p></p>
+

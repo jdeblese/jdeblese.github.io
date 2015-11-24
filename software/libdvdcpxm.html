@@ -1,57 +1,64 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     
-    <title>DVDCPXM</title>
+    <title>DVD Audio</title>
     
-    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css">
 
     <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
 
     <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-52980401-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
   </head>
   <body onload="prettyPrint()">
     <div class="container">
-      <!-- Markdown content starts here -->
 
 <hr>
 
-<h1 id="dvdcpxm">DVDCPXM</h1>
+<h1>DVD Audio</h1>
 
 <hr>
 
-<h2 id="introduction">Introduction</h2>
-
-<p>Most people are familiar with DVD-Video discs, but not many realize that there’s a second, audio-only standard out there, called DVD-Audio. These discs use mostly the same technology as DVD-Video, but omit video in exchange for much more space for audio data. Sample rates of up to 192 kHz, bit rates up to 24-bit, and full surround sound are all possible, either in Linear PCM or in <a href="http://en.wikipedia.org/wiki/Meridian_Lossless_Packing">Meridian Lossless Packing</a> format. Discs, as well as capable players, bore the logo pictured below.</p>
-
-<p><img src="http://www.thescrapyard.org/software/images/DVD-Audio_Logo.png" alt="Logo" title=""></p>
-
-<p>An important difference between DVD-V and DVD-A is the encryption. DVD-V used CSS, famously cracked in the late 90’s. DVD-A, released a bit later, used a different encryption scheme by the name of CPPM, very similar to the CPRM scheme used on encrypted SD cards. Of course, this scheme was also cracked.</p>
-
-<p>DeCPPM tools have existed for a while, but due to DVD-A being far less widespread than DVD-V, implementations are very meager. My goal, therefore, was to take the existing CPXM library and integrate it into FFMPEG, to enable direct playback in various media players. This was not difficult, as the published code is structured similarly to the well-developed libdvdcss, using a common architecture and similar routines. I’ve currently got an integrated library that supports both kind of disks, and a simple decryption tool linked to it.</p>
-
-<p>There are licensing issues preventing me from releasing this code, however. The CPXM library was posted without attribution on a forum. It contains no copyright headers, and I haven’t been able to track down exactly who wrote it. Moreover, it seems part of the code was taken verbatim from the reference specifications for DVD-A, and would therefore infringe on 4C Entity’s IP. Much as I would like to, I cannot release the code under any open source license without first knowing that it is both in the public domain as well as free of other companies’ IP. Unless someone can help me with this aspect, this project will never go further than my own PC.</p>
-
-<p>It’s a damn shame.</p>
+<p></p>
+<div class="toc">
+<ul>
+ <li><a href="#decrypting">Decrypting</a></li>
+ <li><a href="#demultiplexing">Demultiplexing</a></li>
+</ul>
+</div>
+<p></p>
 
 <hr>
 
-<!--[TOC]-->
+<h2>Decrypting</h2>
+
+<p>Most people are familiar with DVD-Video discs, but not many realize that there's a second, audio-only standard out there, called DVD-Audio. These discs use mostly the same technology as DVD-Video, but omit video in exchange for much more space for audio data. Sample rates of up to 192 kHz, bit rates up to 24-bit, and full surround sound are all possible, either in Linear PCM or in <a href="http://en.wikipedia.org/wiki/Meridian_Lossless_Packing">Meridian Lossless Packing</a> format. Discs, as well as capable players, bore the logo pictured below.</p>
+
+<p><img src="http://www.thescrapyard.org/software/images/DVD-Audio_Logo.png" alt="Logo"></p>
+
+<p>An important difference between DVD-V and DVD-A is the encryption. DVD-V used CSS, famously cracked in the late 90's. DVD-A, released a bit later, used a different encryption scheme by the name of CPPM, very similar to the CPRM scheme used on encrypted SD cards. Of course, this scheme was also cracked.</p>
+
+<p>DeCPPM tools have existed for a while, but due to DVD-A being far less widespread than DVD-V, implementations are very meager. My goal, therefore, was to take the existing CPXM library and integrate it into FFMPEG, to enable direct playback in various media players. This was not difficult, as the published code is structured similarly to the well-developed libdvdcss, using a common architecture and similar routines. I've currently got an integrated library that supports both kind of disks, and a simple decryption tool linked to it.</p>
+
+<p>There are licensing issues preventing me from releasing this code, however. The CPXM library was posted without attribution on a forum. It contains no copyright headers, and I haven't been able to track down exactly who wrote it. Moreover, it seems part of the code was taken verbatim from the reference specifications for DVD-A, and would therefore infringe on 4C Entity's IP. Much as I would like to, I cannot release the code under any open source license without first knowing that it is both in the public domain as well as free of other companies' IP. Unless someone can help me with this aspect, this project will never go further than my own PC.</p>
+
+<p>It's a damn shame.</p>
+
+<hr>
+
+<h2>Demultiplexing</h2>
+
+<p>For DVD-A discs that come unencrypted, I've written a small set of tools that
+can parse and extract each title's tracks, available <a href="https://github.com/jdeblese/dvda-decode">here</a>. Given an IFO and
+the sector offsets of the IFO and AOB files, it will parse the IFO and dump each
+track to an <em>.mpeg</em> file, which should contain either a single MLP or LPCM
+stream. A second tool can read the necessary offsets from a given disc.</p>
+
+<hr>
 
 <p></p>
 
@@ -60,12 +67,11 @@
 </ul>
 
 <p></p>
-
-     <!-- Markdown content ends here -->
-    </div>
+</div>
 
     <hr>
-    <p>Written with <a href="https://stackedit.io/">StackEdit</a> using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+	<p>Rendered using <a href="https://github.com/FSX/misaka">Misaka</a>, using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
 
   </body>
 </html>
+

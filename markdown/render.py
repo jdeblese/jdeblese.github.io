@@ -20,7 +20,7 @@ if __name__ == '__main__' :
 	toctags = ('h2', 'h3', 'h4')
 	for tag in toctags :
 		for e in CSSSelector(tag)(tree) :
-			e.set('name', re.sub('[-: .]', '_', e.text.lower()))
+			e.set('id', re.sub('[-: .]', '_', e.text.lower()))
 
 	toctext = '<p></p>\n<div class="toc">'
 	toclevel = -1
@@ -44,7 +44,7 @@ if __name__ == '__main__' :
 			toctext += ' ' * (toclevel + 1) + '<ul>\n'
 			toclevel += 1
 			toctext += ' ' * (toclevel + 1) + '<li>'
-		toctext += '<a href="#%s">%s</a>'%(s.get('name'),s.text)
+		toctext += '<a href="#%s">%s</a>'%(s.get('id'),s.text)
 	toctext += '</li>\n'
 	while toclevel > 0 :
 		toctext += ' ' * toclevel + '</ul></li>\n'
@@ -57,6 +57,11 @@ if __name__ == '__main__' :
 		markdown = markdown[:idx] + toctext + markdown[idx+6:]
 	render = misaka.html(markdown)
 	tree = etree.parse(StringIO(render), htmlparser)
+
+	# Need to redo this, since we reparsed the tree
+	for tag in toctags :
+		for e in CSSSelector(tag)(tree) :
+			e.set('id', re.sub('[-: .]', '_', e.text.lower()))
 
 	documentBody = tree.getroot()[0].getchildren()
 

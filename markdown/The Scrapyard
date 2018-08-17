@@ -66,6 +66,29 @@ This is where I collect my parts: information I've gathered, projects I've worke
 
 ### Miscelaneous Ramblings
 
+#### 2018/08/16 - Swagelok QC-6 Stem Protectors
+
+I dive sidemount with a manifolded setup, and connect my first stages to the
+manifold through quick-disconnects. I've recently switched to Swagelok QC-6 QDs
+(another common alternative is Omniswivel), and was looking to attach some stem
+and body protectors to my setup. Below is how I ended up attaching a loop of
+cave line to a SS-QC6-SP.
+
+There appear to be two variants of the SS-QC6-SP: one with a hole through the
+side of the top, with a loop of steel rope through it, and one with a length of
+steel rope riveted to the top surface. To attach cave line to the latter, drill
+out the rivet head, push out the body using a hammer and awl, and thread a loop
+through the resulting hole with knots on both sides to hold it in place. This
+is easier to do with the cap removed from the body, but be prepared to use
+force as there was thread lock on the set I received.
+
+<figure>
+[<img src="images/20180816_ssqc6sp_2_t.jpg" alt="SP w/ cap removed">](images/20180816_ssqc6sp_2.jpg)
+[<img src="images/20180816_ssqc6sp_3_t.jpg" alt="SP cap w/ line loop">](images/20180816_ssqc6sp_3.jpg)
+[<img src="images/20180816_ssqc6sp_4_t.jpg" alt="SP w/ line attached">](images/20180816_ssqc6sp_4.jpg)
+<figcaption>SS-QC6-SP, with steel wire drilled out, in various stages of adding a loop</figcaption>
+</figure>
+
 #### 2014/09/22 - Lightning
 
 A lightning storm hit today, so I recorded a few strikes. The spectrogram is a 256-point FFT at 100 kSPS, but with every second FFT discarded due to a lack of processing power - otherwise the computer would not have been able to keep up with the radio. The CIC filter in the downsampler has a null at 50 kHz.

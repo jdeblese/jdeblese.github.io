@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys, codecs, misaka, re
 from lxml import etree
@@ -84,5 +84,4 @@ if __name__ == '__main__' :
 				elif txt[1:-1] == 'documentTitle' :
 					parent.remove(elem)
 					parent.text = documentTitle
-	print etree.tostring(template.getroot(), pretty_print=True, method="html")
-
+	sys.stdout.write(etree.tostring(template.getroot(), pretty_print=True, method="html").decode('utf-8'))

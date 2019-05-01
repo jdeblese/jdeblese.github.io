@@ -283,3 +283,21 @@ button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
+
+/* For IndieWeb-type articles */
+div.byline {
+	margin-left: 1em;
+	font-size: 9pt;
+}
+
+a.dt-published {
+	text-decoration: none;
+	color: grey;
+}
+a.p-author {
+	text-decoration: none;
+	color: grey;
+}
+h4.p-name {
+	margin-bottom: 0.5em;
+}

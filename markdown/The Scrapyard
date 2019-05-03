@@ -1,6 +1,6 @@
 ----------
 
-<h1>The Scrapyard</h1>
+# The Scrapyard
 
 
 <p style="margin-left:2em;margin-bottom:2em;width:35em;text-indent:-0.5em;font-family:lucida sans unicode, lucida sans, lucida grande, sans-serif;">
@@ -10,13 +10,15 @@
 </p>
 
 
-This is where I collect my parts: information I've gathered, projects I've worked on, and whatever else I find that might be useful or interesting. You can also check out my GitHub repositories [here](http://github.com/jdeblese).
+This is where I collect my parts: information I've gathered, projects I've
+worked on, and whatever else I find that might be useful or interesting. You
+can also check out my GitHub repositories <a href="https://github.com/jdeblese" rel="me">here</a>.
 
 ----------
 
 ### Hardware
 
-1. [RF Power Reference](hw/rfpowerref.html)
+1. [RF Power Reference](hw/rfpowerref.html)  
   A small, 120 MHz, +2dBm ±1dB power reference board.
 
 2. [LED SMPS Driver](hw/ledsmps.html)
@@ -65,6 +67,15 @@ This is where I collect my parts: information I've gathered, projects I've worke
 ----------
 
 ### Miscelaneous Ramblings
+
+#### 2019/04/30 - Setting up for IndieWeb, Microformats, etc...
+
+Looks like some people over at [IndieWeb.org](https://indieweb.org) are trying
+to get the ball rolling on distributed social networking and such. Looks
+interesting enough to give a shot, so I've reformatted this to be a h-entry
+post, and added a [h-card](http://microformats.org/wiki/h-card) to this page.
+
+To be updated as I figure out more of how this works.
 
 #### 2018/08/16 - Swagelok QC-6 Stem Protectors
 

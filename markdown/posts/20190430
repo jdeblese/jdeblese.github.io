@@ -1,0 +1,26 @@
+Setting up for IndieWeb, Microformats, etc...
+2019/04/30
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20190430_indieweb_microformats
+Looks like some people over at [IndieWeb.org](https://indieweb.org) are trying
+to get the ball rolling on distributed social networking and such. Looks
+interesting enough to give a shot, so I've reformatted this to be a
+[h-entry](http://microformats.org/wiki/h-entry) post, and added a
+[h-card](http://microformats.org/wiki/h-card) to the bottom of this page.
+
+Update 5/4: I've got an h-card, a rel=me link, and indieauth set up as an auth
+provider. I've got these posts tagged as entries within an h-feed. However,
+it's still not entirely clear how this is supposed to work, mostly on the
+client/consumer side of things. How does one put together a feed out of
+individual people's content? Allowing comments on here would be interesting
+too, although probably not obvious considering the pages are static html.
+
+Currently working on getting auth (via <https://indieauth.com>), microsub,
+webmentions (via <https://webmention.io>) and such up and running, as maybe
+that'll make thing clearer.
+
+The webmentions system at <https://telegraph.p3k.io> doesn't seem to like twitter
+as a webmention source, unfortunately. <a
+href="https://twitter.com/looksquirrels/status/1124735848556089346"
+class="u-syndication">Tweeted</a> a link to this post but Telegraph doesn't
+detect the webmention, possibly due to Twitter not having any microformat tags?

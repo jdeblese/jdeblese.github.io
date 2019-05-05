@@ -1,0 +1,19 @@
+VLF SDR
+2014/09/14
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140914_vlfsdr
+As an experiment in VLF reception and SDR techniques, I hooked up a PmodAD1 to
+my FPGA and started capturing. The short wire antenna goes into a JFET
+amplifier, which is AC-coupled into the ADC. The AD1 can sample at 1 MSPS, but
+as I'm reading data over a serial link limited to 1 MBaud, I use a CIC filter
+to downsample the ADC's output. On the PC, a python script performs an FFT and
+draws a running spectrogram using SDL2.
+
+<figure>
+<a href="images/20140914-vlfcapture1.png"><img alt="Spectrogram" src="images/20140914-vlfcapture1_thumb.png"></a>
+<figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom</figcaption>
+</figure>
+
+So, the question now is: are these signals artefacts of my filter, the
+emissions of my FPGA, or (hopefully) something external to my measurement
+setup?

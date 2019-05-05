@@ -1,0 +1,85 @@
+ChromeOS OpenVPN to RouterOS
+2014/07/24
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140724_chromeos_routeros_vpn
+I've been trying to connect my Chromebook to a Mikrotik box via VPN, and
+thougth I'd share some of my debugging results. This is not meant to be an
+OpenVPN tutorial - there are plenty of those around - but will merely give what
+is needed to make this particular setup work.
+
+The main issue is that it seems that **remote-cert-tls** has been enabeled on
+ChromeOS, which means that the server key must have the proper *Key Usage* and
+*Extended Key Usage* extensions. Using the RouterOS
+**sign-certificate-request** command will not set these, so a separate setup is
+required. A certificate request can be created anywhere, including on RouterOS,
+but to sign the key using OpenSSL you need to issue a command along the lines
+of:
+
+    openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -extensions v3_req -extfile ext.cnf -out server.crt
+
+Note the **-extensions** and the **-extfile** arguments (thanks to
+[emeka](http://www.mytidbitz.com/?p=109)). The first tells x509 to go looking
+in the *v3_req* section of *ext.cnf*, which is a standard OpenSSL configuration
+file. Based on various online comments
+([here](https://forums.openvpn.net/topic7484.html#p9220), for instance), make
+sure your *ext.cnf* file contains at least the following:
+
+    [ v3_req ]
+    
+    keyUsage = critical, digitalSignature, keyAgreement
+    extendedKeyUsage = critical, serverAuth
+
+The specification for these two lines can be found
+[here](https://www.openssl.org/docs/apps/x509v3_config.html#Key_Usage_). The
+two *critical* arguments may not be necessary, but I haven't tested that.
+
+The second issue is that ChromeOS by default uses UDP for OpenVPN connections,
+while RouterOS only supports TCP. This can be circumvented by creating an ONC
+file to add the VPN connection rather than using the GUI under settings. I've
+had some luck with the following (anonymized) file, the source of which I've
+forgotten:
+
+    {
+        "Type": "UnencryptedConfiguration",
+        "NetworkConfigurations": [
+            {
+                "GUID": "{vpn4us201304041651}",
+                "Name": "HermesTest",
+                "Type": "VPN",
+                "VPN": {
+                        "Type": "OpenVPN",
+                        "Host": "",
+                        "OpenVPN":
+                                {
+                                "ClientCertType": "None",
+                                "CompLZO": "false",
+                                "Port": 1194,
+                                "Proto": "tcp",
+                                "SaveCredentials": true,
+                                "ServerPollTimeout": 360,
+                                "ServerCARef": "{CA}"
+                                }
+                        }
+            }
+        ],
+        "Certificates": [
+            {
+                "GUID": "{CA}",
+                "Type": "Authority",
+                "X509": "-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----"
+            }
+        ]
+    }
+
+    
+See the [Open Network Configuration
+Format](https://docs.google.com/a/thescrapyard.org/viewer?a=v&pid=sites&srcid=Y2hyb21pdW0ub3JnfGRldnxneDo1ZDY0OGFhNGI2YzE0ZTgy)
+document for a reference. The X509 certificate should be the PEM certificate
+all on one line. Import this file via *chrome://net-internals/#chromeos*, and
+you should have a new VPN connection configured.
+
+Don't forget to add and your CA certificate under Settings/Certificates, and
+configure RouterOS as described [here](http://wiki.mikrotik.com/wiki/OpenVPN).
+This gets me as far as creating a successful connection, with both sides
+assigned an IP, but neither side able to ping the other. I have yet to figure
+out where the traffic is disappearing to.

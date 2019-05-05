@@ -1,0 +1,30 @@
+Aliasing
+2014/09/15
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140915_aliasing
+Just wanted to share an example of why antialiasing matters.
+
+<figure>
+<a href="images/20140915-vlfcapture2.png"><img alt="spectrogram" src="images/20140915-vlfcapture2_thumb.png"></a>
+<figcaption>Spectrogram and histogram, roughly 15 seconds, from DC at the top to 50 kHz at the bottom, left with a CIC filter and right without</figcaption>
+</figure>
+
+The above image was captured with the same setup as below: 1 MSPS ADC w/ 500
+kHz antialiasing filter, downsampled to 100 kSPS. A switchable bypass was added
+around the CIC filter, however, allowing me to view a simple downsample without
+filtering.
+
+On the left, darker, is the measurement with CIC enabled, and on the right with
+CIC bypassed. As you can see, signals 2, 4 and 5 are far stronger coming
+through the bypass, suggesting they are higher frequencies aliased down into
+this range. The scale of the spectrogram is 20 dB, so with CIC lobes as high as
+16 dB this is perfectly possible. On the other hand, signal 1 seems unaffected,
+however, so likely originates there. Signal 3 is hard to judge: it looks like a
+faint VLF signal with a stronger higher-frequency signal - the one that
+suddenly strengthens - aliased to just next to it.
+
+Next step is to implement a multi-stage CIC filter with equalizer to further
+reduce the aliasing. It might also be worth trying to pull out some of these
+signals individually, aliased or not, as it looks like 4 might be modulated
+with something.
+

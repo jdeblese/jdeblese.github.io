@@ -1,0 +1,18 @@
+Lightning
+2014/09/22
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140922_lightning
+A lightning storm hit today, so I recorded a few strikes. The spectrogram is a
+256-point FFT at 100 kSPS, but with every second FFT discarded due to a lack of
+processing power - otherwise the computer would not have been able to keep up
+with the radio. The CIC filter in the downsampler has a null at 50 kHz.
+
+<figure>
+<img src="http://www.thescrapyard.org/images/20140922-lightning1.png">
+<img src="http://www.thescrapyard.org/images/20140922-lightning2.png">
+<img src="http://www.thescrapyard.org/images/20140922-lightning3.png">
+<img src="http://www.thescrapyard.org/images/20140922-lightning4.png">
+<img src="http://www.thescrapyard.org/images/20140922-lightning5.png">
+<figcaption>Various lightning strikes, each image roughly 1 second wide and from DC to 50 kHz</figcaption>
+</figure>
+

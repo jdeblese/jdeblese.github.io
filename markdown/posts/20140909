@@ -1,0 +1,21 @@
+ESP8266 WiFi Module
+2014/09/09
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140909_esp8266
+A company in China has produced a compact WiFi module for $5, available on
+various sites and featured on Hack-A-Day. Documentation is in Chinese, but
+there's an active group trying to figure out how to flash the firmware to
+customize the microcontroller software. As shipped, the module is flashed with
+an AT command set that provides an IP stack, including DHCP and ICMP, that
+offers up to four TCP or UDP connections. I've gotten mine working and
+communicating, attached to my FPGA development board acting as a serial
+pass-through.
+
+Note that some of the translate documentation available online is already
+obsolete. The baudrate was recently upped to 115200, for instance, and the
+older docs don't mention the reset pin that must be held high. I've also found
+that if the board is in AP mode, a reset is required before it will switch to
+station mode.
+
+Anyway, interesting little device.
+

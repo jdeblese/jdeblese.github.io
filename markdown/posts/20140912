@@ -1,0 +1,15 @@
+ESP8266 WiFi Module
+2014/09/12
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140912_esp8266
+I've managed to program an ATMega328p using my FPGA STK500 to communicate with
+the ESP8266. The AT command set has some problematic limitations - not being
+able to switch it off, for instance, so that command echoes are not interleaved
+with incoming data - but it's good enough to broadcast sensor data over my
+network. I'm looking forward to being able to hack the firmware, however.
+
+Interestingly enough, I've got an ATMega328p that runs at 18.432 MHz on only
+3.3 V, using an external 3.3 V crystal oscillator. That's out of spec according
+to the data sheet, but works nonetheless.
+
+

@@ -1,0 +1,23 @@
+ChromeOS OpenVPN to RouterOS, Part 2
+2014/08/04
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140804_chromeos_routeros_vpn
+Summary: to connect to RouterOS from a Chromebook, use the ONC file below but
+leaving out the "CompLZO" parameter completely.
+
+Problem solved, thanks to some
+[help](https://code.google.com/p/chromium/issues/detail?id=397774) from the
+Chromium guys. It seems that if the OpenVPN *comp-lzo* option is set, an extra
+byte is added to the packet even if this option is set to *no*. RouterOS
+documentation states that LZO is not supported, but this means that the option
+must be left out completely because otherwise the IP header will be received
+shifted by one byte. I haven't been able to find a breakdown of what exactly
+the *comp-lzo* option changes in the OpenVPN packet, however.
+
+A quick search showed that others have also run into this behavior, for
+instance [this](http://www.dd-wrt.com/phpBB2/viewtopic.php?t=152214) DD-WRT
+thread. Another [thread](https://forums.openvpn.net/topic10067.html) on the
+OpenVPN forums suggests they are aware of the issue, but that it's related to
+the configuration and pushing of options and won't be solved before version 3.
+
+

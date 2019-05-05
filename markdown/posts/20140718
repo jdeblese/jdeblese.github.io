@@ -1,0 +1,26 @@
+New Soldering Station
+2014/07/18
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140718_metcal
+Just acquired a Metcal soldering station, and the thing's a real luxury
+compared to what I'm used to. It soldered a connector to a Star MCPCB and then
+some 1206 SMD capacitors to another PCB without a hitch.
+
+For people unfamiliar with these (as I was until recently) they're soldering
+irons that use RF @ 13.56 MHz to directly heat the tip of the iron. It's a
+fixed-temperature system, with a heater welded to the tip so power transfer is
+excellent. Apparently it can't go out of calibration, and thanks to the good
+power transfer you'd only really need temperature control if you were soldering
+thermally sensitive components. The major downside is that the tips, or
+"cartridges", are noticeably more expensive than other tips.
+
+A new MX station is very expensive, but you can get a second-hand setup for a
+fairly reasonable price. The old RFG-30 supplies used in the STSS stations are
+on eBay for $50–100, and they're compatible with the modern MX hand-pieces and
+cartridges. I got a supply from an STSS-002 and a new MX-H1-AV kit (hand-piece
+and holder) and can confirm that they work together. The supply hums a bit, but
+apparently that's normal, and in fact you can tell how much power the tip's
+drawing by the intensity of the hum. 
+
+All in all, a nice piece of hardware.
+

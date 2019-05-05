@@ -1,0 +1,34 @@
+SOT23-6 DAC
+2014/08/15
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20140815_ltc2360
+I've mounted a Linear Devices [LTC2360](http://www.linear.com/product/LTC2360)
+on a SOT23-6 breakout board (basic, no other on-board components) and
+implemented its communication protocol on my Nexys 3 to run some tests. It
+appears that this chip is very sensitive to noise, either through the power
+supply or coupled to the analog in line, as I'm getting very glitchy
+measurements: with *analog_in* connected to Vcc/2, the output is 0x800 ± 0x20,
+with every 20th measurement or so suddenly dropping to zero. This is when
+powered off of an external 3.3 v linear regulator, as the results are far worse
+when the Nexys's 3.3 v supply is used.
+
+The variation of the input measurement is understandable and not a huge issue,
+as I expect that can be reduced with careful layout of the final board. The
+sudden drops to zero are more worrying, however.
+
+<figure><img alt="ADC Histogram" src="images/20140815-adc_histogram.png">
+<figcaption>Normalized histogram, 1,000,000 measurements, discarding all bins smaller than 0.001</figcaption>
+</figure>
+
+<figure><img alt="ADC Histogram 2" src="images/20140815-adc_histogram2.png">
+<figcaption>Normalized histogram, 1,000,000 measurements, using an LTC2365 in exactly the same configuration. The communications protocol is slightly different, however.</figcaption>
+</figure>
+
+<figure>
+<img alt="ADC Improved Histogram" src="images/20140815-adc_histogram_improved.png">
+<img alt="ADC Improved Setup" src="images/20140815-setup_improved.jpg">
+<figcaption>Shortening the leads to the LTC2365, moving the FPGA ground
+connection and braiding the FPGA wires drastically improved performance.
+Clearly this chip is too sensitive to interference to use on a
+breadboard.</figcaption>
+</figure>

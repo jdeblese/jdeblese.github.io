@@ -93,6 +93,25 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20190709_rodo">RouterOS on DigitalOcean</h4>
+<div class="byline"><a class="dt-published u-url" href="#20190709_rodo">2019/07/09</a>
+ - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>It’s possible to run Mikrotik’s RouterOS on a DigitalOcean standard 1-CPU
+droplet - see instructions <a href="https://www.digitalocean.com/community/questions/installing-mikrotik-routeros">here</a>.</p>
+<p>I need a VPN exiting in Europe and for various reasons decided to roll my
+own. Initially set one up running FreeBSD 12, but was getting a miserly 20 kbps
+upload speed. It turns out a 1-CPU droplet is not fast enough to run ipfw and
+natd, or at least not without tuning that’s beyond my level of expertise. I am
+fairly familiar with RouterOS, however, so installed that on a droplet and did
+some speed tests: with basic filtering, nat, and using
+<a href="https://wiki.mikrotik.com/wiki/Manual:IP/Fasttrack">fasttrack</a> to speed up the
+firewall, I’m getting ~ 3 Mbps in both directions to the US with minimal CPU
+load on the droplet.</p>
+<p>Pros: speed, low cpu usage, powerful networking interface (if you like RouterOS)</p>
+<p>Cons: not technically a supported OS, only supports TCP-based OpenVPN connections</p>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20190629_bikemods">Bicycle Mods</h4>
 <div class="byline"><a class="dt-published u-url" href="#20190629_bikemods">2019/06/29</a>
  - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>
@@ -112,7 +131,7 @@ next few weeks - whether I miss having the full range, and/or whether I should
 switch it to 1-7 or 3-9.</p>
 <p>Otherwise, I’ll consider switching out the cassette to a 7-speed or switch to a
 different derailer.</p>
-<p><a href="/images/20190629_bike.jpg"><img src="/images/20190629_bike_t.jpg" alt="Bike" /></a></p>
+<p><a href="images/20190629_bike.jpg"><img src="images/20190629_bike_t.jpg" alt="bike"></a></p>
 </div>
 </article>
 <article class="h-entry"><h4 class="p-name" id="20190430_indieweb_microformats">Setting up for IndieWeb, Microformats, etc...</h4>

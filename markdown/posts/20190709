@@ -1,0 +1,20 @@
+RouterOS on DigitalOcean
+2019/07/09
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20190709_rodo
+It's possible to run Mikrotik's RouterOS on a DigitalOcean standard 1-CPU
+droplet - see instructions [here](https://www.digitalocean.com/community/questions/installing-mikrotik-routeros).
+
+I need a VPN exiting in Europe and for various reasons decided to roll my
+own. Initially set one up running FreeBSD 12, but was getting a miserly 20 kbps
+upload speed. It turns out a 1-CPU droplet is not fast enough to run ipfw and
+natd, or at least not without tuning that's beyond my level of expertise. I am
+fairly familiar with RouterOS, however, so installed that on a droplet and did
+some speed tests: with basic filtering, nat, and using
+[fasttrack](https://wiki.mikrotik.com/wiki/Manual:IP/Fasttrack) to speed up the
+firewall, I'm getting ~ 3 Mbps in both directions to the US with minimal CPU
+load on the droplet.
+
+Pros: speed, low cpu usage, powerful networking interface (if you like RouterOS)
+
+Cons: not technically a supported OS, only supports TCP-based OpenVPN connections

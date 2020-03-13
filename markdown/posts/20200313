@@ -1,0 +1,52 @@
+Linux Jail on FreeNAS 13.1
+2020/03/13
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20200313_linjail
+In an attempt to get [Jellyfin](https://jellyfin.org/) working in a [FreeNAS](https://www.freenas.org/)
+jail, I installed a Linux runtime in a FreeBSD jail. This is very unsupported,
+but is possible in conjunction with the linux compatibility layer.
+
+My first attempt followed the instructions from
+[here](https://forums.freebsd.org/threads/setting-up-a-debian-linux-jail-on-freebsd.68434/)
+and [here](https://iocage.readthedocs.io/en/latest/debian.html).
+Installing Devuan worked (a slight scare during apt where it rebooted my machine, but no harm), but the jail had no
+network access just as in
+[this](https://www.ixsystems.com/community/threads/rebooted-iocage-jails-have-no-network-access-and-old-tricks-arent-fixing-this-anymore.70374/)
+post. Assuming it was a Debian issue, I tried again with a manual install of
+Slackware, but encountered the same issues. It's possible to get an ethernet
+interface in the jail by enabling vnet, creating an epair interface, and
+setting the vnet_interface property of the jail (see
+[here](https://forums.freebsd.org/threads/setting-up-a-debian-linux-jail-on-freebsd.68434/page-2#post-447831)),
+but trying to set an address results in an error:
+
+```
+root@slackware:/# ifconfig epair27b 172.22.0.27
+SIOCSIFADDR: Invalid argument
+SIOCSIFFLAGS: Invalid argument
+```
+
+Here's the workaround: since all this is being run with the BSD kernel and via
+the compatibility layer, it's possible to mix Linux and FreeBSD executables, so
+copy over the following files:
+
+```
+/sbin/ifconfig
+/sbin/route
+/lib/libc.so.7
+/lib/libjail.so.1
+/lib/libm.so.5
+/libexec/ld-elf.so.1
+```
+
+It's then possible to manually set an address. Not all tools work - ping gets
+into an infinite loop, for instance - but the package manager works, and that
+was enough for my purposes.
+
+As far as getting .NET working in the jail, it produces the same error as it does in a FreeBSD jail. 
+Appears to be due to a missing syscall "membarrier".
+
+```
+Failed to create CoreCLR, HRESULT: 0x8007001F
+```
+
+

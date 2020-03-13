@@ -93,6 +93,48 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20200313_linjail">Linux Jail on FreeNAS 13.1</h4>
+<div class="byline"><a class="dt-published u-url" href="#20200313_linjail">2020/03/13</a>
+ - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>In an attempt to get <a href="https://jellyfin.org/">Jellyfin</a> working in a <a href="https://www.freenas.org/">FreeNAS</a>
+jail, I installed a Linux runtime in a FreeBSD jail. This is very unsupported,
+but is possible in conjunction with the linux compatibility layer.</p>
+<p>My first attempt followed the instructions from
+<a href="https://forums.freebsd.org/threads/setting-up-a-debian-linux-jail-on-freebsd.68434/">here</a>
+and <a href="https://iocage.readthedocs.io/en/latest/debian.html">here</a>.
+Installing Devuan worked (a slight scare during apt where it rebooted my machine, but no harm), but the jail had no
+network access just as in
+<a href="https://www.ixsystems.com/community/threads/rebooted-iocage-jails-have-no-network-access-and-old-tricks-arent-fixing-this-anymore.70374/">this</a>
+post. Assuming it was a Debian issue, I tried again with a manual install of
+Slackware, but encountered the same issues. It’s possible to get an ethernet
+interface in the jail by enabling vnet, creating an epair interface, and
+setting the vnet_interface property of the jail (see
+<a href="https://forums.freebsd.org/threads/setting-up-a-debian-linux-jail-on-freebsd.68434/page-2#post-447831">here</a>),
+but trying to set an address results in an error:</p>
+<pre><code>root@slackware:/# ifconfig epair27b 172.22.0.27
+SIOCSIFADDR: Invalid argument
+SIOCSIFFLAGS: Invalid argument
+</code></pre>
+<p>Here’s the workaround: since all this is being run with the BSD kernel and via
+the compatibility layer, it’s possible to mix Linux and FreeBSD executables, so
+copy over the following files:</p>
+<pre><code>/sbin/ifconfig
+/sbin/route
+/lib/libc.so.7
+/lib/libjail.so.1
+/lib/libm.so.5
+/libexec/ld-elf.so.1
+</code></pre>
+<p>It’s then possible to manually set an address. Not all tools work - ping gets
+into an infinite loop, for instance - but the package manager works, and that
+was enough for my purposes.</p>
+<p>As far as getting .NET working in the jail, it produces the same error as it does in a FreeBSD jail.
+Appears to be due to a missing syscall “membarrier”.</p>
+<pre><code>Failed to create CoreCLR, HRESULT: 0x8007001F
+</code></pre>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20190709_rodo">RouterOS on DigitalOcean</h4>
 <div class="byline"><a class="dt-published u-url" href="#20190709_rodo">2019/07/09</a>
  - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>

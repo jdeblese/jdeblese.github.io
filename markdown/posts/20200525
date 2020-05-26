@@ -1,0 +1,22 @@
+FreeBSD and Jellyfin
+2020/05/25
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20200525_jailmlock
+I've made another attempt at getting Jellyfin to run in a jail (see
+[2020/03/13](#20200313_linjail)), since there's been progress on getting the
+.NET core to build on FreeBSD (see
+[github](https://github.com/dotnet/source-build/issues/1139)). However,
+although the bootstrap SDK starts in a FreeBSD jail, it still fails with
+0x8007001F. Checking with _truss_,  it appears to be failing on an mlock of 4
+KiB.
+
+First point: it may be possible to get this running in the base FreeNAS
+install. The SDK will run .NET executables in the base install if you set an
+LD_LIBRARY_PATH pointing to the missing libraries (find them in a jail) and if
+you increase _vm.max_wired_ to allow for the mlock. However, building now fails
+with a .NET stack trace, one which I haven't yet tried to debug.
+
+Second point: since mlock works in base, shouldn't it be possible to have it
+work in a jail? Iocage has a jail property _allow_mlock_, but it seems this is
+a no-op under 11.3, and only actually supported in FreeBSD 12. Thus, memory
+locking will not work under the current stable version of FreeNAS.

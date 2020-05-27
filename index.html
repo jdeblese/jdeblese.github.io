@@ -93,6 +93,42 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20200527_bsdefi">FreeBSD 12 and EFI</h4>
+<div class="byline"><a class="dt-published u-url" href="#20200527_bsdefi">2020/05/27</a>
+ - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>I ran into all sorts of EFI troubles when installing FreeBSD 12.1 to an ASRock
+Q1900.  The system would not boot properly regardless of how the disk was
+partitioned and formatted (UFS/ZFS, GPT/MBR, whatever), failing to find the EFI
+boot partition on the new install, and then stopping with various different
+errors just after /boot/entropy if booted via legacy bios.</p>
+<p>The solution: after installing, reboot using the install media, drop into a
+shell, and use efibootmgr to add an EFI entry for the newly-installed disk.</p>
+<p>On a side note, updating the BIOS to 2.0 doesn’t help either, but also means
+the system will no longer boot without a monitor attached… 😑</p>
+<pre><code># mount -t msdosfs /dev/ada0p1 /mnt
+# efibootmgr -c -l /mnt/efi/boot/BOOTx64.efi -L FreeBSD
+BootCurrent: 0003
+Timeout    : 1 seconds
+BootOrder  : 0000, 0003
+ Boot0000  FreeBSD
++Boot0003* UEFI:  USB DISK PMAP
+# efibootmgr -a 0
+BootCurrent: 0003
+Timeout    : 1 seconds
+BootOrder  : 0000, 0003
+ Boot0000* FreeBSD
++Boot0003* UEFI:  USB DISK PMAP
+# efibootmgr -n 0
+BootNext : 0000
+BootCurrent: 0003
+Timeout    : 1 seconds
+BootOrder  : 0000, 0003
+ Boot0000* FreeBSD
++Boot0003* UEFI:  USB DISK PMAP
+</code></pre>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20200525_jailmlock">FreeBSD and Jellyfin</h4>
 <div class="byline"><a class="dt-published u-url" href="#20200525_jailmlock">2020/05/25</a>
  - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>

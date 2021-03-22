@@ -93,6 +93,45 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20210321_haskellFfiSafe">Haskell FFI and Multithreading</h4>
+<div class="byline"><a class="dt-published u-url" href="#20210321_haskellFfiSafe">2021/03/21</a>
+ - <a class="p-author h-card" href="http://www.thescrpayard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>TLDR: If you call into long-duration foreign functions from in Haskell and those
+functions are marked <code>unsafe</code>, other Haskell threads will be paused a la Python’s GIL.</p>
+<p>Haskell foreign function calls imported via <code>foreign import ccall</code> can be marked as either
+<code>safe</code> or <code>unsafe</code>, with complex performance implications. To quote the <a href="http://book.realworldhaskell.org/read/interfacing-with-c-the-ffi.html#id655194">Typed Pointers</a>
+section of Real Word Haskell:</p>
+<blockquote>
+<p>When making a foreign import declaration, we can optionally specify a
+“safety” level to use when making the call, using either the safe or unsafe
+keyword. A safe call is less efficient, but guarantees that the Haskell
+system can be safely called into from C. An “unsafe” call has far less
+overhead, but the C code that is called must not call back into Haskell. By
+default foreign imports are “safe”, but in practice it is rare for C code to
+call back into Haskell, so for efficiency we mostly use “unsafe” calls.</p>
+</blockquote>
+<p>However, to quote  <a href="http://www.cs.toronto.edu/~trebla/personal/haskell/ghc-conc-ffi.xhtml">GHC Threading and FFI</a>:</p>
+<blockquote>
+<p>Here is how GHC does it. So an OS thread with a capability is happily
+churning along Haskell threads. Suddenly one unbound Haskell thread
+safe-calls C. (The story of the bound case is in the next section.) This
+Haskell thread is suspended, this OS thread loses its capability and runs the
+C code, and some other OS thread gains the capability and picks up the other
+Haskell threads. Everyone is happy.</p>
+<p>An unsafe C call does not involve a transfer of capability. Therefore many
+other Haskell threads are put on hold as collateral damage.</p>
+</blockquote>
+<p>This behaviour caused me a fair bit of grief, mainly because I was entirely
+unaware of the nature of what was going on.  I’ve been working on some SDR
+software in Haskell, and the
+<a href="https://hackage.haskell.org/package/rtlsdr">rtlsdr</a> package imports all its
+calls as <code>unsafe</code>, such that data processing cannot be done concurrently with a
+call to <code>readSync()</code> due to the capabilities effects discussed above. Modifying
+the library to use safe imports makes it possible to run the <code>readSync()</code> in a
+separate OS thread and pass the data via MVar, allowing real-time processing.</p>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20200527_bsdefi">FreeBSD 12 and EFI</h4>
 <div class="byline"><a class="dt-published u-url" href="#20200527_bsdefi">2020/05/27</a>
  - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>

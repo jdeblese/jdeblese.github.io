@@ -93,6 +93,24 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20210326_bereniceRepair">Repairing a Berenice D12 LED</h4>
+<div class="byline"><a class="dt-published u-url" href="#20210326_bereniceRepair">2021/03/26</a>
+ - <a class="p-author h-card" href="http://www.thescrpayard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>I own a <a href="https://www.luceplan.com/products/berenice-table">Luceplan Berenice D12 LED</a> table lamp. Very nice lamp
+that has served me well for many years as both a desk and readling light, but recently it began to flicker.
+The lamp has a warning that the bulb is not user-replaceable and the company didn’t respond to my email,
+so I took the lamp head apart to see what was up. The LED driver in the lamp head is a straightforward <a href="https://www.st.com/en/power-management/l5970d.html">L5970D</a> step-down converter
+set up for a constant 460 mA through a square ~1.5 cm LED. The flickering was due to
+rows of the 5x5 emitter grid shutting off intermittently once warmed up, for whatever reason.</p>
+<p>The existing passive components appeared to be in order so I removed the existing unmarked bulb (glued in place, twist to remove)
+and replaced it with a <a href="https://www.cree.com/led-components/media/documents/XLampCXA1507.pdf">Cree CXA1507</a>.
+The D12 heatsink has a slight recess for the LED and the Cree is slightly too large, so it’s to be determined
+if the thermal connection is good enough to prevent it from overheating. However, the driver voltage and light output is stable and the
+Cree radiation pattern looks to work well with the lens cover of the D12, so thus far the repair is a success.</p>
+<p><a href="images/20210316_D12repair.jpg"><img src="images/20210316_D12repair.jpg" alt="lamp LED driver PCB" style="width: 700px;"></a></p>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20210321_haskellFfiSafe">Haskell FFI and Multithreading</h4>
 <div class="byline"><a class="dt-published u-url" href="#20210321_haskellFfiSafe">2021/03/21</a>
  - <a class="p-author h-card" href="http://www.thescrpayard.org">Jan-willem De Bleser</a>

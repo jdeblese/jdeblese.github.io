@@ -1,0 +1,52 @@
+Controlling pulseaudio spawned by a systemd service
+2022/01/14
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20220114_systemd_pulse
+TL/DR: you can run pavucontrol under systemd-run to interact with a pulseadio
+server spawned by a system service.
+
+I run [Music Player Daemon](https://www.musicpd.org/) on my NAS and stream the
+output via [Roc Toolkit](https://roc-streaming.org/) to multiple clients
+scattered around the house. My first client was a NUC running
+[Slackware](http://www.slackware.com/), but I wanted somthing more efficient so
+picked up a few Raspberry Pi's, and for simplicity stuck with the official
+linux distribution, running systemd. It was easy enough to create a unit
+file to run roc-recv as a system service, but systemd isolates services and
+user sessions in silos, with as a result that commands such as pactl and
+pavucontrol couldn't connect to the roc-spawned pulse server. The solution is to
+use systemd-run to run pa* as a system process.
+
+```
+$ ssh -Y pi@audio3A
+
+pi@audio3A:~ $ systemctl status roc
+● roc.service - Roc-toolkit receiver
+   Loaded: loaded (/etc/systemd/system/roc.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2022-01-14 09:28:54 PST; 57min ago
+ Main PID: 25923 (roc-recv)
+    Tasks: 5 (limit: 873)
+   CGroup: /system.slice/roc.service
+           ├─25923 /usr/bin/roc-recv -d pulse -s rtp+rs8m::10001 -r rs8m::10002 --sess-latency=1s --min-latency=-1s --max-latency=2s --np-timeout=2s --bp-timeout=2s
+           └─25928 /usr/bin/pulseaudio --start --log-target=syslog
+
+pi@audio3A:~ $ ps aux | grep roc-recv
+pi       25923 29.0  1.8 300744  8096 ?        R<sl 09:28  16:55 /usr/bin/roc-recv -d pulse -s rtp+rs8m::10001 -r rs8m::10002 --sess-latency=1s --min-latency=-1s --max-latency=2s --np-timeout=2s --bp-timeout=2s
+
+pi@audio3A:~ $ id pi
+uid=1000(pi) gid=1000(pi) groups=1000(pi),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),44(video),46(plugdev),60(games),100(users),105(input),109(netdev),112(bluetooth),999(spi),998(i2c),997(gpio)
+
+pi@audio3A:~ $ sudo systemd-run --uid=1000 pavucontrol --display=$DISPLAY
+Running as unit: run-rf850349930a5473787407a1b661c4ac2.service
+
+pi@audio3A:~ $ systemctl status run-rf850349930a5473787407a1b661c4ac2.service
+● run-rf850349930a5473787407a1b661c4ac2.service - /usr/bin/pavucontrol --display=localhost:10.0
+   Loaded: loaded (/run/systemd/transient/run-rf850349930a5473787407a1b661c4ac2.service; transient)
+Transient: yes
+   Active: active (running) since Fri 2022-01-14 10:13:09 PST; 10min ago
+ Main PID: 26500 (pavucontrol)
+    Tasks: 2 (limit: 873)
+   CGroup: /system.slice/run-rf850349930a5473787407a1b661c4ac2.service
+           └─26500 /usr/bin/pavucontrol --display=localhost:10.0
+
+Jan 14 10:13:09 audio3A systemd[1]: Started /usr/bin/pavucontrol --display=localhost:10.0.
+```

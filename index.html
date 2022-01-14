@@ -93,6 +93,57 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20220114_systemd_pulse">Controlling pulseaudio spawned by a systemd service</h4>
+<div class="byline"><a class="dt-published u-url" href="#20220114_systemd_pulse">2022/01/14</a>
+ - <a class="p-author h-card" href="http://www.thescrpayard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>TL/DR: you can run pavucontrol under systemd-run to interact with a pulseadio
+server spawned by a system service.</p>
+<p>I run <a href="https://www.musicpd.org/">Music Player Daemon</a> on my NAS and stream the
+output via <a href="https://roc-streaming.org/">Roc Toolkit</a> to multiple clients
+scattered around the house. My first client was a NUC running
+<a href="http://www.slackware.com/">Slackware</a>, but I wanted somthing more efficient so
+picked up a few Raspberry Pi’s, and for simplicity stuck with the official
+linux distribution, running systemd. It was easy enough to create a unit
+file to run roc-recv as a system service, but systemd isolates services and
+user sessions in silos, with as a result that commands such as pactl and
+pavucontrol couldn’t connect to the roc-spawned pulse server. The solution is to
+use systemd-run to run pa* as a system process.</p>
+<pre><code>$ ssh -Y pi@audio3A
+
+pi@audio3A:~ $ systemctl status roc
+● roc.service - Roc-toolkit receiver
+   Loaded: loaded (/etc/systemd/system/roc.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2022-01-14 09:28:54 PST; 57min ago
+ Main PID: 25923 (roc-recv)
+    Tasks: 5 (limit: 873)
+   CGroup: /system.slice/roc.service
+           ├─25923 /usr/bin/roc-recv -d pulse -s rtp+rs8m::10001 -r rs8m::10002 --sess-latency=1s --min-latency=-1s --max-latency=2s --np-timeout=2s --bp-timeout=2s
+           └─25928 /usr/bin/pulseaudio --start --log-target=syslog
+
+pi@audio3A:~ $ ps aux | grep roc-recv
+pi       25923 29.0  1.8 300744  8096 ?        R&lt;sl 09:28  16:55 /usr/bin/roc-recv -d pulse -s rtp+rs8m::10001 -r rs8m::10002 --sess-latency=1s --min-latency=-1s --max-latency=2s --np-timeout=2s --bp-timeout=2s
+
+pi@audio3A:~ $ id pi
+uid=1000(pi) gid=1000(pi) groups=1000(pi),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),44(video),46(plugdev),60(games),100(users),105(input),109(netdev),112(bluetooth),999(spi),998(i2c),997(gpio)
+
+pi@audio3A:~ $ sudo systemd-run --uid=1000 pavucontrol --display=$DISPLAY
+Running as unit: run-rf850349930a5473787407a1b661c4ac2.service
+
+pi@audio3A:~ $ systemctl status run-rf850349930a5473787407a1b661c4ac2.service
+● run-rf850349930a5473787407a1b661c4ac2.service - /usr/bin/pavucontrol --display=localhost:10.0
+   Loaded: loaded (/run/systemd/transient/run-rf850349930a5473787407a1b661c4ac2.service; transient)
+Transient: yes
+   Active: active (running) since Fri 2022-01-14 10:13:09 PST; 10min ago
+ Main PID: 26500 (pavucontrol)
+    Tasks: 2 (limit: 873)
+   CGroup: /system.slice/run-rf850349930a5473787407a1b661c4ac2.service
+           └─26500 /usr/bin/pavucontrol --display=localhost:10.0
+
+Jan 14 10:13:09 audio3A systemd[1]: Started /usr/bin/pavucontrol --display=localhost:10.0.
+</code></pre>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20210326_bereniceRepair">Repairing a Berenice D12 LED</h4>
 <div class="byline"><a class="dt-published u-url" href="#20210326_bereniceRepair">2021/03/26</a>
  - <a class="p-author h-card" href="http://www.thescrpayard.org">Jan-willem De Bleser</a>

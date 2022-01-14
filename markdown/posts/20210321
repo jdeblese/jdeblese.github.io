@@ -1,6 +1,6 @@
 Haskell FFI and Multithreading
 2021/03/21
-[Jan-willem De Bleser](http://www.thescrpayard.org)
+[Jan-willem De Bleser](http://www.thescrapyard.org)
 20210321_haskellFfiSafe
 TLDR: If you call into long-duration foreign functions from in Haskell and those
 functions are marked `unsafe`, other Haskell threads will be paused a la Python's GIL.

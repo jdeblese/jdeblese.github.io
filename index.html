@@ -93,6 +93,40 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20220302_tslotnetrack">T-Slot Rail 10" Network Rack</h4>
+<div class="byline"><a class="dt-published u-url" href="#20220302_tslotnetrack">2022/03/02</a>
+ - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>My “networking closet” was a mess but is too narrow for a 19” rack, so I built
+a 10” rack out of McMaster t-slot rails (<a href="https://www.mcmaster.com/catalog/128/2108">5537T35</a>) and hardware. It’s
+mounted to the wall using an L-shaped foot (<a href="https://www.mcmaster.com/catalog/128/2120">5537T571</a>) at the lower left
+and a rearwards-extending segment of rail at the upper left, so quite sturdy.
+The <a href="https://www.pennelcomonline.com/en/Penn-Elcom-5U-Full-Hole-Rack-Strip-with-Square-Holes-2mm008-R08632MM-05/m-6533.aspx">5U rack strips</a> are attached unmodified using slot hardware, on
+matching-length t-slot rails mounted such that the spacing between them can be
+adjusted: not all “half-rack” hardware is exactly 10”, I’ve found.</p>
+<p>No space on the rack to mount power supplies, servers, or much in the way of
+cable organizers, but at least the network hardware is now accessible and
+somewhat organized.</p>
+<p>Rack hardware, for reference:</p>
+<ul>
+<li>Mikrotik RB450Gx4 (router, DHCP, DNS, etc…)</li>
+<li>QNAP QSW-2104-2S (2.5GBASE-T switch, for NAS and office workstation)</li>
+<li>Mikrotik CSS610-8G-2S+IN (1GBASE-T switch, wanted a POE model but it didn’t have SFP+)</li>
+<li>Uxcell 12-port keystone panel</li>
+<li>UTT S1042GP (POE switch, for APs)</li>
+</ul>
+<p>Below the rack:</p>
+<ul>
+<li>Azulle Byte3 (NUC as lightweight FreeBSD server)</li>
+<li>Supermicro SYS-5029A-2TN4 (TrueNAS)</li>
+</ul>
+<p>The in-wall cabling for APs (Ruckus R500 and Mikrotik wAP ac) and for my home
+office terminates on the 12-port patch panel. The panel also connects to the printer
+and to a HomeSeer RPI HomeTroller V3.</p>
+<p><a href="images/20220302_front.jpg"><img src="images/20220302_front_thumb.jpg" alt="Front View" /></a></p>
+<p><a href="images/20220302_side.jpg"><img src="images/20220302_side_thumb.jpg" alt="Front View" /></a></p>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20220114_systemd_pulse">Controlling pulseaudio spawned by a systemd service</h4>
 <div class="byline"><a class="dt-published u-url" href="#20220114_systemd_pulse">2022/01/14</a>
  - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>

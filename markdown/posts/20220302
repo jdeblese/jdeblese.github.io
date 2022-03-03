@@ -1,0 +1,41 @@
+T-Slot Rail 10" Network Rack
+2022/03/02
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20220302_tslotnetrack
+My "networking closet" was a mess but is too narrow for a 19" rack, so I built
+a 10" rack out of McMaster t-slot rails ([5537T35][1]) and hardware. It's
+mounted to the wall using an L-shaped foot ([5537T571][2]) at the lower left
+and a rearwards-extending segment of rail at the upper left, so quite sturdy.
+The [5U rack strips][3] are attached unmodified using slot hardware, on
+matching-length t-slot rails mounted such that the spacing between them can be
+adjusted: not all "half-rack" hardware is exactly 10", I've found.
+
+No space on the rack to mount power supplies, servers, or much in the way of
+cable organizers, but at least the network hardware is now accessible and
+somewhat organized.
+
+
+Rack hardware, for reference:
+* Mikrotik RB450Gx4 (router, DHCP, DNS, etc...)
+* QNAP QSW-2104-2S (2.5GBASE-T switch, for NAS and office workstation)
+* Mikrotik CSS610-8G-2S+IN (1GBASE-T switch, wanted a POE model but it didn't have SFP+)
+* Uxcell 12-port keystone panel
+* UTT S1042GP (POE switch, for APs)
+
+Below the rack:
+* Azulle Byte3 (NUC as lightweight FreeBSD server)
+* Supermicro SYS-5029A-2TN4 (TrueNAS)
+
+The in-wall cabling for APs (Ruckus R500 and Mikrotik wAP ac) and for my home
+office terminates on the 12-port patch panel. The panel also connects to the printer
+and to a HomeSeer RPI HomeTroller V3.
+
+
+
+[![Front View](images/20220302_front_thumb.jpg)](images/20220302_front.jpg)
+
+[![Front View](images/20220302_side_thumb.jpg)](images/20220302_side.jpg)
+
+[1]: https://www.mcmaster.com/catalog/128/2108
+[2]: https://www.mcmaster.com/catalog/128/2120
+[3]: https://www.pennelcomonline.com/en/Penn-Elcom-5U-Full-Hole-Rack-Strip-with-Square-Holes-2mm008-R08632MM-05/m-6533.aspx

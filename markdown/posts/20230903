@@ -1,0 +1,36 @@
+Compiling RP2040 QMK Firmware on Slackware
+2023/09/03
+[Jan-willem De Bleser](http://www.thescrapyard.org)
+20230903_qmkrp2040
+Compiling [QMK][1] keyboard firmware for an RP2040 microcontroller on Slackware
+is not a one-click operation.
+
+The first difficulty is that the RP2040 is a Cortex-M0+ CPU with no
+floating-point unit, but the Slackbuilds version of arm-gcc is built to
+default to Cortex-M3 with a hard FPU. The result is the not supported
+error given below. Fixing this requires compiling a custom version of
+arm-gcc, as all of the supporting libraries (newlib, for instance) also
+need to be compiled with the new settings.
+
+```
+sorry, unimplemented: Thumb-1 hard-float VFP ABI
+```
+
+In the arm-gcc [slackbuild][2], change `--with-float=hard`
+to`--with-float=soft`, and remove the `--with-fpu=` line. Build arm-gcc,
+and rebuild newlib as well if that was installed with the standard
+arm-gcc.
+
+The second issue has to do with newlib: since [2021][3] QMK uses
+newlib-nano, which is not available in Slackbuilds. To fix, edit
+`platforms/chibios/platform.mk` and remove the argument
+`--specs=nano.specs` from the definition of `TOOLCHAIN_LDFLAGS`.
+
+```
+/usr/bin/arm-none-eabi-ld: cannot find -lg_nano
+/usr/bin/arm-none-eabi-ld: cannot find -lc_nano
+```
+
+[1]: https://qmk.fm/
+[2]: https://git.slackbuilds.org/slackbuilds/tree/development/arm-gcc/arm-gcc.SlackBuild#n114
+[3]: https://github.com/qmk/qmk_firmware/pull/11607

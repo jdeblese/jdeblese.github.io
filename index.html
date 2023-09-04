@@ -93,6 +93,33 @@ Various interesting succulents I’ve found or grown.</li>
 <p></p>
 <hr />
 <div class="h-feed"><h3 class="p-name">Miscellaneous Ramblings</h3>
+<article class="h-entry"><h4 class="p-name" id="20230903_qmkrp2040">Compiling RP2040 QMK Firmware on Slackware</h4>
+<div class="byline"><a class="dt-published u-url" href="#20230903_qmkrp2040">2023/09/03</a>
+ - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>
+</div>
+<div class="e-content"><p>Compiling <a href="https://qmk.fm/">QMK</a> keyboard firmware for an RP2040 microcontroller on Slackware
+is not a one-click operation.</p>
+<p>The first difficulty is that the RP2040 is a Cortex-M0+ CPU with no
+floating-point unit, but the Slackbuilds version of arm-gcc is built to
+default to Cortex-M3 with a hard FPU. The result is the not supported
+error given below. Fixing this requires compiling a custom version of
+arm-gcc, as all of the supporting libraries (newlib, for instance) also
+need to be compiled with the new settings.</p>
+<pre><code>sorry, unimplemented: Thumb-1 hard-float VFP ABI
+</code></pre>
+<p>In the arm-gcc <a href="https://git.slackbuilds.org/slackbuilds/tree/development/arm-gcc/arm-gcc.SlackBuild#n114">slackbuild</a>, change <code>--with-float=hard</code>
+to<code>--with-float=soft</code>, and remove the <code>--with-fpu=</code> line. Build arm-gcc,
+and rebuild newlib as well if that was installed with the standard
+arm-gcc.</p>
+<p>The second issue has to do with newlib: since <a href="https://github.com/qmk/qmk_firmware/pull/11607">2021</a> QMK uses
+newlib-nano, which is not available in Slackbuilds. To fix, edit
+<code>platforms/chibios/platform.mk</code> and remove the argument
+<code>--specs=nano.specs</code> from the definition of <code>TOOLCHAIN_LDFLAGS</code>.</p>
+<pre><code>/usr/bin/arm-none-eabi-ld: cannot find -lg_nano
+/usr/bin/arm-none-eabi-ld: cannot find -lc_nano
+</code></pre>
+</div>
+</article>
 <article class="h-entry"><h4 class="p-name" id="20220302_tslotnetrack">T-Slot Rail 10" Network Rack</h4>
 <div class="byline"><a class="dt-published u-url" href="#20220302_tslotnetrack">2022/03/02</a>
  - <a class="p-author h-card" href="http://www.thescrapyard.org">Jan-willem De Bleser</a>

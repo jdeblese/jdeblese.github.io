@@ -55,6 +55,9 @@ can also check out my GitHub repositories <a href="https://github.com/jdeblese" 
 3. [GPX Path Smoothing](software/gpxsmooth.html)  
   Given a GPS track in GPX format, remove points to smooth the path without significantly degrading the accuracy.
 
+4. [Tengwar Keymap](software/tengwar.html)
+  Keymap design for typing English-mode Tengwar.
+
 ### Gardening
 
 1. [Succulents](plants/succulents.html)  

@@ -4,6 +4,9 @@ import sys, codecs, misaka, re
 from lxml import etree
 from lxml.cssselect import CSSSelector
 from io import StringIO
+from jinja2 import Environment, PackageLoader, FileSystemLoader, select_autoescape
+
+env = Environment(loader=FileSystemLoader('.'), autoescape=select_autoescape())
 
 if __name__ == '__main__' :
 	assert len(sys.argv) > 1
@@ -67,21 +70,31 @@ if __name__ == '__main__' :
 
 	documentTitle = CSSSelector('h1')(tree)[0].text
 
-	with codecs.open('template.html', 'r', encoding='utf-8') as fh :
-		template = etree.parse(fh, htmlparser)
-	for action,elem in etree.iterwalk(template) :
-		if elem.tag is etree.Comment :
-			txt = elem.text.strip()
-			if txt[0] == '%' and txt[-1] == '%' :
-				parent = elem.getparent()
-				idx = tuple(parent.getchildren()).index(elem)
-				assert idx >= 0
-				if txt[1:-1] == 'documentHTML' :
-					parent.remove(elem)
-					for e in documentBody :
-						parent.insert(idx, e)
-						idx += 1
-				elif txt[1:-1] == 'documentTitle' :
-					parent.remove(elem)
-					parent.text = documentTitle
-	sys.stdout.write(etree.tostring(template.getroot(), pretty_print=True, method="html").decode('utf-8'))
+	#print(etree.tostring(tree, pretty_print=True).decode('ascii'))
+	#sys.stdout.write(etree.tostring(tree, pretty_print=True, method="html").decode('utf-8'))
+
+	title = CSSSelector('h1')(tree)[0].text
+	body = CSSSelector('body')(tree)[0]
+	body = ''.join(etree.tostring(c, pretty_print=True, method='html').decode('utf-8') for c in body.getchildren())
+
+	template = env.get_template('template.html')
+	print(template.render(documentTitle=title, documentBody=body))
+
+	#with codecs.open('template.html', 'r', encoding='utf-8') as fh :
+	#	template = etree.parse(fh, htmlparser)
+	#for action,elem in etree.iterwalk(template) :
+	#	if elem.tag is etree.Comment :
+	#		txt = elem.text.strip()
+	#		if txt[0] == '%' and txt[-1] == '%' :
+	#			parent = elem.getparent()
+	#			idx = tuple(parent.getchildren()).index(elem)
+	#			assert idx >= 0
+	#			if txt[1:-1] == 'documentHTML' :
+	#				parent.remove(elem)
+	#				for e in documentBody :
+	#					parent.insert(idx, e)
+	#					idx += 1
+	#			elif txt[1:-1] == 'documentTitle' :
+	#				parent.remove(elem)
+	#				parent.text = documentTitle
+	#sys.stdout.write(etree.tostring(template.getroot(), pretty_print=True, method="html").decode('utf-8'))

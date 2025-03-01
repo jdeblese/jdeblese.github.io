@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Tengwar Keymap</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://www.thescrapyard.org/css/markdown.css" />
+
+    <script type="text/javascript" src="http://www.thescrapyard.org/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link href="http://www.thescrapyard.org/prettify/tomorrow.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://www.thescrapyard.org/prettify/prettify.js"></script>
+
+    <!-- <script type="text/javascript" src="http://www.thescrapyard.org/prettify/run_prettify.js?skin=tomorrow"></script> -->
+
+    <style>
+img { width: 100%; }
+    </style>
+
+  </head>
+  <body onload="prettyPrint()">
+    <div class="container">
+<hr>
+
+
+<h1>Tengwar Keymap</h1>
+
+
+<hr>
+
+
+<h3 id="introduction">Introduction</h3>
+
+
+<p>I've been looking for a keyboard to type <a href="https://en.wikipedia.org/wiki/Tengwar">Tengwar</a>. Matt3o's keycaps are
+great (I've been using Granite for years), and he has an <a href="https://matt3o.com/granite-elven-kit-explained/">Elven kit</a> based
+on Dan Smith's font. However, that font takes no account for phonetics (Matt3o
+explains why), and the tengwa are simply arranged in logical order, analagous
+to a keyboard in alphabetical order. Since I knew I was going to be using the
+Quenya Alphabet (English) mode of Tengwar, not Sindarin, and since I don't plan
+to use Dan Smith's font but instead will use the <a href="https://en.wikipedia.org/wiki/Tengwar#ConScript_Unicode_Registry">ConScript Unicode
+proposal</a>, I decided to create a phonetic layout as similar as possible to
+QUERTY. This would ease the switch between Roman and Tengwar.</p>
+
+
+<h3 id="keymap">Keymap</h3>
+
+
+<p>The basic layout uses only those keys common to both ANSI and ISO keyboards:
+the 26 letter keys plus 7 symbol keys on a ANSI QWERTY.
+<img src="tengwar/qwerty.png" alt="qwerty layout"></p>
+
+
+<p>The layout is as follows. Most keys represent one tengwa. Shift is used on the
+home row to type diacritics. Anna can also only be typed using shift since it's
+not normally used: instead, a key is dedicated to Open Anna, used as the vowel
+in "but". For reference the layout is also included below with the tengwa names
+rather than a rendering of the tengwa. FreeMonoTengwar is used here to render
+the tengwa.
+<img src="tengwar/tengwar.png" alt="tengwar layout">
+<img src="tengwar/tengwarnames.png" alt="tengwar layout, names of letters"></p>
+
+
+<p>The idea here is to try to map closely to QUERTY. Therefore, all tengwa that
+have an IPA representation that matches a Roman letter (colored blue in the
+layout below) are placed on that key, which allocates most tengwa. For the
+remaining vowel tengwa, the schwa Telco is placed on 'i', being the most
+similar, and the 'q' is used for Open Anna.  The '-s' suffix is placed as a
+shifted 'd' next to 's', on the home row where it's easily reachable.
+Unassigned consonants are then distributed over the remaining free keys:</p>
+
+
+<ul>
+<li>Anto and Thule, the two dental fricatives, are placed on unused 'j' and ';',
+since they are common in English.</li>
+<li>Ore, also common, is placed on the unused 'y'.</li>
+<li>Nwalme and Noldo, rare in English, are placed on the unused symbols next to
+the other nasals.</li>
+<li>Remaining tengwa are placed somewhat on feeling, with rarely-used consonants
+such as Hwesta being placed further away.</li>
+</ul>
+
+
+<p><img src="tengwar/ipa.png" alt="ipa layout"></p>
+
+
+<p>The following tengwa are not represented because they're not needed: Unque,
+Arda, Alda, Silme Nuquerna, Aare Nuquerna, Hwesta Sinarinwa, Yanta, Ara, and
+Halla.  The extended tengwa are also not represented despite being used in the
+alphabet because they can be replaced with combinations of other characters.
+The ligating short carrier is also not represented although maybe it should be,
+could be placed as a shifted 'i'.</p>
+
+
+<p>A partial keymap.c for YMDK's YD60MQ, ISO layout with split space and 1U
+shifts, can be found here: <a href="tengwar/keymap.c">keymap.c</a>. It uses <a href="https://docs.qmk.fm/features/unicode#input-subsystems">QMK's Unicode Map</a> mode
+of unicode input to type the ConScript Unicode codes directly.</p>
+
+
+    </div>
+
+    <hr>
+    <p>Written in Vim using <a href="http://kevinburke.bitbucket.org/markdowncss/">markdown.css</a>, <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
+
+</body></html>
+

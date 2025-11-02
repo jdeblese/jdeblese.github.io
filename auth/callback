@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <script type="text/javascript">
+            function getcode() {
+                const params = new URLSearchParams(window.location.search);
+                document.getElementById('content').textContent = params.get('code');
+            }
+        </script>
+    </head>
+    <body onload="getcode()">
+        <div id="content"></div>
+    </body>
+</html>
